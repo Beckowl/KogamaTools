@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Commands
 {
-    internal class NoLimitCommand : CommandBase
+    internal class NoLimitCommand : BaseCommand
     {
         public NoLimitCommand() : base("/nolimit", "Disables the minumum cube count and modeling constraint of models/avatars.")
         {

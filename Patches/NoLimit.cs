@@ -1,4 +1,7 @@
-﻿using HarmonyLib;
+﻿
+using HarmonyLib;
+using MV.WorldObject;
+
 
 namespace KogamaTools.patches
 {

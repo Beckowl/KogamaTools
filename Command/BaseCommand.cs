@@ -21,7 +21,7 @@ namespace KogamaTools
         InvalidArgs
     }
     
-    internal abstract class CommandBase : ICommand
+    internal abstract class BaseCommand : ICommand
     {
         public string Name { get; }
         public string Description { get; }
@@ -29,7 +29,7 @@ namespace KogamaTools
 
         public int MinArgs { get; }
 
-        protected CommandBase(string name, string description, int minArgs = 0)
+        protected BaseCommand(string name, string description, int minArgs = 0)
         {
             Name = name;
             Description = description;
