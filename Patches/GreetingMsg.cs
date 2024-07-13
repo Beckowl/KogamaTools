@@ -2,7 +2,7 @@
 namespace KogamaTools.patches
 {
     [HarmonyPatch(typeof(MVNetworkGame.OperationRequests))]
-    internal class GreetingMsg
+    internal static class GreetingMsg
     {
         [HarmonyPatch("JoinNotification")]
         [HarmonyPrefix]

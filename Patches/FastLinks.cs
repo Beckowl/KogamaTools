@@ -6,7 +6,7 @@ using static LogicObjectManager;
 namespace KogamaTools.patches
 {
     [HarmonyPatch(typeof(LogicObjectManager))]
-    internal class FastLinks
+    internal static class FastLinks
     {
         public static bool Enabled = false;
 

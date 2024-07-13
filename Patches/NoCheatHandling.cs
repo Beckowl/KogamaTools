@@ -4,7 +4,7 @@ using MV.Common;
 
 namespace KogamaTools.patches
 {
-    internal class NoCheatHandling
+    internal static class NoCheatHandling
     {
         [HarmonyPatch(typeof(MVNetworkGame.OperationRequests))]
         private static class OperationRequestsPatches

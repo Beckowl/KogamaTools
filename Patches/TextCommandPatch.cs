@@ -4,7 +4,7 @@ using KogamaTools.Command;
 namespace KogamaTools.patches
 {
     [HarmonyPatch(typeof(TextCommand))]
-    internal class TextCommandPatch
+    internal static class TextCommandPatch
     {
         [HarmonyPatch("Resolve")]
         [HarmonyPrefix]
