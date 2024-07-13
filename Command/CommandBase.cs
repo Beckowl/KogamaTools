@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KogamaTools.Command;
 
 namespace KogamaTools
 {
@@ -11,46 +12,6 @@ namespace KogamaTools
         List<CommandVariant> Variants { get; }
         CommandResult TryExecute(string[] args);
         void DisplayHelp();
-    }
-    
-    internal class CommandVariant
-    {
-        public List<Type> ArgumentTypes { get; }
-        private readonly Action<object[]> Callback;
-
-        public CommandVariant(List<Type> argumentTypes, Action<object[]> callback)
-        {
-            ArgumentTypes = argumentTypes;
-            Callback = callback;
-        }
-
-        public bool TryParseArgs(string[] args, out object[] parsedArgs)
-        {
-            parsedArgs = new object[args.Length];
-
-            if (args.Length != ArgumentTypes.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < args.Length; i++)
-            {
-                try
-                {
-                    parsedArgs[i] = Convert.ChangeType(args[i], ArgumentTypes[i]);
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public void Execute(object[] args)
-        {
-            Callback(args);
-        }
     }
 
     public enum CommandResult
@@ -98,9 +59,9 @@ namespace KogamaTools
                 return CommandResult.InsufficientArgs;
             }
 
-            foreach (var variant in Variants)
+            foreach (CommandVariant variant in Variants)
             {
-                if (variant.TryParseArgs(args, out var parsedArgs))
+                if (variant.TryParseArgs(args, out object[] parsedArgs))
                 {
                     variant.Execute(parsedArgs);
                     return CommandResult.Ok;

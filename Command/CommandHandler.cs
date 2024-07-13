@@ -30,9 +30,9 @@ namespace KogamaTools
         internal static bool TryExecuteCommand(string commandLine)
         {
             commandLine = commandLine.TrimEnd();
-            string[] components = commandLine.Split(new char[] { ' ' });
+            string[] components = commandLine.Split(new char[1] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string commandName = components[0];
-            var command = commands.FirstOrDefault(c => c.Name.Equals(commandName, StringComparison.OrdinalIgnoreCase));
+            ICommand command = commands.FirstOrDefault(c => c.Name.Equals(commandName, StringComparison.OrdinalIgnoreCase));
 
             if (command == null)
             {
@@ -46,9 +46,7 @@ namespace KogamaTools
                 case CommandResult.Ok:
                     return true;
                 case CommandResult.InvalidArgs:
-                    bool plural = components.Length > 2;
-                    string errorMessage = $"[{string.Join(", ", components.Skip(1))}] {(plural? "are" : "is")} not{(plural? " " : " a ")}valid argument{(plural? "s" : "")} for {commandName}.";
-                    TextCommand.NotifyUser($"<color=yellow>{errorMessage}</color>");
+                    TextCommand.NotifyUser($"<color=yellow>[{string.Join(", ", components.Skip(1))}] is not a valid combination of arguments for {command.Name}. Type \"{command.Name} ?\" for detailed info.</color>");
                     return true;
                 case CommandResult.InsufficientArgs:
                     TextCommand.NotifyUser($"<color=yellow>{commandName} expects at least {command.MinArgs} argument{(command.MinArgs > 1 ? "s" : "")}.</color>");
