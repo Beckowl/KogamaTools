@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using KogamaTools.Command;
 
-namespace KogamaTools
+namespace KogamaTools.Command
 {
     internal interface ICommand
     {

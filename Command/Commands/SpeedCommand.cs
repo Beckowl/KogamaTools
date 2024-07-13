@@ -1,6 +1,6 @@
 ﻿using KogamaTools.Patches;
 
-namespace KogamaTools.Commands
+namespace KogamaTools.Command.Commands
 {
     internal class SpeedCommand : BaseCommand
     {

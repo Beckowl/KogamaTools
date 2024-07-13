@@ -1,4 +1,4 @@
-﻿namespace KogamaTools.Commands
+﻿namespace KogamaTools.Command.Commands
 {
 #if DEBUG
     internal class TestCommand : BaseCommand

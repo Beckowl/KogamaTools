@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-namespace KogamaTools.Commands
+namespace KogamaTools.Command.Commands
 {
     internal class ClearCommand : BaseCommand
     {

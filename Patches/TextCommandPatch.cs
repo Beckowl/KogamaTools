@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Command;
 
 namespace KogamaTools.patches
 {

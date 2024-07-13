@@ -1,6 +1,6 @@
 ﻿using KogamaTools.patches;
 
-namespace KogamaTools.Commands
+namespace KogamaTools.Command.Commands
 {
     internal class NoLimitCommand : BaseCommand
     {

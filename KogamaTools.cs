@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using KogamaTools.Command;
 
 namespace KogamaTools
 {

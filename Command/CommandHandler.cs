@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace KogamaTools
+namespace KogamaTools.Command
 {
     internal static class CommandHandler
     {
