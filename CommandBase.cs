@@ -12,6 +12,7 @@ namespace KogamaTools
         CommandResult TryExecute(string[] args);
         void DisplayHelp();
     }
+    
     internal class CommandVariant
     {
         public List<Type> ArgumentTypes { get; }
@@ -58,6 +59,7 @@ namespace KogamaTools
         InsufficientArgs,
         InvalidArgs
     }
+    
     internal abstract class CommandBase : ICommand
     {
         public string Name { get; }
