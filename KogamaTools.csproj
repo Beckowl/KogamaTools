@@ -87,7 +87,7 @@
     <Compile Include="Patches\FastLinks.cs" />
     <Compile Include="Patches\GreetingMsg.cs" />
     <Compile Include="Patches\NoLimit.cs" />
-    <Compile Include="Patches\NoModeration.cs" />
+    <Compile Include="Patches\NoCheatHandling.cs" />
     <Compile Include="Patches\RotationStep.cs" />
     <Compile Include="Patches\TextCommandPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
