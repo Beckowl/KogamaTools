@@ -21,7 +21,7 @@ namespace KogamaTools.patches
                 if (CommandHandler.TryExecuteCommand(commandLine))
                 {
                     return false;
-                }     
+                }
             }
             TextCommand.Command_Invalid(command);
             return false;

@@ -9,7 +9,7 @@ namespace KogamaTools
         string Description { get; }
         int MinArgs { get; }
         List<CommandVariant> Variants { get; }
-        int TryExecute(string[] args);
+        CommandResult TryExecute(string[] args);
         void DisplayHelp();
     }
     internal class CommandVariant
@@ -51,6 +51,13 @@ namespace KogamaTools
             Callback(args);
         }
     }
+
+    public enum CommandResult
+    {
+        Ok,
+        InsufficientArgs,
+        InvalidArgs
+    }
     internal abstract class CommandBase : ICommand
     {
         public string Name { get; }
@@ -76,21 +83,29 @@ namespace KogamaTools
             Variants.Add(new CommandVariant(new List<Type> { }, callback));
         }
 
-        public int TryExecute(string[] args)
+    public CommandResult TryExecute(string[] args)
         {
+            if (args.Length > 0 && (args[0] == "?" || args[0].Equals("help", StringComparison.OrdinalIgnoreCase)))
+            {
+                DisplayHelp();
+                return CommandResult.Ok;
+            }
+
             if (args.Length < MinArgs)
             {
-                return 2;
+                return CommandResult.InsufficientArgs;
             }
+
             foreach (var variant in Variants)
             {
                 if (variant.TryParseArgs(args, out var parsedArgs))
                 {
                     variant.Execute(parsedArgs);
-                    return 0;
+                    return CommandResult.Ok;
                 }
             }
-            return 1;
+
+            return CommandResult.InvalidArgs;
         }
 
         public void DisplayHelp()

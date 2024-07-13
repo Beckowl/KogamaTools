@@ -39,24 +39,18 @@ namespace KogamaTools
                 return false;
             }
 
-            if (components.Length > 1 && (components[1] == "?" || components[1].Equals("help", StringComparison.OrdinalIgnoreCase)))
-            {
-                command.DisplayHelp();
-                return true;
-            }
-
-            int errorCode = command.TryExecute(components.Skip(1).ToArray());
+            CommandResult errorCode = command.TryExecute(components.Skip(1).ToArray());
 
             switch (errorCode)
             {
-                case 0:
+                case CommandResult.Ok:
                     return true;
-                case 1:
+                case CommandResult.InvalidArgs:
                     bool plural = components.Length > 2;
                     string errorMessage = $"[{string.Join(", ", components.Skip(1))}] {(plural? "are" : "is")} not{(plural? " " : " a ")}valid argument{(plural? "s" : "")} for {commandName}.";
                     TextCommand.NotifyUser($"<color=yellow>{errorMessage}</color>");
                     return true;
-                case 2:
+                case CommandResult.InsufficientArgs:
                     TextCommand.NotifyUser($"<color=yellow>{commandName} expects at least {command.MinArgs} argument{(command.MinArgs > 1 ? "s" : "")}.</color>");
                     return true;
             }
