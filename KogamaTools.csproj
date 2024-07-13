@@ -68,7 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Command\CommandHandler.cs" />
     <Compile Include="Command\Commands\BlueModeCommand.cs" />
     <Compile Include="Command\Commands\ClearCommand.cs" />
