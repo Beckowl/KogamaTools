@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Commands
 {
-    internal class CustomScaleCommand : BaseCommand
+    internal class CustomScaleCommand : CommandBase
     {
         public CustomScaleCommand() : base("/modelscale", "Sets a custom scale for newly created models.")
         {

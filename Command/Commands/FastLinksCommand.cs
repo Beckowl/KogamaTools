@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Commands
 {
-    internal class FastLinksCommand : BaseCommand
+    internal class FastLinksCommand : CommandBase
     {
         public FastLinksCommand() : base("/fastlinks", "Disables link validation on the client side.")
         {

@@ -1,7 +1,7 @@
 ﻿namespace KogamaTools.Commands
 {
 #if DEBUG
-    internal class ThreeArgCommand : BaseCommand
+    internal class ThreeArgCommand : CommandBase
     {
         public ThreeArgCommand() : base("/threeargcommand", "A command with three arguments", 3)
         {

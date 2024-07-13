@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Commands
 {
-    internal class SpeedCommand : BaseCommand
+    internal class SpeedCommand : CommandBase
     {
         public SpeedCommand() : base("/speed", "Sets a speed multiplier for movement in edit mode.")
         {

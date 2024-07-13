@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 namespace KogamaTools.Commands
 {
-    internal class ClearCommand : BaseCommand
+    internal class ClearCommand : CommandBase
     {
         public ClearCommand() : base("/clear", "Prints a bunch of newlines to pretend it's clearing the chat")
         {

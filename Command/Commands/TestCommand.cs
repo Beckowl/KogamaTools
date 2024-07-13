@@ -1,7 +1,7 @@
 ﻿namespace KogamaTools.Commands
 {
 #if DEBUG
-    internal class TestCommand : BaseCommand
+    internal class TestCommand : CommandBase
     {
         public TestCommand() : base("/testmsg", "Prints a message to the console.")
         {

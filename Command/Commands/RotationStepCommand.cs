@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Commands
 {
-    internal class RotationStepCommand : BaseCommand
+    internal class RotationStepCommand : CommandBase
     {
         public RotationStepCommand() : base("/rotationstep", "Defines the rotation angle in degrees for when something is rotated.")
         {

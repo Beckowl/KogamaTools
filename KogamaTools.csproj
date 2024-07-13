@@ -68,13 +68,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\BaseCommand.cs" />
+    <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\CommandHandler.cs" />
     <Compile Include="Command\Commands\BlueModeCommand.cs" />
     <Compile Include="Command\Commands\ClearCommand.cs" />
     <Compile Include="Command\Commands\CustomScaleCommand.cs" />
     <Compile Include="Command\Commands\FastLinksCommand.cs" />
-    <Compile Include="Command\Commands\HelpCommand.cs" />
     <Compile Include="Command\Commands\NoLimitCommand.cs" />
     <Compile Include="Command\Commands\RotationStepCommand.cs" />
     <Compile Include="Command\Commands\SpeedCommand.cs" />

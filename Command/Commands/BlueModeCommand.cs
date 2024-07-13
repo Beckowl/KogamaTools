@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Commands
 {
-    internal class BlueModeCommand : BaseCommand
+    internal class BlueModeCommand : CommandBase
     {
         public BlueModeCommand() : base("/bluemode", "Disables the blue background in model editing.")
         {
