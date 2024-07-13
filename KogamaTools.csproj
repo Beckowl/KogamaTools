@@ -77,8 +77,10 @@
     <Compile Include="Command\Commands\NoLimitCommand.cs" />
     <Compile Include="Command\Commands\RotationStepCommand.cs" />
     <Compile Include="Command\Commands\SpeedCommand.cs" />
+    <Compile Include="Command\Commands\TeleportCommand.cs" />
     <Compile Include="Command\Commands\TestCommand.cs" />
     <Compile Include="Command\Commands\ThreeArgCommand.cs" />
+    <Compile Include="Command\Commands\TpCommand.cs" />
     <Compile Include="Command\CommandVariant.cs" />
     <Compile Include="KogamaTools.cs" />
     <Compile Include="Patches\Camera.cs" />
