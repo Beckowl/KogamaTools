@@ -1,4 +1,6 @@
-﻿namespace KogamaTools.Command.Commands
+﻿using KogamaTools.Helpers;
+
+namespace KogamaTools.Command.Commands
 {
     internal class TeleportCommand : BaseCommand
     {
@@ -14,7 +16,7 @@
 
             if (target == null)
             {
-                TextCommand.NotifyUser($"<color=yellow>Target player \"{player}\" not found. Check your capitalization and ensure it matches exactly.</color>");
+                NotificationHelper.WarnUser($"Target player \"{player}\" not found. Check your capitalization and ensure it matches exactly.");
                 return;
             }
 
@@ -22,12 +24,12 @@
 
             if (WO == null)
             {
-                TextCommand.NotifyUser("<color=yellow>Target player WOCM not found.</color>");
+                NotificationHelper.WarnUser("Target player WOCM not found.");
                 return;
             }
 
             MVGameControllerBase.MainCameraManager.CurrentCamera.FocusOnObject(WO);
-            TextCommand.NotifyUser($"<color=cyan>Teleported to {player}.</color>");
+            NotificationHelper.NotifySuccess($"Teleported you to {player}.");
         }
     }
 }

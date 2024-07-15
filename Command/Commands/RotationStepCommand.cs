@@ -1,4 +1,5 @@
-﻿using KogamaTools.Patches;
+﻿using KogamaTools.Helpers;
+using KogamaTools.Patches;
 
 namespace KogamaTools.Command.Commands
 {
@@ -13,13 +14,13 @@ namespace KogamaTools.Command.Commands
         private void Toggle()
         {
             RotationStep.Enabled = !RotationStep.Enabled;
-            TextCommand.NotifyUser($"<color=cyan>Custom rotation step {(RotationStep.Enabled ? "enabled" : "disabled")}.</color>");
+            NotificationHelper.NotifySuccess($"Custom rotation step {(RotationStep.Enabled ? "enabled" : "disabled")}.");
         }
 
         private void SetSpeed(float step)
         {
             RotationStep.Step = step;
-            TextCommand.NotifyUser($"<color=cyan>Rotation step set to {step}.</color>");
+            NotificationHelper.NotifySuccess($"Rotation step set to {step}.");
             RotationStep.Enabled = true;
         }
     }

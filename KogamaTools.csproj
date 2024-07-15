@@ -82,12 +82,14 @@
     <Compile Include="Command\Commands\ThreeArgCommand.cs" />
     <Compile Include="Command\Commands\TpCommand.cs" />
     <Compile Include="Command\CommandVariant.cs" />
+    <Compile Include="Helpers\ConfigHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="KogamaTools.cs" />
     <Compile Include="Patches\Camera.cs" />
     <Compile Include="Patches\CustomModelScale.cs" />
     <Compile Include="Patches\EditModeMovement.cs" />
     <Compile Include="Patches\FastLinks.cs" />
-    <Compile Include="Patches\GreetingMsg.cs" />
+    <Compile Include="Patches\GreetingMessage.cs" />
     <Compile Include="Patches\NoLimit.cs" />
     <Compile Include="Patches\NoCheatHandling.cs" />
     <Compile Include="Patches\RotationStep.cs" />

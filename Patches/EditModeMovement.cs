@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
+using KogamaTools.Helpers;
 using UnityEngine;
 
 namespace KogamaTools.Patches
@@ -6,22 +8,22 @@ namespace KogamaTools.Patches
     [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode))]
     internal static class EditModeMovement
     {
-        public static float speedMult = 1f;
-        public static bool speedMultEnabled = false;
-        public static bool movementConstraintEnabled = false;
+        public static float SpeedMult = ConfigHelper.GetConfigValue<Single>("SpeedMult");
+        public static bool SpeedMultEnabled = ConfigHelper.GetConfigValue<bool>("SpeedMultEnabled");
+        public static bool MovementConstraintEnabled = ConfigHelper.GetConfigValue<bool>("MovementConstraintEnabled");
 
         [HarmonyPatch("MoveCharacter")]
         [HarmonyPrefix]
         static void MoveCharacter(ref Vector3 moveDelta, MVBuildModeAvatarLocal.EditMode __instance)
         {
-            if (speedMultEnabled)
+            if (SpeedMultEnabled)
             {
-                moveDelta.x *= speedMult;
-                moveDelta.y *= speedMult;
-                moveDelta.z *= speedMult;
+                moveDelta.x *= SpeedMult;
+                moveDelta.y *= SpeedMult;
+                moveDelta.z *= SpeedMult;
             }
 
-            __instance.MovementConstrained = __instance.MovementConstrained && movementConstraintEnabled;
+            __instance.MovementConstrained = __instance.MovementConstrained && MovementConstraintEnabled;
         }
     }
 }

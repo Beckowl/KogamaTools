@@ -7,7 +7,6 @@ namespace KogamaTools.Command
     {
         string Name { get; }
         string Description { get; }
-        int MinArgs { get; }
         List<CommandVariant> Variants { get; }
         CommandResult TryExecute(string[] args);
         void DisplayHelp();
@@ -51,11 +50,6 @@ namespace KogamaTools.Command
             {
                 DisplayHelp();
                 return CommandResult.Ok;
-            }
-
-            if (args.Length < MinArgs)
-            {
-                return CommandResult.InsufficientArgs;
             }
 
             foreach (CommandVariant variant in Variants)

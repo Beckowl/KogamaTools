@@ -1,10 +1,11 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.patches
 {
     internal static class NoLimit
     {
-        public static bool Enabled = false;
+        public static bool Enabled = ConfigHelper.GetConfigValue<bool>("NoLimitEnabled");
 
         [HarmonyPatch(typeof(ModelingDynamicBoxConstraint))]
         private static class ModelingDynamicBoxConstraintPatch

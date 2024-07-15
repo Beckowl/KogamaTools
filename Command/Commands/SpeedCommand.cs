@@ -1,4 +1,5 @@
-﻿using KogamaTools.Patches;
+﻿using KogamaTools.Helpers;
+using KogamaTools.Patches;
 
 namespace KogamaTools.Command.Commands
 {
@@ -12,15 +13,15 @@ namespace KogamaTools.Command.Commands
 
         private void Toggle()
         {
-            EditModeMovement.speedMultEnabled = !EditModeMovement.speedMultEnabled;
-            TextCommand.NotifyUser($"<color=cyan>Speed Multiplier {(EditModeMovement.speedMultEnabled ? "enabled" : "disabled")}.</color>");
+            EditModeMovement.SpeedMultEnabled = !EditModeMovement.SpeedMultEnabled;
+            NotificationHelper.NotifySuccess($"Speed Multiplier {(EditModeMovement.SpeedMultEnabled ? "enabled" : "disabled")}.");
         }
 
         private void SetSpeed(float speed)
         {
-            EditModeMovement.speedMult = speed;
-            TextCommand.NotifyUser($"<color=cyan>Speed Multiplier set to {speed}.</color>");
-            EditModeMovement.speedMultEnabled = true;
+            EditModeMovement.SpeedMult = speed;
+            NotificationHelper.NotifySuccess($"Speed Multiplier set to {speed}.");
+            EditModeMovement.SpeedMultEnabled = true;
         }
     }
 }

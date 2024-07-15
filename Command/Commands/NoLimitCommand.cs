@@ -1,4 +1,5 @@
-﻿using KogamaTools.patches;
+﻿using KogamaTools.Helpers;
+using KogamaTools.patches;
 
 namespace KogamaTools.Command.Commands
 {
@@ -12,7 +13,7 @@ namespace KogamaTools.Command.Commands
         private void Toggle()
         {
             NoLimit.Enabled = !NoLimit.Enabled;
-            TextCommand.NotifyUser($"<color=cyan>No limit {(NoLimit.Enabled? "enabled" : "disabled")}.</color>");
+            NotificationHelper.NotifySuccess($"No limit {(NoLimit.Enabled? "enabled" : "disabled")}.");
         }
     }
 }

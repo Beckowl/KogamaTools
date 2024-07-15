@@ -1,4 +1,5 @@
 ﻿using KogamaTools.patches;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Command.Commands
 {
@@ -12,19 +13,19 @@ namespace KogamaTools.Command.Commands
 
         private void Toggle()
         {
-            CustomModelScale.Enabled =! CustomModelScale.Enabled;
-            TextCommand.NotifyUser($"<color=cyan>Custom model scale {(CustomModelScale.Enabled ? "enabled" : "disabled")}.</color>");
+            CustomModelScale.Enabled = !CustomModelScale.Enabled;
+            NotificationHelper.NotifySuccess($"Custom model scale {(CustomModelScale.Enabled ? "enabled" : "disabled")}");
         }
 
         private void SetScale(float scale)
         {
             if (scale == 0)
             {
-                TextCommand.NotifyUser($"<color=yellow>Model scale cannot be 0!</color>");
+                NotificationHelper.WarnUser("Model scale cannot be 0!");
                 return;
             }
             CustomModelScale.CustomScale = scale;
-            TextCommand.NotifyUser($"<color=cyan>Model scale set to {scale}.</color>");
+            NotificationHelper.NotifySuccess($"Model scale set to {scale}.");
             CustomModelScale.Enabled = true;
         }
     }

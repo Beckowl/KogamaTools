@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Command
 {
@@ -46,10 +47,7 @@ namespace KogamaTools.Command
                 case CommandResult.Ok:
                     return true;
                 case CommandResult.InvalidArgs:
-                    TextCommand.NotifyUser($"<color=yellow>[{string.Join(", ", components.Skip(1))}] is not a valid combination of arguments for {command.Name}. Type \"{command.Name} ?\" for detailed info.</color>");
-                    return true;
-                case CommandResult.InsufficientArgs:
-                    TextCommand.NotifyUser($"<color=yellow>{commandName} expects at least {command.MinArgs} argument{(command.MinArgs > 1 ? "s" : "")}.</color>");
+                    NotificationHelper.WarnUser($"[{string.Join(", ", components.Skip(1))}] is not a valid combination of arguments for {command.Name}. Type \"{command.Name} ?\" for detailed info.");
                     return true;
             }
 

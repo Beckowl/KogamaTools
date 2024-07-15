@@ -1,4 +1,5 @@
-﻿using KogamaTools.patches;
+﻿using KogamaTools.Helpers;
+using KogamaTools.patches;
 
 namespace KogamaTools.Command.Commands
 {
@@ -12,7 +13,7 @@ namespace KogamaTools.Command.Commands
         private void Toggle()
         {
             Camera.BlueModeEnabled = !Camera.BlueModeEnabled;
-            TextCommand.NotifyUser($"<color=cyan>Blue mode {(Camera.BlueModeEnabled ? "enabled" : "disabled")}.</color>");
+            NotificationHelper.NotifySuccess($"Blue mode {(Camera.BlueModeEnabled ? "enabled" : "disabled")}.");
         }
     }
 }
