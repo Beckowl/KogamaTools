@@ -14,7 +14,8 @@ namespace KogamaTools.patches
         static void UpdateCamera(MainCameraManager __instance)
         {
             __instance.BlueModeEnabled = __instance.BlueModeEnabled && BlueModeEnabled;
-            RenderSettings.fog = false;
+            // TODO: Add "/fog" command;
+            // RenderSettings.fog = false;
         }
     }
 }

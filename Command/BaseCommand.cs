@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Command
 {
@@ -15,7 +16,6 @@ namespace KogamaTools.Command
     public enum CommandResult
     {
         Ok,
-        InsufficientArgs,
         InvalidArgs
     }
     
@@ -25,13 +25,10 @@ namespace KogamaTools.Command
         public string Description { get; }
         public List<CommandVariant> Variants { get; } = new List<CommandVariant>();
 
-        public int MinArgs { get; }
-
         protected BaseCommand(string name, string description, int minArgs = 0)
         {
             Name = name;
             Description = description;
-            MinArgs = minArgs;
         }
 
         public void AddVariant(Action<object[]> callback, params List<Type> argumentTypes)
@@ -66,7 +63,7 @@ namespace KogamaTools.Command
 
         public void DisplayHelp()
         {
-            TextCommand.NotifyUser($"{Name}: {Description}");
+            NotificationHelper.NotifyUser($"{Name}: {Description}");
         }
     }
 

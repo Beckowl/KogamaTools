@@ -13,7 +13,6 @@ namespace KogamaTools.Command.Commands
         {
 
             MVPlayer target = AdminToolController.GetPlayer(player);
-
             if (target == null)
             {
                 NotificationHelper.WarnUser($"Target player \"{player}\" not found. Check your capitalization and ensure it matches exactly.");
@@ -21,10 +20,9 @@ namespace KogamaTools.Command.Commands
             }
 
             MVWorldObjectClient WO = MVGameControllerBase.WOCM.GetWorldObjectClient(target.WoId);
-
             if (WO == null)
             {
-                NotificationHelper.WarnUser(">Target player WOCM not found.");
+                NotificationHelper.WarnUser("Target player WOCM not found.");
                 return;
             }
 
