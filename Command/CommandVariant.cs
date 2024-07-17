@@ -7,12 +7,17 @@ namespace KogamaTools.Command
     {
         public List<Type> ArgumentTypes { get; }
         private readonly Action<object[]> Callback;
+        public string Usage { get; set; } = "";
 
-        //TODO: Add usage property to command variants
         public CommandVariant(List<Type> argumentTypes, Action<object[]> callback)
         {
             ArgumentTypes = argumentTypes;
             Callback = callback;
+        }
+
+        public void SetUsage(string usage)
+        {
+            Usage = usage;
         }
 
         public bool TryParseArgs(string[] args, out object[] parsedArgs)

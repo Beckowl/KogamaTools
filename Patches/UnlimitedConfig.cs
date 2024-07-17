@@ -1,9 +1,7 @@
 ﻿using System;
-
 using HarmonyLib;
 using KogamaTools.Helpers;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace KogamaTools.Patches
 {
@@ -40,24 +38,5 @@ namespace KogamaTools.Patches
                 }
             }
         }
-
-        // code below is commented out because it causes a crash
-        // I will try to find a better solution later
-        /*
-        [HarmonyPatch(typeof(InputField))]
-        private static class InputFieldPatch
-        {
-            [HarmonyPatch("characterLimit", MethodType.Getter)]
-            [HarmonyPostfix]
-            static void CharacterLimit(ref int __result)
-            {
-                if (Enabled)
-                {
-                    __result = int.MaxValue;
-                }
-                KogamaTools.mls.LogInfo(__result);
-            }
-        }
-        */
     }
 }
