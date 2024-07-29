@@ -74,6 +74,7 @@
     <Compile Include="Command\Commands\ClearCommand.cs" />
     <Compile Include="Command\Commands\CustomScaleCommand.cs" />
     <Compile Include="Command\Commands\FastLinksCommand.cs" />
+    <Compile Include="Command\Commands\MultiSelectCommand.cs" />
     <Compile Include="Command\Commands\NoLimitCommand.cs" />
     <Compile Include="Command\Commands\RotationStepCommand.cs" />
     <Compile Include="Command\Commands\SpeedCommand.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Patches\EditModeMovement.cs" />
     <Compile Include="Patches\FastLinks.cs" />
     <Compile Include="Patches\GreetingMessage.cs" />
+    <Compile Include="Patches\MultiSelect.cs" />
     <Compile Include="Patches\NoLimit.cs" />
     <Compile Include="Patches\NoCheatHandling.cs" />
     <Compile Include="Patches\RotationStep.cs" />

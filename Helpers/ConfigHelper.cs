@@ -70,64 +70,6 @@ namespace KogamaTools.Helpers
             BindConfig("GRAPHICS", "ForceThemes", false, "");
             BindConfig("GRAPHICS", "ThemeID", 0, "");
 
-            // KEYBINDS
-
-            BindConfig("KEYBINDS", "KeybindsEnabled", false, "");
-
-            BindConfig("KEYBINDS", "MoveForward", KeyCode.W, "");
-            BindConfig("KEYBINDS", "MoveLeft", KeyCode.A, "");
-            BindConfig("KEYBINDS", "MoveRight", KeyCode.D, "");
-            BindConfig("KEYBINDS", "MoveBackwards", KeyCode.S, "");
-            BindConfig("KEYBINDS", "AlternateCameraControls", KeyCode.W, "");
-            BindConfig("KEYBINDS", "PointerSelect", KeyCode.W, "");
-            BindConfig("KEYBINDS", "PointerSelectAlt", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EnterObject", KeyCode.W, "");
-            BindConfig("KEYBINDS", "DeleteObject", KeyCode.W, "");
-            BindConfig("KEYBINDS", "LeaveObject", KeyCode.W, "");
-            BindConfig("KEYBINDS", "AddToSelection", KeyCode.W, "");
-            BindConfig("KEYBINDS", "MoveDrawPlaneUp", KeyCode.W, "");
-            BindConfig("KEYBINDS", "MoveDrawPlaneDown", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EmbedChangeGame", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ToggleFullScreen", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ShowChat", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Respawn", KeyCode.W, "");
-            BindConfig("KEYBINDS", "TogglePlayerParticles", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ShowPlayerWindow", KeyCode.W, "");
-            BindConfig("KEYBINDS", "DropCurrentItem", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Use", KeyCode.W, "");
-            BindConfig("KEYBINDS", "FocusOnSelectedModel", KeyCode.W, "");
-            BindConfig("KEYBINDS", "TogglePlayInEditor", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ToggleLogicRendering", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ToggleGripdSnapSize", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ActivateEditCubeTool", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ActivateDeleteCubeTool", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ActivetaPaintCubeTool", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ChangeMaterial", KeyCode.W, "");
-            BindConfig("KEYBINDS", "OpenInventory", KeyCode.W, "");
-            BindConfig("KEYBINDS", "CreateNewModel", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ToggleDrawPlane", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Fire", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Jump", KeyCode.W, "");
-            BindConfig("KEYBINDS", "DrawAudioBox", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ChatSendLine", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ChatShiftLineUp", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ChatShiftLineDown", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ChangeFocus", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ChangeChangeFocusDirection", KeyCode.W, "");
-            BindConfig("KEYBINDS", "ToggleHD", KeyCode.W, "");
-            BindConfig("KEYBINDS", "LobbyMenu", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Escape", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Holster", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveUp", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveDown", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveForward", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveLeft", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveRight", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveBackwards", KeyCode.W, "");
-            BindConfig("KEYBINDS", "EditMoveFast", KeyCode.W, "");
-            BindConfig("KEYBINDS", "NotificationAcceptFriendshipRequest", KeyCode.W, "");
-            BindConfig("KEYBINDS", "Size", KeyCode.W, "");
-
             // MISC
 
             BindConfig("MISC", "ShowGreetingMessage", true, "");
