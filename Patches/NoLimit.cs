@@ -5,7 +5,7 @@ namespace KogamaTools.patches
 {
     internal static class NoLimit
     {
-        public static bool Enabled = ConfigHelper.GetConfigValue<bool>("NoLimitEnabled");
+        internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("NoLimitEnabled");
 
         [HarmonyPatch(typeof(ModelingDynamicBoxConstraint))]
         private static class ModelingDynamicBoxConstraintPatch

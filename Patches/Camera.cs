@@ -7,11 +7,11 @@ namespace KogamaTools.patches
     [HarmonyPatch(typeof(MainCameraManager))]
     internal static class Camera
     {
-        public static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
+        internal static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
 
         [HarmonyPatch("UpdateCamera")]
         [HarmonyPostfix]
-        static void UpdateCamera(MainCameraManager __instance)
+        private static void UpdateCamera(MainCameraManager __instance)
         {
             __instance.BlueModeEnabled = __instance.BlueModeEnabled && BlueModeEnabled;
             // TODO: Add "/fog" command;

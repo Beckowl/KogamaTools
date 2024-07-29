@@ -8,32 +8,29 @@ namespace KogamaTools.Patches
 
         [HarmonyPatch("Select", [typeof(VoxelHit), typeof(bool), typeof(bool)])]
         [HarmonyPrefix]
-        static void Select(ref bool addToSelection)
+        private static void Select(ref bool addToSelection)
         {
             addToSelection = MVInputWrapper.DebugGetKey(UnityEngine.KeyCode.LeftShift) || ForceSelection;
         }
 
         [HarmonyPatch("DeSelectAll")]
         [HarmonyPrefix]
-        static bool DeSelectAll()
+        private static bool DeSelectAll()
         {
-            KogamaTools.mls.LogInfo("DeSelectAll");
             return CanDeselect();
         }
 
         [HarmonyPatch("DeSelectWorldObject")]
         [HarmonyPrefix]
-        static bool DeSelectWorldObject()
+        private static bool DeSelectWorldObject()
         {
-            KogamaTools.mls.LogInfo("DeSelectWO");
             return CanDeselect();
         }
 
         [HarmonyPatch("DeSelectAllExcept")]
         [HarmonyPrefix]
-        static bool DeSelectAllExcept()
+        private static bool DeSelectAllExcept()
         {
-            KogamaTools.mls.LogInfo("DeSelectAllExcept");
             return CanDeselect();
         }
 

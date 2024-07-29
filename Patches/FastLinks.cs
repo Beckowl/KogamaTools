@@ -9,12 +9,12 @@ namespace KogamaTools.patches
     [HarmonyPatch(typeof(LogicObjectManager))]
     internal static class FastLinks
     {
-        public static bool Enabled = ConfigHelper.GetConfigValue<bool>("FastLinksEnabled");
+        internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("FastLinksEnabled");
 
-        [HarmonyPatch("ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool) },
-            new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref })]
+        [HarmonyPatch("ValidateLink", [typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool)],
+            [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref])]
         [HarmonyPrefix]
-        public static void ValidateLink(ref bool loopDetected)
+        private static void ValidateLink(ref bool loopDetected)
         {
             if (Enabled)
             {
@@ -22,10 +22,10 @@ namespace KogamaTools.patches
             }
         }
 
-        [HarmonyPatch("ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(LogicObjectManager.ReportSeverity) },
-            new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
+        [HarmonyPatch("ValidateLink", [typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(LogicObjectManager.ReportSeverity)],
+            [ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out])]
         [HarmonyPrefix]
-        public static bool ValidateLink(ref ValidateLinkStatus __result, ref LogicObjectManager.ReportSeverity reportSeverity)
+        private static bool ValidateLink(ref ValidateLinkStatus __result, ref LogicObjectManager.ReportSeverity reportSeverity)
         {
             if (Enabled)
             {

@@ -8,13 +8,13 @@ namespace KogamaTools.Patches
     [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode))]
     internal static class EditModeMovement
     {
-        public static float SpeedMult = ConfigHelper.GetConfigValue<Single>("SpeedMult");
-        public static bool SpeedMultEnabled = ConfigHelper.GetConfigValue<bool>("SpeedMultEnabled");
-        public static bool MovementConstraintEnabled = ConfigHelper.GetConfigValue<bool>("MovementConstraintEnabled");
+        internal static float SpeedMult = ConfigHelper.GetConfigValue<Single>("SpeedMult");
+        internal static bool SpeedMultEnabled = ConfigHelper.GetConfigValue<bool>("SpeedMultEnabled");
+        internal static bool MovementConstraintEnabled = ConfigHelper.GetConfigValue<bool>("MovementConstraintEnabled");
 
         [HarmonyPatch("MoveCharacter")]
         [HarmonyPrefix]
-        static void MoveCharacter(ref Vector3 moveDelta, MVBuildModeAvatarLocal.EditMode __instance)
+        private static void MoveCharacter(ref Vector3 moveDelta, MVBuildModeAvatarLocal.EditMode __instance)
         {
             if (SpeedMultEnabled)
             {

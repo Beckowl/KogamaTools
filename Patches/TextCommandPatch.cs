@@ -8,7 +8,7 @@ namespace KogamaTools.patches
     {
         [HarmonyPatch("Resolve")]
         [HarmonyPrefix]
-        static bool Resolve(ref string commandLine)
+        private static bool Resolve(ref string commandLine)
         {
             TextCommand.Command command = commandLine;
             string text = command.Name.ToLower();
