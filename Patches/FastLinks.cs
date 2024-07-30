@@ -4,7 +4,7 @@ using KogamaTools.Helpers;
 using MV.WorldObject;
 using static LogicObjectManager;
 
-namespace KogamaTools.patches
+namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(LogicObjectManager))]
     internal static class FastLinks

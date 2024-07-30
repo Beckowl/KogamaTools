@@ -2,7 +2,7 @@
 using HarmonyLib;
 using KogamaTools.Helpers;
 
-namespace KogamaTools.patches
+namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(EditorWorldObjectCreation))]
     internal static class CustomModelScale

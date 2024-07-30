@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
-namespace KogamaTools.patches
+namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(MVNetworkGame.OperationRequests))]
     internal static class GreetingMessage

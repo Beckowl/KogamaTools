@@ -1,4 +1,4 @@
-﻿using KogamaTools.patches;
+﻿using KogamaTools.Patches;
 using KogamaTools.Helpers;
 
 namespace KogamaTools.Command.Commands

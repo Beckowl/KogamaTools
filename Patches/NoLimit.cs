@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
 
-namespace KogamaTools.patches
+namespace KogamaTools.Patches
 {
     internal static class NoLimit
     {

@@ -2,7 +2,7 @@
 using KogamaTools.Helpers;
 using UnityEngine;
 
-namespace KogamaTools.patches
+namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(MainCameraManager))]
     internal static class Camera

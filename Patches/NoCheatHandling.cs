@@ -2,7 +2,7 @@
 using HarmonyLib;
 using MV.Common;
 
-namespace KogamaTools.patches
+namespace KogamaTools.Patches
 {
     internal static class NoCheatHandling
     {
