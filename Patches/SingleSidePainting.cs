@@ -1,11 +1,12 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(PaintCubes))]
     internal static class SingleSidePainting
     {
-        internal static bool Enabled = false;
+        internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("SingleSidePaintingEnabled");
 
         [HarmonyPatch("Execute")]
         [HarmonyPrefix]

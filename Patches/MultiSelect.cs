@@ -6,11 +6,12 @@ namespace KogamaTools.Patches
     {
         internal static bool ForceSelection = false;
 
+
         [HarmonyPatch("Select", [typeof(VoxelHit), typeof(bool), typeof(bool)])]
         [HarmonyPrefix]
         private static void Select(ref bool addToSelection)
         {
-            addToSelection = MVInputWrapper.DebugGetKey(UnityEngine.KeyCode.LeftShift) || ForceSelection;
+            addToSelection = ForceSelection;
         }
 
         [HarmonyPatch("DeSelectAll")]
@@ -36,8 +37,7 @@ namespace KogamaTools.Patches
 
         private static bool CanDeselect()
         {
-            return !ForceSelection && !MVInputWrapper.DebugGetKey(UnityEngine.KeyCode.LeftShift);
+            return !ForceSelection;
         }
-
     }
 }
