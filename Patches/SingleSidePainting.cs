@@ -30,7 +30,6 @@ namespace KogamaTools.Patches
                     e.HandleAudio(e.SelectedCube.iLocalPos, AudioActions.CubeAdded);
                     e.TargetCubeModel.SetMaterial(e.SelectedCube.iLocalPos, pickingInfo.pickedFace, e.CurrentMaterialId);
                     CubeModelTool.SendCubeEvent(e.TargetCubeModel.CubeCount, EditCubeChange.CubePainted);
-                    return false;
                 }
                 flag = true;
             }
