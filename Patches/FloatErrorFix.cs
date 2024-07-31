@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(MV.WorldObject.MVMath))]
-    internal class FloatErrorFix
+    internal static class FloatErrorFix
     {
         [HarmonyPatch("TryValidateFloat")]
         [HarmonyPrefix]

@@ -2,7 +2,7 @@
 namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(SelectionController))]
-    internal class MultiSelect
+    internal static class MultiSelect
     {
         internal static bool ForceSelection = false;
 
