@@ -75,6 +75,7 @@
     <Compile Include="Command\CommandHandler.cs" />
     <Compile Include="Command\Commands\BlueModeCommand.cs" />
     <Compile Include="Command\Commands\ClearCommand.cs" />
+    <Compile Include="Command\Commands\CustomGridCommand.cs" />
     <Compile Include="Command\Commands\CustomScaleCommand.cs" />
     <Compile Include="Command\Commands\FastLinksCommand.cs" />
     <Compile Include="Command\Commands\MultiSelectCommand.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="KogamaTools.cs" />
     <Compile Include="Patches\Camera.cs" />
+    <Compile Include="Patches\CustomGrid.cs" />
     <Compile Include="Patches\CustomModelScale.cs" />
     <Compile Include="Patches\EditModeMovement.cs" />
     <Compile Include="Patches\FastLinks.cs" />

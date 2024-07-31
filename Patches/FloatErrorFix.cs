@@ -14,12 +14,13 @@ namespace KogamaTools.Patches
         [HarmonyPrefix]
         private static bool TryValidateFloat(ref float f, ref float __result)
         {
-            if (f == float.NaN)
+            if (float.IsNaN(f))
             {
-                __result = 0;
+                __result = 0f;
                 return false;
             }
             return true;
         }
     }
 }
+
