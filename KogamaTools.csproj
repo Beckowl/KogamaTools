@@ -80,6 +80,7 @@
     <Compile Include="Command\Commands\MultiSelectCommand.cs" />
     <Compile Include="Command\Commands\NoLimitCommand.cs" />
     <Compile Include="Command\Commands\RotationStepCommand.cs" />
+    <Compile Include="Command\Commands\SingleSidePaintingCommand.cs" />
     <Compile Include="Command\Commands\SpeedCommand.cs" />
     <Compile Include="Command\Commands\TeleportCommand.cs" />
     <Compile Include="Command\Commands\UnlimitedConfigCommand.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Patches\NoCheatHandling.cs" />
     <Compile Include="Patches\RotationStep.cs" />
     <Compile Include="Patches\FloatErrorFix.cs" />
+    <Compile Include="Patches\SingleSidePainting.cs" />
     <Compile Include="Patches\UnlimitedConfig.cs" />
     <Compile Include="Patches\TextCommandPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

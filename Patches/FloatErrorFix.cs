@@ -14,7 +14,6 @@ namespace KogamaTools.Patches
         [HarmonyPrefix]
         private static bool TryValidateFloat(ref float f, ref float __result)
         {
-            KogamaTools.mls.LogInfo(f);
             if (f == float.NaN)
             {
                 __result = 0;
