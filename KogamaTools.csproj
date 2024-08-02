@@ -79,6 +79,7 @@
     <Compile Include="Command\Commands\CustomGridCommand.cs" />
     <Compile Include="Command\Commands\CustomScaleCommand.cs" />
     <Compile Include="Command\Commands\FastLinksCommand.cs" />
+    <Compile Include="Command\Commands\ForceCloneCommand.cs" />
     <Compile Include="Command\Commands\MultiSelectCommand.cs" />
     <Compile Include="Command\Commands\NoLimitCommand.cs" />
     <Compile Include="Command\Commands\RotationStepCommand.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Command\Commands\UnlimitedConfigCommand.cs" />
     <Compile Include="Command\Commands\TestCommand.cs" />
     <Compile Include="Command\Commands\TpCommand.cs" />
+    <Compile Include="Command\Commands\UnlockRotationCommand.cs" />
     <Compile Include="Command\Commands\UsageTestCommand.cs" />
     <Compile Include="Command\CommandVariant.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Patches\CustomModelScale.cs" />
     <Compile Include="Patches\EditModeMovement.cs" />
     <Compile Include="Patches\FastLinks.cs" />
+    <Compile Include="Patches\ForceFlags.cs" />
     <Compile Include="Patches\GreetingMessage.cs" />
     <Compile Include="Patches\MultiSelect.cs" />
     <Compile Include="Patches\NoLimit.cs" />

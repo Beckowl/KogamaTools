@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace KogamaTools.Patches
 {
-    internal class UnlimitedConfig
+    internal static class UnlimitedConfig
     {
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("UnlimitedConfigEnabled");
         internal static float MinValue = ConfigHelper.GetConfigValue<float>("MinValue");
