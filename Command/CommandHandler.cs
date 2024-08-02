@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using KogamaTools.Helpers;
+using System.Text.RegularExpressions;
 
 namespace KogamaTools.Command
 {
@@ -28,10 +29,28 @@ namespace KogamaTools.Command
             }
         }
 
+        static List<string> ParseArgs(string args)
+        {
+            List<string> result = new List<string>();
+            string pattern = @"([""'])(.*?)\1|(\S+)";
+
+            foreach (Match match in Regex.Matches(args, pattern))
+            {
+                if (match.Groups[2].Success)
+                {
+                    result.Add(match.Groups[2].Value);
+                }
+                else if (match.Groups[3].Success)
+                {
+                    result.Add(match.Groups[3].Value);
+                }
+            }
+            return result;
+        }
+
         internal static bool TryExecuteCommand(string commandLine)
         {
-            commandLine = commandLine.TrimEnd();
-            string[] components = commandLine.Split(new char[1] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> components = ParseArgs(commandLine);
             string commandName = components[0];
             ICommand command = commands.FirstOrDefault(c => c.Name.Equals(commandName, StringComparison.OrdinalIgnoreCase));
 
