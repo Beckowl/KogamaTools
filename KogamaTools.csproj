@@ -94,7 +94,7 @@
     <Compile Include="Command\Commands\UnlimitedConfigCommand.cs" />
     <Compile Include="Command\Commands\TestCommand.cs" />
     <Compile Include="Command\Commands\TpCommand.cs" />
-    <Compile Include="Command\Commands\UnlockRotationCommand.cs" />
+    <Compile Include="Command\Commands\ForceRotation.cs" />
     <Compile Include="Command\Commands\UsageTestCommand.cs" />
     <Compile Include="Command\CommandVariant.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />

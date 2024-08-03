@@ -3,9 +3,9 @@ using KogamaTools.Patches;
 
 namespace KogamaTools.Command.Commands
 {
-    internal class UnlockRotationCommand : BaseCommand
+    internal class ForceRotation : BaseCommand
     {
-        public UnlockRotationCommand() : base("/unlockrotation", "")
+        public ForceRotation() : base("/forcerotation", "")
         {
             AddVariant(args => Toggle());
         }
