@@ -8,10 +8,13 @@ namespace KogamaTools.Patches
         internal static bool ShowGreetingMessage = ConfigHelper.GetConfigValue<bool>("ShowGreetingMessage");
 
         [HarmonyPatch("JoinNotification")]
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         private static void JoinNotification()
         {
-            TextCommand.NotifyUser($"Welcome to {KogamaTools.ModName} v{KogamaTools.ModVersion}.");
+            if (ShowGreetingMessage)
+            {
+                TextCommand.NotifyUser($"Welcome to {KogamaTools.ModName} v{KogamaTools.ModVersion}.");
+            }
         }
     }
 }
