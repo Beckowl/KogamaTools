@@ -14,18 +14,14 @@ namespace KogamaTools.Command.Commands
 
         private void Toggle()
         {
-            // lengthy ass line of code
-            // bad field naming
             CustomCrossHairColor.CustomColorEnabled = !CustomCrossHairColor.CustomColorEnabled;
             NotificationHelper.NotifySuccess($"Crosshair color {(CustomCrossHairColor.CustomColorEnabled ? "enabled" : "disabled")}.");
         }
 
         private void SetColor(string colorStr) 
         {
-            if (ColorUtility.TryParseHtmlString(colorStr, out Color color))
+            if (CustomCrossHairColor.SetColorFromHTMLString(colorStr))
             {
-                CustomCrossHairColor.Color = color;
-                CustomCrossHairColor.CustomColorEnabled = true;
                 NotificationHelper.NotifySuccess($"Crosshair color set to \"{colorStr}\".");
                 return;
             }
