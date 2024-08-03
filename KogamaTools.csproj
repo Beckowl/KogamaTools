@@ -70,12 +70,17 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Command\CommandHandler.cs" />
     <Compile Include="Command\Commands\BlueModeCommand.cs" />
     <Compile Include="Command\Commands\ClearCommand.cs" />
+    <Compile Include="Command\Commands\CrossHairColorCommand.cs" />
     <Compile Include="Command\Commands\CustomGridCommand.cs" />
     <Compile Include="Command\Commands\CustomScaleCommand.cs" />
     <Compile Include="Command\Commands\FastLinksCommand.cs" />
@@ -96,6 +101,7 @@
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="KogamaTools.cs" />
     <Compile Include="Patches\Camera.cs" />
+    <Compile Include="Patches\CustomCrossHairColor.cs" />
     <Compile Include="Patches\CustomGrid.cs" />
     <Compile Include="Patches\CustomModelScale.cs" />
     <Compile Include="Patches\EditModeMovement.cs" />
