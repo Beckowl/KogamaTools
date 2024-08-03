@@ -9,15 +9,20 @@ namespace KogamaTools.Patches
 
         internal static void AddFlags(InteractionFlags flag)
         {
-            Flags = Flags | (ulong)flag;
+            Flags |= (ulong)flag;
         }
 
         internal static void RemoveFlags(InteractionFlags flag)
         {
-            Flags = Flags & (ulong)~flag;
+            Flags &= (ulong)~flag;
         }
 
-        internal static bool IsFlagSet(InteractionFlags flag)
+        internal static void ToggleFlags(InteractionFlags flag)
+        {
+            Flags ^= (ulong)flag;
+        }
+
+        internal static bool AreFlagsSet(InteractionFlags flag)
         {
             return (Flags & (ulong)flag) == (ulong)flag;
         }

@@ -12,11 +12,10 @@ namespace KogamaTools.Command.Commands
 
         private static void Toggle()
         {
-            ForceFlags.Flags = ForceFlags.Flags ^ (ulong)InteractionFlags.CanRotateX;
-            ForceFlags.Flags = ForceFlags.Flags ^ (ulong)InteractionFlags.CanRotateY;
-            ForceFlags.Flags = ForceFlags.Flags ^ (ulong)InteractionFlags.CanRotateZ;
+            InteractionFlags flags = InteractionFlags.CanRotateX | InteractionFlags.CanRotateY | InteractionFlags.CanRotateZ;
+            ForceFlags.ToggleFlags(flags);
 
-            bool isEnabled = ForceFlags.IsFlagSet(InteractionFlags.CanRotateX | InteractionFlags.CanRotateY | InteractionFlags.CanRotateZ);
+            bool isEnabled = ForceFlags.AreFlagsSet(InteractionFlags.CanRotateX | InteractionFlags.CanRotateY | InteractionFlags.CanRotateZ);
             NotificationHelper.NotifySuccess($"Unlocked rotation {(isEnabled ? "enabled" : "disabled")}.");
         }
     }

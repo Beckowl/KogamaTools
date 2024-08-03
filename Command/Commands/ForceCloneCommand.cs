@@ -12,8 +12,8 @@ namespace KogamaTools.Command.Commands
 
         private static void Toggle()
         {
-            ForceFlags.Flags = ForceFlags.Flags ^ (ulong)InteractionFlags.CanClone;
-            NotificationHelper.NotifySuccess($"Force clone {(ForceFlags.IsFlagSet(InteractionFlags.CanClone) ? "enabled" : "disabled")}.");
+            ForceFlags.ToggleFlags(InteractionFlags.CanClone);
+            NotificationHelper.NotifySuccess($"Force clone {(ForceFlags.AreFlagsSet(InteractionFlags.CanClone) ? "enabled" : "disabled")}.");
         }
     }
 }
