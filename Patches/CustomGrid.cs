@@ -3,19 +3,36 @@ using KogamaTools.Helpers;
 
 namespace KogamaTools.Patches
 {
-    [HarmonyPatch(typeof(ESTranslate))]
     internal static class CustomGrid
     {
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomGridEnabled");
         internal static float GridSize = ConfigHelper.GetConfigValue<float>("GridSize");
 
-        [HarmonyPatch("Execute")]
-        [HarmonyPrefix]
-        private static void Execute(ESTranslate __instance)
+        [HarmonyPatch(typeof(ESTranslate))]
+        private static class ESTranslatePatch
         {
-            if (Enabled)
+            [HarmonyPatch("Execute")]
+            [HarmonyPrefix]
+            static void Execute(ESTranslate __instance)
             {
-                __instance.gridSize = GridSize;
+                if (Enabled)
+                {
+                    __instance.gridSize = GridSize;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(MVWorldObjectClient))]
+        private static class MVWorldObjectClientPatch
+        {
+            [HarmonyPatch("GetClosestGridPoint")]
+            [HarmonyPrefix]
+            static void GetClosestGridPoint(ref float gridSize)
+            {
+                if (Enabled)
+                {
+                    gridSize = GridSize;
+                }
             }
         }
     }
