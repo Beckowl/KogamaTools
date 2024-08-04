@@ -84,6 +84,7 @@
     <Compile Include="Command\Commands\CustomGridCommand.cs" />
     <Compile Include="Command\Commands\CustomScaleCommand.cs" />
     <Compile Include="Command\Commands\FastLinksCommand.cs" />
+    <Compile Include="Command\Commands\FastRespawnCommand.cs" />
     <Compile Include="Command\Commands\ForceCloneCommand.cs" />
     <Compile Include="Command\Commands\MultiSelectCommand.cs" />
     <Compile Include="Command\Commands\NoLimitCommand.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Patches\CustomModelScale.cs" />
     <Compile Include="Patches\EditModeMovement.cs" />
     <Compile Include="Patches\FastLinks.cs" />
+    <Compile Include="Patches\FastRespawn.cs" />
     <Compile Include="Patches\ForceFlags.cs" />
     <Compile Include="Patches\GreetingMessage.cs" />
     <Compile Include="Patches\MultiSelect.cs" />

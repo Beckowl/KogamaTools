@@ -44,6 +44,7 @@ namespace KogamaTools.Helpers
             BindConfig("PVP", "AntiAFKEnabled", false, "");
             BindConfig("PVP", "CustomCrossHairColorEnabled", false, "");
             BindConfig("PVP", "CrosshairColor", "#00ff00", "");
+            BindConfig("PVP", "FastRespawnEnabled", false, "");
             BindConfig("PVP", "CustomFOVEnabled", false, "");
             BindConfig("PVP", "FOV", 80f, "");
 
