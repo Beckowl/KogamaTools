@@ -9,7 +9,7 @@ namespace KogamaTools.Patches
 
         private static bool RespawnPlayer()
         {
-            if (Enabled)
+            if (Enabled && (MVGameControllerBase.Game.IsPlaying))
             {
                 MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.SetToSpawnPoint();
                 MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.EnterPlayingState();
