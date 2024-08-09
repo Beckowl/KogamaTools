@@ -15,7 +15,7 @@ namespace KogamaTools.Patches
                 MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.EnterPlayingState();
                 return false;
             }
-            return true;       
+            return true;
         }
 
         [HarmonyPatch(typeof(DesktopPlayModeController))]

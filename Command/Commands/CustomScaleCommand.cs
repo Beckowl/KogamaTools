@@ -1,5 +1,5 @@
-﻿using KogamaTools.Patches;
-using KogamaTools.Helpers;
+﻿using KogamaTools.Helpers;
+using KogamaTools.Patches;
 
 namespace KogamaTools.Command.Commands
 {

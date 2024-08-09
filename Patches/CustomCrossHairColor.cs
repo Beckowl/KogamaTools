@@ -1,6 +1,4 @@
-﻿using System;
-using BepInEx;
-using HarmonyLib;
+﻿using HarmonyLib;
 using KogamaTools.Helpers;
 using UnityEngine;
 

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using KogamaTools.Helpers;
+﻿using System.Reflection;
 using System.Text.RegularExpressions;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Command
 {
@@ -54,7 +51,7 @@ namespace KogamaTools.Command
             string commandName = components[0];
             ICommand command = commands.FirstOrDefault(c => c.Name.Equals(commandName, StringComparison.OrdinalIgnoreCase));
 
-            if (command == null)
+            if (command is null)
             {
                 return false;
             }

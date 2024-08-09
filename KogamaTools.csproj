@@ -1,128 +1,47 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{44E01600-F4EA-4626-BFC5-78427AF51F75}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KogamaTools</RootNamespace>
-    <AssemblyName>KogamaTools</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>preview</LangVersion>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>preview</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>Lib\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>Lib\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx.Core">
-      <HintPath>Lib\BepInEx.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx.Unity.IL2CPP">
-      <HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppInterop.Runtime">
-      <HintPath>Lib\Il2CppInterop.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2Cppmscorlib">
-      <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppSystem.Core">
-      <HintPath>Lib\Il2CppSystem.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MVCommon">
-      <HintPath>Lib\MVCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="MVWorldObject">
-      <HintPath>Lib\MVWorldObject.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="UnityEngine">
-      <HintPath>Lib\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\UnityEngine.UI.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Command\BaseCommand.cs" />
-    <Compile Include="Command\CommandHandler.cs" />
-    <Compile Include="Command\Commands\BlueModeCommand.cs" />
-    <Compile Include="Command\Commands\ClearCommand.cs" />
-    <Compile Include="Command\Commands\CrossHairColorCommand.cs" />
-    <Compile Include="Command\Commands\CustomGridCommand.cs" />
-    <Compile Include="Command\Commands\CustomScaleCommand.cs" />
-    <Compile Include="Command\Commands\FastLinksCommand.cs" />
-    <Compile Include="Command\Commands\FastRespawnCommand.cs" />
-    <Compile Include="Command\Commands\ForceCloneCommand.cs" />
-    <Compile Include="Command\Commands\MultiSelectCommand.cs" />
-    <Compile Include="Command\Commands\NoLimitCommand.cs" />
-    <Compile Include="Command\Commands\RotationStepCommand.cs" />
-    <Compile Include="Command\Commands\SingleSidePaintingCommand.cs" />
-    <Compile Include="Command\Commands\SpeedCommand.cs" />
-    <Compile Include="Command\Commands\TeleportCommand.cs" />
-    <Compile Include="Command\Commands\UnlimitedConfigCommand.cs" />
-    <Compile Include="Command\Commands\TestCommand.cs" />
-    <Compile Include="Command\Commands\TpCommand.cs" />
-    <Compile Include="Command\Commands\ForceRotation.cs" />
-    <Compile Include="Command\Commands\UsageTestCommand.cs" />
-    <Compile Include="Command\CommandVariant.cs" />
-    <Compile Include="Helpers\ConfigHelper.cs" />
-    <Compile Include="Helpers\NotificationHelper.cs" />
-    <Compile Include="KogamaTools.cs" />
-    <Compile Include="Patches\Camera.cs" />
-    <Compile Include="Patches\CustomCrossHairColor.cs" />
-    <Compile Include="Patches\CustomGrid.cs" />
-    <Compile Include="Patches\CustomModelScale.cs" />
-    <Compile Include="Patches\EditModeMovement.cs" />
-    <Compile Include="Patches\FastLinks.cs" />
-    <Compile Include="Patches\FastRespawn.cs" />
-    <Compile Include="Patches\ForceFlags.cs" />
-    <Compile Include="Patches\GreetingMessage.cs" />
-    <Compile Include="Patches\MultiSelect.cs" />
-    <Compile Include="Patches\NoLimit.cs" />
-    <Compile Include="Patches\NoCheatHandling.cs" />
-    <Compile Include="Patches\RotationStep.cs" />
-    <Compile Include="Patches\FloatErrorFix.cs" />
-    <Compile Include="Patches\SingleSidePainting.cs" />
-    <Compile Include="Patches\UnlimitedConfig.cs" />
-    <Compile Include="Patches\TextCommandPatch.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lib\" />
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>Lib\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>Lib\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.Core">
+			<HintPath>Lib\BepInEx.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.Unity.IL2CPP">
+			<HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppInterop.Runtime">
+			<HintPath>Lib\Il2CppInterop.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2Cppmscorlib">
+			<HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppSystem.Core">
+			<HintPath>Lib\Il2CppSystem.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="MVCommon">
+			<HintPath>Lib\MVCommon.dll</HintPath>
+		</Reference>
+		<Reference Include="MVWorldObject">
+			<HintPath>Lib\MVWorldObject.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>Lib\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>Lib\UnityEngine.UI.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 </Project>

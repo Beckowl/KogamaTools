@@ -7,7 +7,7 @@ namespace KogamaTools.Patches
         internal static bool ForceSelection = false;
 
 
-        [HarmonyPatch("Select", [typeof(VoxelHit), typeof(bool), typeof(bool)])]
+        [HarmonyPatch("Select", new Type[] { typeof(VoxelHit), typeof(bool), typeof(bool) })]
         [HarmonyPrefix]
         private static void Select(ref bool addToSelection)
         {

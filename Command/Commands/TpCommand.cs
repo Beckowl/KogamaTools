@@ -6,7 +6,7 @@ namespace KogamaTools.Command.Commands
     {
         public TpCommand() : base("/tp", "Teleports the camera view to a specified player's position.")
         {
-           AddVariant(args => Teleport((string)args[0]), typeof(string));
+            AddVariant(args => Teleport((string)args[0]), typeof(string));
         }
 
         private void Teleport(string player)

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using KogamaTools.Helpers;
+﻿using KogamaTools.Helpers;
 
 namespace KogamaTools.Command
 {
@@ -77,7 +75,7 @@ namespace KogamaTools.Command
                     NotificationHelper.NotifyUser(Name);
                     continue;
                 }
-                    
+
 
                 NotificationHelper.NotifyUser(variant.Usage);
             }

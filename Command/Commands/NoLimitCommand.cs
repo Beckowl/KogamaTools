@@ -13,7 +13,7 @@ namespace KogamaTools.Command.Commands
         private void Toggle()
         {
             NoLimit.Enabled = !NoLimit.Enabled;
-            NotificationHelper.NotifySuccess($"No limit {(NoLimit.Enabled? "enabled" : "disabled")}.");
+            NotificationHelper.NotifySuccess($"No limit {(NoLimit.Enabled ? "enabled" : "disabled")}.");
         }
     }
 }

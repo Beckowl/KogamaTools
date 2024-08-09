@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KogamaTools.Helpers
+﻿namespace KogamaTools.Helpers
 {
     internal static class NotificationHelper
     {

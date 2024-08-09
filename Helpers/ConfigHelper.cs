@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using BepInEx;
-using System.IO;
+﻿using BepInEx;
 using BepInEx.Configuration;
-using UnityEngine;
 namespace KogamaTools.Helpers
 {
     internal static class ConfigHelper

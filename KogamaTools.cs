@@ -17,7 +17,10 @@ namespace KogamaTools
         ModVersion = "0.1.0";
 
         private readonly Harmony harmony = new Harmony(ModGUID);
+#pragma warning disable CS8618
         internal static ManualLogSource mls;
+#pragma warning restore CS861
+
         public override void Load()
         {
             mls = Logger.CreateLogSource(ModGUID);
