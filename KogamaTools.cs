@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using KogamaTools.Behaviours;
 using KogamaTools.Command;
 using KogamaTools.Helpers;
 
@@ -28,6 +29,8 @@ namespace KogamaTools
             ConfigHelper.BindConfigs();
             CommandHandler.LoadCommands();
             harmony.PatchAll();
+
+            AddComponent<CameraFocus>();
 
             mls.LogInfo("KogamaTools isloaded, yay!");
         }
