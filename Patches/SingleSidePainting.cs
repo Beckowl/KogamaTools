@@ -3,11 +3,12 @@ using KogamaTools.Helpers;
 
 namespace KogamaTools.Patches
 {
+    [HarmonyPatch(typeof(PaintCubes))]
     internal static class SingleSidePainting
     {
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("SingleSidePaintingEnabled");
 
-        [HarmonyPatch(typeof(PaintCubes), "Execute")]
+        [HarmonyPatch("Execute")]
         [HarmonyPrefix]
         static bool ReplaceCube(PaintCubes __instance, ref CubeModelingStateMachine e)
         {
@@ -21,8 +22,7 @@ namespace KogamaTools.Patches
                 __instance.waitForMouseUp = MVInputWrapper.GetBooleanControl(KogamaControls.PointerSelect);
                 return false;
             }
-
-            bool picked = false;
+            bool flag = false;
             if (MVInputWrapper.GetBooleanControl(KogamaControls.PointerSelect) && e.SelectedCube != null)
             {
                 CubePickingInfo pickingInfo = new CubePickingInfo();
@@ -32,10 +32,9 @@ namespace KogamaTools.Patches
                     e.TargetCubeModel.SetMaterial(e.SelectedCube.iLocalPos, pickingInfo.pickedFace, e.CurrentMaterialId);
                     CubeModelTool.SendCubeEvent(e.TargetCubeModel.CubeCount, EditCubeChange.CubePainted);
                 }
-                picked = true;
+                flag = true;
             }
-
-            __instance.paintCursor.UpdateCursor(e.SelectedCube, e.TargetCubeModel, picked);
+            __instance.paintCursor.UpdateCursor(e.SelectedCube, e.TargetCubeModel, flag);
             return false;
         }
     }

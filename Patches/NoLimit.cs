@@ -7,26 +7,33 @@ namespace KogamaTools.Patches
     {
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("NoLimitEnabled");
 
-        [HarmonyPatch(typeof(ModelingDynamicBoxConstraint), "CanAddCubeAt")]
-
-        [HarmonyPostfix]
-        static void CanAddCubeAt(ref bool __result)
+        [HarmonyPatch(typeof(ModelingDynamicBoxConstraint))]
+        private static class ModelingDynamicBoxConstraintPatch
         {
-            __result |= Enabled;
+            [HarmonyPatch("CanAddCubeAt")]
+            [HarmonyPostfix]
+            static void CanAddCubeAt(ref bool __result)
+            {
+                __result |= Enabled;
+            }
         }
 
-        [HarmonyPatch(typeof(ModelingBoxCountConstraint), "CanAddCubeAt")]
-        [HarmonyPostfix]
-        static void CanAddCubeAt2(ref bool __result)
+        [HarmonyPatch(typeof(ModelingBoxCountConstraint))]
+        private static class ModelingBoxCountPatch
         {
-            __result |= Enabled;
-        }
+            [HarmonyPatch("CanAddCubeAt")]
+            [HarmonyPostfix]
+            static void CanAddCubeAt(ref bool __result)
+            {
+                __result |= Enabled;
+            }
 
-        [HarmonyPatch(typeof(ModelingBoxCountConstraint), "CanRemoveCubeAt")]
-        [HarmonyPostfix]
-        static void CanRemoveCubeAt(ref bool __result)
-        {
-            __result |= Enabled;
+            [HarmonyPatch("CanRemoveCubeAt")]
+            [HarmonyPostfix]
+            static void CanRemoveCubeAt(ref bool __result)
+            {
+                __result |= Enabled;
+            }
         }
     }
 }

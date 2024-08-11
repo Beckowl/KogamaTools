@@ -9,9 +9,9 @@ namespace KogamaTools.UI.Headers
         // i'm prob going to make a GUI wrapper
 
         // long ass method
-        internal static void Render()
+        internal static void Render() 
         {
-            if (ImGui.CollapsingHeader("Build"))
+           if (ImGui.CollapsingHeader("Build"))
             {
                 ImGui.PushItemWidth(100); // set inputFloat size
                 ImGui.Checkbox("No build limit", ref NoLimit.Enabled);

@@ -2,11 +2,12 @@
 using KogamaTools.Helpers;
 namespace KogamaTools.Patches
 {
+    [HarmonyPatch(typeof(MVNetworkGame.OperationRequests))]
     internal static class GreetingMessage
     {
         internal static bool ShowGreetingMessage = ConfigHelper.GetConfigValue<bool>("ShowGreetingMessage");
 
-        [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), "JoinNotification")]
+        [HarmonyPatch("JoinNotification")]
         [HarmonyPostfix]
         private static void JoinNotification()
         {

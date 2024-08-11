@@ -1,10 +1,10 @@
-﻿using System.Numerics;
-using System.Runtime.InteropServices;
+﻿using ImGuiNET;
 using ClickableTransparentOverlay;
-using ImGuiNET;
+using System.Runtime.InteropServices;
+using System.Numerics;
 using KogamaTools.UI.Headers;
 
-namespace KogamaTools.UI
+namespace KogamaTools
 {
     public class KogamaToolsOverlay : Overlay
     {

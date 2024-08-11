@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace KogamaTools.Patches
 {
+    [HarmonyPatch(typeof(CrossHair))]
     internal static class CustomCrossHairColor
     {
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomCrossHairColorEnabled");
@@ -24,7 +25,7 @@ namespace KogamaTools.Patches
             return success;
         }
 
-        [HarmonyPatch(typeof(CrossHair), "UpdateCrossHair")]
+        [HarmonyPatch("UpdateCrossHair")]
         [HarmonyPostfix]
         private static void UpdateCrossHair(CrossHair __instance, ref PickupItem pickupItem)
         {

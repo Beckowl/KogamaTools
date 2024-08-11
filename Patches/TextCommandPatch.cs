@@ -3,17 +3,29 @@ using KogamaTools.Command;
 
 namespace KogamaTools.Patches
 {
+    [HarmonyPatch(typeof(TextCommand))]
     internal static class TextCommandPatch
     {
-        [HarmonyPatch(typeof(TextCommand), "Resolve")]
+        [HarmonyPatch("Resolve")]
         [HarmonyPrefix]
         private static bool Resolve(ref string commandLine)
         {
-            if (CommandHandler.TryExecuteCommand(commandLine))
+            TextCommand.Command command = commandLine;
+            string text = command.Name.ToLower();
+            if (text != null)
             {
-                return false;
+                if (text == "/abctest" || text == "/assetbundlecachetest")
+                {
+                    TextCommand.Command_AssetBundleCacheTest(command);
+                    return false;
+                }
+                if (CommandHandler.TryExecuteCommand(commandLine))
+                {
+                    return false;
+                }
             }
-            return true;
+            TextCommand.Command_Invalid(command);
+            return false;
         }
     }
 }

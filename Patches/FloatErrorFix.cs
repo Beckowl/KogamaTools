@@ -2,9 +2,10 @@
 
 namespace KogamaTools.Patches
 {
+    [HarmonyPatch(typeof(MV.WorldObject.MVMath))]
     internal static class FloatErrorFix
     {
-        [HarmonyPatch(typeof(MV.WorldObject.MVMath), "TryValidateFloat")]
+        [HarmonyPatch("TryValidateFloat")]
         [HarmonyPrefix]
         private static bool TryValidateFloat(ref float f, ref float __result)
         {
