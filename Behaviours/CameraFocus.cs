@@ -2,22 +2,20 @@
 
 namespace KogamaTools.Behaviours
 {
-    // TODO: Add a command for this??? not sure
     internal class CameraFocus : MonoBehaviour
     {
         public CameraFocus(IntPtr handle) : base(handle) { }
 
         private float sensitivityMultiplier = 0.2f;
         private float zoomSpeed = 5f;
-        private float originalFOV = 60;
+        private float originalFOV = 60f;
         private float targetFOV = 30f;
         private float originalSensitivity; // is this actually needed? idk but i'm storing it just in case
         private bool isZooming = false;
+        private float currentVelocity = 0f;
 
         private void Update()
         {
-            //KogamaTools.mls.LogInfo($"Game FOV: {MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView}");
-            //KogamaTools.mls.LogInfo($"Mouse Sensitivity: {MVInputWrapper.MouseSensitivityModifier}");
             if (MVGameControllerBase.Game != null && MVGameControllerBase.Game.IsPlaying)
             {
                 HandleFocus();
@@ -27,11 +25,9 @@ namespace KogamaTools.Behaviours
 
         private void HandleFocus()
         {
-            KogamaTools.mls.LogInfo(MVInputWrapper.MouseSensitivityModifier);
             if (MVInputWrapper.GetBooleanControlDown(KogamaControls.PointerSelectAlt))
             {
                 originalSensitivity = MVInputWrapper.MouseSensitivityModifier;
-
                 MVInputWrapper.MouseSensitivityModifier *= sensitivityMultiplier;
                 isZooming = true;
             }
@@ -44,20 +40,12 @@ namespace KogamaTools.Behaviours
 
         private void DoZoom()
         {
-            if (isZooming)
-            {
-                MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView = Mathf.Lerp(
-                    MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView,
-                    targetFOV,
-                    Time.deltaTime * zoomSpeed);
-            }
-            else
-            {
-                MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView = Mathf.Lerp(
-                    MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView,
-                    originalFOV,
-                    Time.deltaTime * zoomSpeed);
-            }
+            float targetValue = isZooming ? targetFOV : originalFOV;
+            MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView = Mathf.SmoothDamp(
+                MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView,
+                targetValue,
+                ref currentVelocity,
+                1 / zoomSpeed);
         }
     }
 }
