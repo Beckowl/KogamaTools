@@ -8,31 +8,24 @@ namespace KogamaTools.Patches
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomGridEnabled");
         internal static float GridSize = ConfigHelper.GetConfigValue<float>("GridSize");
 
-        [HarmonyPatch(typeof(ESTranslate))]
-        private static class ESTranslatePatch
+        [HarmonyPatch(typeof(ESTranslate), "Execute")]
+        [HarmonyPrefix]
+        static void Execute(ESTranslate __instance)
         {
-            [HarmonyPatch("Execute")]
-            [HarmonyPrefix]
-            static void Execute(ESTranslate __instance)
+            if (Enabled)
             {
-                if (Enabled)
-                {
-                    __instance.gridSize = GridSize;
-                }
+                __instance.gridSize = GridSize;
             }
         }
 
-        [HarmonyPatch(typeof(MVWorldObjectClient))]
-        private static class MVWorldObjectClientPatch
+
+        [HarmonyPatch(typeof(MVWorldObjectClient), "GetClosestGridPoint")]
+        [HarmonyPrefix]
+        static void GetClosestGridPoint(ref float gridSize)
         {
-            [HarmonyPatch("GetClosestGridPoint")]
-            [HarmonyPrefix]
-            static void GetClosestGridPoint(ref float gridSize)
+            if (Enabled)
             {
-                if (Enabled)
-                {
-                    gridSize = GridSize;
-                }
+                gridSize = GridSize;
             }
         }
     }

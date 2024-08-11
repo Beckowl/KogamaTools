@@ -3,15 +3,15 @@ using KogamaTools.Helpers;
 
 namespace KogamaTools.Patches
 {
-    [HarmonyPatch(typeof(MainCameraManager))]
     internal static class CameraPatch
     {
         internal static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
-        internal static bool CustomFOVEnabled = false;
-        internal static bool CustomFOVSurpressed = false;
-        internal static float CustomFOV = 60;
+        internal static bool CustomFOVEnabled = ConfigHelper.GetConfigValue<bool>("CustomFOVEnabled");
+        internal static float CustomFOV = ConfigHelper.GetConfigValue<float>("FOV");
 
-        [HarmonyPatch("UpdateCamera")]
+        internal static bool CustomFOVSurpressed = false;
+
+        [HarmonyPatch(typeof(MainCameraManager), "UpdateCamera")]
         [HarmonyPostfix]
         private static void UpdateCamera(MainCameraManager __instance)
         {
@@ -20,9 +20,6 @@ namespace KogamaTools.Patches
             {
                 __instance.FieldOfView = CustomFOV;
             }
-
-            // TODO: Add "/fog" command;
-            // RenderSettings.fog = false;
         }
     }
 }

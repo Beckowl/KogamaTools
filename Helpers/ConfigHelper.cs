@@ -13,8 +13,7 @@ namespace KogamaTools.Helpers
             configEntries[key] = entry;
         }
 
-        // TODO: MOVE CONFIG DEFAULTS TO A SEPARATE FILE ASAP
-        // Define default keybinds
+        // TODO: Use attributes for config bindings
         public static void BindConfigs()
         {
             // BUILD MODE

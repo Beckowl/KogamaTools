@@ -2,7 +2,6 @@
 
 namespace KogamaTools.Patches
 {
-    [HarmonyPatch(typeof(MVWorldObjectClient))]
     internal static class ForceFlags
     {
         internal static ulong Flags = 0;
@@ -27,7 +26,7 @@ namespace KogamaTools.Patches
             return (Flags & (ulong)flag) == (ulong)flag;
         }
 
-        [HarmonyPatch("HasInteractionFlag")]
+        [HarmonyPatch(typeof(MVWorldObjectClient), "HasInteractionFlag")]
         [HarmonyPostfix]
         private static void HasInteractionFlag(ref InteractionFlags flag, MVWorldObjectClient __instance, ref bool __result)
         {

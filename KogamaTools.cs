@@ -5,6 +5,7 @@ using HarmonyLib;
 using KogamaTools.Behaviours;
 using KogamaTools.Command;
 using KogamaTools.Helpers;
+using KogamaTools.UI;
 
 namespace KogamaTools
 {

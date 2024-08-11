@@ -18,27 +18,18 @@ namespace KogamaTools.Patches
             return true;
         }
 
-        [HarmonyPatch(typeof(DesktopPlayModeController))]
-        private static class DesktopPlayModeControllerPatch
+        [HarmonyPatch(typeof(DesktopPlayModeController), "Respawn")]
+        [HarmonyPrefix]
+        static bool Respawn()
         {
-
-            [HarmonyPatch("Respawn")]
-            [HarmonyPrefix]
-            static bool Respawn()
-            {
-                return RespawnPlayer();
-            }
+            return RespawnPlayer();
         }
 
-        [HarmonyPatch(typeof(DeathUIController))]
-        private static class DeathUIControllerPatch
+        [HarmonyPatch(typeof(DeathUIController), "OnLocalPlayerKilled")]
+        [HarmonyPrefix]
+        static bool OnLocalPlayerKilled()
         {
-            [HarmonyPatch("OnLocalPlayerKilled")]
-            [HarmonyPrefix]
-            static bool OnLocalPlayerKilled()
-            {
-                return RespawnPlayer();
-            }
+            return RespawnPlayer();
         }
     }
 }
