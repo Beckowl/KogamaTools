@@ -4,7 +4,7 @@ using KogamaTools.Helpers;
 namespace KogamaTools.Patches
 {
     [HarmonyPatch(typeof(MainCameraManager))]
-    internal static class Camera
+    internal static class CameraPatch
     {
         internal static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
 

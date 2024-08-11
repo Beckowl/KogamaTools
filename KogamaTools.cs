@@ -32,6 +32,10 @@ namespace KogamaTools
 
             AddComponent<CameraFocus>();
 
+            KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
+            Task.Run(overlay.Start().Wait);
+
+
             mls.LogInfo("KogamaTools isloaded, yay!");
         }
     }

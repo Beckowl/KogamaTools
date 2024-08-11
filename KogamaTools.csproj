@@ -4,7 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClickableTransparentOverlay" Version="6.2.1" />
+  </ItemGroup>
 	<ItemGroup>
 		<Reference Include="0Harmony">
 			<HintPath>Lib\0Harmony.dll</HintPath>

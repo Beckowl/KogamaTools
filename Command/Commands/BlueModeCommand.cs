@@ -12,8 +12,8 @@ namespace KogamaTools.Command.Commands
 
         private void Toggle()
         {
-            Camera.BlueModeEnabled = !Camera.BlueModeEnabled;
-            NotificationHelper.NotifySuccess($"Blue mode {(Camera.BlueModeEnabled ? "enabled" : "disabled")}.");
+            CameraPatch.BlueModeEnabled = !CameraPatch.BlueModeEnabled;
+            NotificationHelper.NotifySuccess($"Blue mode {(CameraPatch.BlueModeEnabled ? "enabled" : "disabled")}.");
         }
     }
 }
