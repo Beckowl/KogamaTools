@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Il2CppSystem.Resources;
+﻿using System.Numerics;
 using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Patches;
@@ -19,18 +13,31 @@ namespace KogamaTools.UI.Headers
             if (ImGui.CollapsingHeader("PvP"))
             {
                 ImGui.PushItemWidth(100);
+
                 ImGui.Checkbox("Fast respawn", ref FastRespawn.Enabled);
-                ImGui.Checkbox("Camera Focus", ref CameraFocus.instance.enabled);
+                ImGui.Checkbox("Camera Focus", ref CameraFocus.Enabled);
+
+                if (CameraFocus.Enabled)
+                {
+                    ImGui.InputFloat("Fov multiplier", ref CameraFocus.FOVMultiplier);
+                    ImGui.InputFloat("Sensitivity multiplier", ref CameraFocus.SensitivityMultiplier);
+                    ImGui.InputFloat("Zoom speed", ref CameraFocus.ZoomSpeed);
+                }
+
                 ImGui.Checkbox("Custom FOV", ref CameraPatch.CustomFOVEnabled);
+
                 if (CameraPatch.CustomFOVEnabled)
                 {
                     ImGui.InputFloat("FOV", ref CameraPatch.CustomFOV);
                 }
+
                 ImGui.Checkbox("Custom crosshair color", ref CustomCrossHairColor.Enabled);
+
                 if (CustomCrossHairColor.Enabled)
                 {
                     ImGui.ColorEdit3("Crosshair color", ref CustomCrossHairColor.CrossHairColor);
                 }
+
                 ImGui.PopItemWidth();
             }
         }

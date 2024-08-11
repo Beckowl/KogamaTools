@@ -8,6 +8,7 @@ namespace KogamaTools.Patches
     {
         internal static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
         internal static bool CustomFOVEnabled = false;
+        internal static bool CustomFOVSurpressed = false;
         internal static float CustomFOV = 60;
 
         [HarmonyPatch("UpdateCamera")]
@@ -15,7 +16,7 @@ namespace KogamaTools.Patches
         private static void UpdateCamera(MainCameraManager __instance)
         {
             __instance.BlueModeEnabled = __instance.BlueModeEnabled && BlueModeEnabled;
-            if (CustomFOVEnabled)
+            if (CustomFOVEnabled && !CustomFOVSurpressed)
             {
                 __instance.FieldOfView = CustomFOV;
             }

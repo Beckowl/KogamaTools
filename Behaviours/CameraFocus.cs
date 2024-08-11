@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using KogamaTools.Patches;
+using UnityEngine;
 
 namespace KogamaTools.Behaviours
 {
@@ -6,29 +7,16 @@ namespace KogamaTools.Behaviours
     {
         public CameraFocus(IntPtr handle) : base(handle) { }
 
-        internal static CameraFocus instance;
-        internal bool enabled = true;
-        private float sensitivityMultiplier = 0.2f;
-        private float zoomSpeed = 5f;
-        private float originalFOV = 60f;
-        private float targetFOV = 30f;
-        private float originalSensitivity; // is this actually needed? idk but i'm storing it just in case
+        internal static bool Enabled = true;
+        internal static float SensitivityMultiplier = 0.2f;
+        internal static float FOVMultiplier = 0.5f;
+        internal static float ZoomSpeed = 5f;
+
+        private float originalSensitivity;
+        private float zoomVelocity = 0f;
         private bool isZooming = false;
-        private float currentVelocity = 0f;
 
-        
-
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else if (instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
+        private const float FOVThreshold = 0.001f;
 
         private void Update()
         {
@@ -41,10 +29,15 @@ namespace KogamaTools.Behaviours
 
         private void HandleFocus()
         {
+            if (!Enabled)
+            {
+                return;
+            }
+
             if (MVInputWrapper.GetBooleanControlDown(KogamaControls.PointerSelectAlt))
             {
                 originalSensitivity = MVInputWrapper.MouseSensitivityModifier;
-                MVInputWrapper.MouseSensitivityModifier *= sensitivityMultiplier;
+                MVInputWrapper.MouseSensitivityModifier *= SensitivityMultiplier;
                 isZooming = true;
             }
             else if (MVInputWrapper.GetBooleanControlUp(KogamaControls.PointerSelectAlt))
@@ -56,12 +49,17 @@ namespace KogamaTools.Behaviours
 
         private void DoZoom()
         {
-            float targetValue = isZooming ? targetFOV : originalFOV;
+            float originalFOV = CameraPatch.CustomFOVEnabled ? CameraPatch.CustomFOV : 60f;
+            float targetValue = isZooming ? originalFOV * FOVMultiplier : originalFOV;
+
             MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView = Mathf.SmoothDamp(
                 MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView,
                 targetValue,
-                ref currentVelocity,
-                1 / zoomSpeed);
+                ref zoomVelocity,
+                1 / ZoomSpeed);
+
+            CameraPatch.CustomFOVSurpressed = isZooming || Mathf.Abs(MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView - targetValue) > FOVThreshold;
+
         }
     }
 }
