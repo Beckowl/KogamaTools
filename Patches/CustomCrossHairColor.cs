@@ -7,8 +7,8 @@ namespace KogamaTools.Patches
     [HarmonyPatch(typeof(CrossHair))]
     internal static class CustomCrossHairColor
     {
-        internal static bool CustomColorEnabled = ConfigHelper.GetConfigValue<bool>("CustomCrossHairColorEnabled");
-        internal static Color Color = Color.green;
+        internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomCrossHairColorEnabled");
+        internal static System.Numerics.Vector3 CrossHairColor = new System.Numerics.Vector3(0, 1, 0);
 
         static CustomCrossHairColor()
         {
@@ -20,7 +20,7 @@ namespace KogamaTools.Patches
             bool success = ColorUtility.TryParseHtmlString(htmlString, out Color color);
             if (success)
             {
-                Color = color;
+                CrossHairColor.X = color.r; CrossHairColor.Y = color.g; CrossHairColor.Z = color.b;
             }
             return success;
         }
@@ -29,11 +29,12 @@ namespace KogamaTools.Patches
         [HarmonyPostfix]
         private static void UpdateCrossHair(CrossHair __instance, ref PickupItem pickupItem)
         {
-            if (CustomColorEnabled)
+            if (Enabled)
             {
                 if (__instance.crossHair != null)
                 {
-                    __instance.crossHair.color = Color;
+                    Color customcolor = new Color(CrossHairColor.X, CrossHairColor.Y, CrossHairColor.Z);
+                    __instance.crossHair.color = customcolor;
                 }
             }
         }

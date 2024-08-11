@@ -3,7 +3,6 @@ using ClickableTransparentOverlay;
 using System.Runtime.InteropServices;
 using System.Numerics;
 using KogamaTools.UI.Headers;
-using Il2CppInterop.Runtime;
 
 namespace KogamaTools
 {
@@ -37,6 +36,7 @@ namespace KogamaTools
             ImGui.SetWindowSize(WindowSize);
 
             BuildHeader.Render();
+            PVPHeader.Render();
 
             ImGui.End();
         }

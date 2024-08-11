@@ -13,8 +13,8 @@ namespace KogamaTools.Command.Commands
 
         private void Toggle()
         {
-            CustomCrossHairColor.CustomColorEnabled = !CustomCrossHairColor.CustomColorEnabled;
-            NotificationHelper.NotifySuccess($"Crosshair color {(CustomCrossHairColor.CustomColorEnabled ? "enabled" : "disabled")}.");
+            CustomCrossHairColor.Enabled = !CustomCrossHairColor.Enabled;
+            NotificationHelper.NotifySuccess($"Crosshair color {(CustomCrossHairColor.Enabled ? "enabled" : "disabled")}.");
         }
 
         private void SetColor(string colorStr)

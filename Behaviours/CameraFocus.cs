@@ -6,6 +6,8 @@ namespace KogamaTools.Behaviours
     {
         public CameraFocus(IntPtr handle) : base(handle) { }
 
+        internal static CameraFocus instance;
+        internal bool enabled = true;
         private float sensitivityMultiplier = 0.2f;
         private float zoomSpeed = 5f;
         private float originalFOV = 60f;
@@ -13,6 +15,20 @@ namespace KogamaTools.Behaviours
         private float originalSensitivity; // is this actually needed? idk but i'm storing it just in case
         private bool isZooming = false;
         private float currentVelocity = 0f;
+
+        
+
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
 
         private void Update()
         {
