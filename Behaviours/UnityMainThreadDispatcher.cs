@@ -14,15 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using Il2CppInterop.Runtime.Attributes;
 using UnityEngine;
 
-namespace NobetaTrainer.Behaviours;
+namespace KogamaTools.Behaviours;
 
 /// Author: Pim de Witte (pimdewitte.com) and contributors, https://github.com/PimDeWitte/UnityMainThreadDispatcher
 /// <summary>
@@ -54,7 +51,8 @@ public class UnityMainThreadDispatcher : MonoBehaviour
     {
         lock (ExecutionQueue)
         {
-            ExecutionQueue.Enqueue(() => {
+            ExecutionQueue.Enqueue(() =>
+            {
                 StartCoroutine(action.WrapToIl2Cpp());
             });
         }

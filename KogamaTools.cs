@@ -21,6 +21,7 @@ namespace KogamaTools
 #pragma warning disable CS8618
         internal static ManualLogSource mls;
 #pragma warning restore CS861
+        internal static UnityMainThreadDispatcher unityMainThreadDispatcher;
 
         public override void Load()
         {
@@ -31,9 +32,11 @@ namespace KogamaTools
             harmony.PatchAll();
 
             AddComponent<CameraFocus>();
+            unityMainThreadDispatcher = AddComponent<UnityMainThreadDispatcher>();
 
             KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
             Task.Run(overlay.Start().Wait);
+
 
 
             mls.LogInfo("KogamaTools isloaded, yay!");

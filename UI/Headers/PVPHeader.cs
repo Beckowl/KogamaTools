@@ -1,13 +1,14 @@
 ﻿using System.Numerics;
 using ImGuiNET;
 using KogamaTools.Behaviours;
+using KogamaTools.Helpers;
 using KogamaTools.Patches;
 
 namespace KogamaTools.UI.Headers
 {
     internal static class PVPHeader
     {
-        private static Vector3 color = new Vector3();
+        private static bool antiAFKEnabled = ConfigHelper.GetConfigValue<bool>("AntiAFKEnabled");
         internal static void Render()
         {
             if (ImGui.CollapsingHeader("PvP"))
@@ -15,11 +16,17 @@ namespace KogamaTools.UI.Headers
                 ImGui.PushItemWidth(100);
 
                 ImGui.Checkbox("Fast respawn", ref FastRespawn.Enabled);
+
+                if (ImGui.Checkbox("Anti AFK", ref antiAFKEnabled))
+                {
+                    KogamaTools.unityMainThreadDispatcher.Enqueue(() => AwayMonitor.instance.idleKickEnabled = antiAFKEnabled); // just disabling IdleKickEnabled didn't work for some reason
+                }
+
                 ImGui.Checkbox("Camera Focus", ref CameraFocus.Enabled);
 
                 if (CameraFocus.Enabled)
                 {
-                    ImGui.InputFloat("Fov multiplier", ref CameraFocus.FOVMultiplier);
+                    ImGui.InputFloat("FOV multiplier", ref CameraFocus.FOVMultiplier);
                     ImGui.InputFloat("Sensitivity multiplier", ref CameraFocus.SensitivityMultiplier);
                     ImGui.InputFloat("Zoom speed", ref CameraFocus.ZoomSpeed);
                 }
