@@ -5,33 +5,40 @@ namespace KogamaTools.Patches
     [HarmonyPatch(typeof(MVWorldObjectClient))]
     internal static class ForceFlags
     {
-        internal static ulong Flags = 0;
+        internal static bool Enabled = false;
+        internal static bool Override = false;
+        internal static InteractionFlags Flags;
 
         internal static void AddFlags(InteractionFlags flag)
         {
-            Flags |= (ulong)flag;
+            Flags |= flag;
         }
 
         internal static void RemoveFlags(InteractionFlags flag)
         {
-            Flags &= (ulong)~flag;
+            Flags &= flag;
         }
 
         internal static void ToggleFlags(InteractionFlags flag)
         {
-            Flags ^= (ulong)flag;
+            KogamaTools.mls.LogInfo(Flags);
+            Flags ^= flag;
         }
 
         internal static bool AreFlagsSet(InteractionFlags flag)
         {
-            return (Flags & (ulong)flag) == (ulong)flag;
+            return (Flags & flag) == flag;
         }
 
         [HarmonyPatch("HasInteractionFlag")]
         [HarmonyPostfix]
         private static void HasInteractionFlag(ref InteractionFlags flag, MVWorldObjectClient __instance, ref bool __result)
         {
-            __result = (((ulong)__instance.interactionFlags | Flags) & (ulong)flag) == (ulong)flag;
+            if (!Enabled)
+            {
+                return;
+            }
+            __result = ((Flags | (Override ? InteractionFlags.None : __instance.interactionFlags)) & flag) == flag;
         }
     }
 }

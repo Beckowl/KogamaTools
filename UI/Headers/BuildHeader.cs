@@ -7,6 +7,28 @@ namespace KogamaTools.UI.Headers
     {
         // this is just a big test, do not judge me from this code lol
         // i'm prob going to make a GUI wrapper
+        private static void ShowInteractionFlags()
+        {
+            InteractionFlags[] interactionFlags = (InteractionFlags[])Enum.GetValues(typeof(InteractionFlags));
+            
+            ImGui.Separator();
+            ImGui.Columns(2);
+            for (int i = 0; i < interactionFlags.Length; i++)
+            {
+                bool flagSet = ForceFlags.AreFlagsSet(interactionFlags[i]); // dummy
+
+                if (ImGui.Checkbox(interactionFlags[i].ToString(), ref flagSet))
+                {
+                    ForceFlags.ToggleFlags(interactionFlags[i]);
+                }
+                if (i == interactionFlags.Length / 2)
+                {
+                    ImGui.NextColumn();
+                }
+            }
+            ImGui.Columns(1);
+            ImGui.Separator();
+        }
 
         // long ass method
         internal static void Render() 
@@ -56,6 +78,13 @@ namespace KogamaTools.UI.Headers
 
                 ImGui.Checkbox("Blue mode enabled", ref CameraPatch.BlueModeEnabled);
                 ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
+                ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
+                if (ForceFlags.Enabled)
+                {
+                    ImGui.SameLine();
+                    ImGui.Checkbox("Override", ref ForceFlags.Override);
+                    ShowInteractionFlags();
+                }
                 ImGui.PopItemWidth();
             }
         }
