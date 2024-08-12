@@ -2,9 +2,9 @@
 using ClickableTransparentOverlay;
 using System.Runtime.InteropServices;
 using System.Numerics;
-using KogamaTools.UI.Headers;
+using KogamaTools.GUI.Headers;
 
-namespace KogamaTools
+namespace KogamaTools.GUI
 {
     public class KogamaToolsOverlay : Overlay
     {

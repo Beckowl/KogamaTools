@@ -4,7 +4,7 @@ using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
 using KogamaTools.Patches;
 
-namespace KogamaTools.UI.Headers
+namespace KogamaTools.GUI.Headers
 {
     internal static class PVPHeader
     {

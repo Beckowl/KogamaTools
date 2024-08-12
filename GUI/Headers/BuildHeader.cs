@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
 using KogamaTools.Patches;
 
-namespace KogamaTools.UI.Headers
+namespace KogamaTools.GUI.Headers
 {
     internal static class BuildHeader
     {
@@ -10,7 +10,7 @@ namespace KogamaTools.UI.Headers
         private static void ShowInteractionFlags()
         {
             InteractionFlags[] interactionFlags = (InteractionFlags[])Enum.GetValues(typeof(InteractionFlags));
-            
+
             ImGui.Separator();
             ImGui.Columns(2);
             for (int i = 0; i < interactionFlags.Length; i++)
@@ -31,9 +31,9 @@ namespace KogamaTools.UI.Headers
         }
 
         // long ass method
-        internal static void Render() 
+        internal static void Render()
         {
-           if (ImGui.CollapsingHeader("Build"))
+            if (ImGui.CollapsingHeader("Build"))
             {
                 ImGui.PushItemWidth(100); // set inputFloat size
                 ImGui.Checkbox("No build limit", ref NoLimit.Enabled);
