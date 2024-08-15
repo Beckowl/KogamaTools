@@ -8,21 +8,21 @@ namespace KogamaTools.Patches
     internal static class CustomCrossHairColor
     {
         internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomCrossHairColorEnabled");
-        internal static System.Numerics.Vector3 CrossHairColor = new System.Numerics.Vector3(0, 1, 0);
+        internal static Color CrossHairColor = new Color(0, 1, 0, 1);
 
         static CustomCrossHairColor()
         {
-            SetColorFromHTMLString(ConfigHelper.GetConfigValue<string>("CrosshairColor"));
+            if (ColorHelper.TryParseColorString(ConfigHelper.GetConfigValue<string>("CrosshairColor"), out CrossHairColor))
+            {
+            }
         }
 
-        internal static bool SetColorFromHTMLString(string htmlString)
+        internal static void SetColorFromVector4(System.Numerics.Vector4 color)
         {
-            bool success = ColorUtility.TryParseHtmlString(htmlString, out Color color);
-            if (success)
-            {
-                CrossHairColor.X = color.r; CrossHairColor.Y = color.g; CrossHairColor.Z = color.b;
-            }
-            return success;
+            CrossHairColor.r = color.X;
+            CrossHairColor.g = color.Y;
+            CrossHairColor.b = color.Z;
+            CrossHairColor.a = color.W;
         }
 
         [HarmonyPatch("UpdateCrossHair")]
@@ -33,8 +33,7 @@ namespace KogamaTools.Patches
             {
                 if (__instance.crossHair != null)
                 {
-                    Color customcolor = new Color(CrossHairColor.X, CrossHairColor.Y, CrossHairColor.Z);
-                    __instance.crossHair.color = customcolor;
+                    __instance.crossHair.color = CrossHairColor;
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using KogamaTools.Helpers;
 using KogamaTools.Patches;
+using UnityEngine;
 
 namespace KogamaTools.Command.Commands
 {
@@ -19,7 +20,7 @@ namespace KogamaTools.Command.Commands
 
         private void SetColor(string colorStr)
         {
-            if (CustomCrossHairColor.SetColorFromHTMLString(colorStr))
+            if (ColorHelper.TryParseColorString(colorStr, out CustomCrossHairColor.CrossHairColor))
             {
                 NotificationHelper.NotifySuccess($"Crosshair color set to \"{colorStr}\".");
                 return;

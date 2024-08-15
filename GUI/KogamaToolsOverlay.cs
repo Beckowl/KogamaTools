@@ -6,7 +6,7 @@ using KogamaTools.GUI.Headers;
 
 namespace KogamaTools.GUI
 {
-    public class KogamaToolsOverlay : Overlay
+    internal class KogamaToolsOverlay : Overlay
     {
         private const float DefaultWidth = 400f;
         private const float DefaultHeight = 300f;
@@ -40,6 +40,8 @@ namespace KogamaTools.GUI
 
             ImGui.End();
         }
+
+        
 
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();

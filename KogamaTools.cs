@@ -23,6 +23,7 @@ namespace KogamaTools
         internal static ManualLogSource mls;
 #pragma warning restore CS861
         internal static UnityMainThreadDispatcher unityMainThreadDispatcher;
+        internal static KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
 
         public override void Load()
         {
@@ -35,10 +36,7 @@ namespace KogamaTools
             AddComponent<CameraFocus>();
             unityMainThreadDispatcher = AddComponent<UnityMainThreadDispatcher>();
 
-            KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
             Task.Run(overlay.Start().Wait);
-
-
 
             mls.LogInfo("KogamaTools isloaded, yay!");
         }

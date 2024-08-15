@@ -37,15 +37,18 @@ namespace KogamaTools.GUI.Headers
                 {
                     ImGui.InputFloat("FOV", ref CameraPatch.CustomFOV);
                 }
-
+                ImGui.PopItemWidth();// 100 is too small for rgba colors
+                // popping early because it's the last item, who cares
                 ImGui.Checkbox("Custom crosshair color", ref CustomCrossHairColor.Enabled);
 
                 if (CustomCrossHairColor.Enabled)
                 {
-                    ImGui.ColorEdit3("Crosshair color", ref CustomCrossHairColor.CrossHairColor);
+                    Vector4 crosshaircolor = ColorHelper.ToVector4(CustomCrossHairColor.CrossHairColor);
+                    if (ImGui.ColorEdit4("Crosshair color", ref crosshaircolor))
+                    {
+                        CustomCrossHairColor.SetColorFromVector4(crosshaircolor);
+                    }
                 }
-
-                ImGui.PopItemWidth();
             }
         }
     }
