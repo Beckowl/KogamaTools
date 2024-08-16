@@ -26,16 +26,20 @@ namespace KogamaTools.GUI.Headers
 
                 if (CameraFocus.Enabled)
                 {
+                    ImGui.SameLine();
+                    ImGui.Checkbox("Override rail gun zoom", ref CameraFocus.OverrideRailGunZoom);
+
                     ImGui.InputFloat("FOV multiplier", ref CameraFocus.FOVMultiplier);
                     ImGui.InputFloat("Sensitivity multiplier", ref CameraFocus.SensitivityMultiplier);
                     ImGui.InputFloat("Zoom speed", ref CameraFocus.ZoomSpeed);
+                   
                 }
 
-                ImGui.Checkbox("Custom FOV", ref CameraPatch.CustomFOVEnabled);
+                ImGui.Checkbox("Custom FOV", ref CameraFocus.CustomFOVEnabled);
 
-                if (CameraPatch.CustomFOVEnabled)
+                if (CameraFocus.CustomFOVEnabled)
                 {
-                    ImGui.InputFloat("FOV", ref CameraPatch.CustomFOV);
+                    ImGui.InputFloat("FOV", ref CameraFocus.CustomFOV);
                 }
                 ImGui.PopItemWidth();// 100 is too small for rgba colors
                 // popping early because it's the last item, who cares

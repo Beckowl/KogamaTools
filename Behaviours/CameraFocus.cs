@@ -8,15 +8,16 @@ namespace KogamaTools.Behaviours
         public CameraFocus(IntPtr handle) : base(handle) { }
 
         internal static bool Enabled = true;
+        internal static bool OverrideRailGunZoom = false;
         internal static float SensitivityMultiplier = 0.2f;
+        internal static bool CustomFOVEnabled = false;
+        internal static float CustomFOV = 60;
         internal static float FOVMultiplier = 0.5f;
         internal static float ZoomSpeed = 5f;
 
         private float originalSensitivity;
         private float zoomVelocity = 0f;
         private bool isZooming = false;
-
-        private const float FOVThreshold = 0.001f;
 
         private void Update()
         {
@@ -49,7 +50,7 @@ namespace KogamaTools.Behaviours
 
         private void DoZoom()
         {
-            float originalFOV = CameraPatch.CustomFOVEnabled ? CameraPatch.CustomFOV : 60f;
+            float originalFOV = CustomFOVEnabled ? CustomFOV : 60f;
             float targetValue = isZooming ? originalFOV * FOVMultiplier : originalFOV;
 
             MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView = Mathf.SmoothDamp(
@@ -57,9 +58,6 @@ namespace KogamaTools.Behaviours
                 targetValue,
                 ref zoomVelocity,
                 1 / ZoomSpeed);
-
-            CameraPatch.CustomFOVSurpressed = isZooming || Mathf.Abs(MVGameControllerBase.MainCameraManager.MainCamera.fieldOfView - targetValue) > FOVThreshold;
-
         }
     }
 }

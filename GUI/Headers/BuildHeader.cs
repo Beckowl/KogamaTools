@@ -76,7 +76,7 @@ namespace KogamaTools.GUI.Headers
                     ImGui.InputFloat("Multiplier", ref EditModeMovement.SpeedMult);
                 }
 
-                ImGui.Checkbox("Blue mode enabled", ref CameraPatch.BlueModeEnabled);
+                ImGui.Checkbox("Blue mode enabled", ref BlueMode.BlueModeEnabled);
                 ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
                 ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
                 if (ForceFlags.Enabled)
