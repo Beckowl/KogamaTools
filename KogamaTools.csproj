@@ -57,11 +57,5 @@
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>Lib\UnityEngine.UI.dll</HintPath>
 		</Reference>
-		<Reference Include="UnityEngine.UnityWebRequestModule">
-		  <HintPath>Lib\UnityEngine.UnityWebRequestModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.UnityWebRequestTextureModule">
-		  <HintPath>Lib\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 </Project>
