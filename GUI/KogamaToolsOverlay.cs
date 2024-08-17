@@ -8,9 +8,11 @@ namespace KogamaTools.GUI
 {
     internal class KogamaToolsOverlay : Overlay
     {
-        private const float DefaultWidth = 400f;
+        internal static bool ShouldRenderOverlay = true;
+        private const float DefaultWidth = 416f;
         private const float DefaultHeight = 300f;
         private static readonly Vector2 WindowSize = new Vector2(DefaultWidth, DefaultHeight);
+
 
         private readonly string _windowName;
 
@@ -27,13 +29,13 @@ namespace KogamaTools.GUI
 
         protected override void Render()
         {
-            if (!ShouldRenderOverlay())
+            if (!(ShouldRenderOverlay && IsGameFocused()))
             {
                 return;
             }
 
-            ImGui.Begin(KogamaTools.ModName, ImGuiWindowFlags.NoResize);
-            ImGui.SetWindowSize(WindowSize);
+            ImGui.Begin(KogamaTools.ModName);
+            ImGui.SetWindowSize(WindowSize, ImGuiCond.FirstUseEver);
 
             BuildHeader.Render();
             PVPHeader.Render();
@@ -47,9 +49,9 @@ namespace KogamaTools.GUI
         private static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string? className, string windowName);
+        private static extern IntPtr FindWindow(string? className, string windowName);
 
-        private bool ShouldRenderOverlay()
+        private bool IsGameFocused()
         {
             IntPtr foregroundWindow = GetForegroundWindow();
             return foregroundWindow == FindWindow(null, "KoGaMa") || foregroundWindow == FindWindow(null, _windowName);

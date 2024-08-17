@@ -47,12 +47,21 @@
 		<Reference Include="UnityEngine.CoreModule">
 			<HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
 		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+		  <HintPath>Lib\UnityEngine.ImageConversionModule.dll</HintPath>
+		</Reference>
 		<Reference Include="UnityEngine.ParticleSystemModule">
 		  <HintPath>Lib\UnityEngine.ParticleSystemModule.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>Lib\UnityEngine.UI.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestModule">
+		  <HintPath>Lib\UnityEngine.UnityWebRequestModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestTextureModule">
+		  <HintPath>Lib\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 </Project>
