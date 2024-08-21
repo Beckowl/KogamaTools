@@ -3,6 +3,8 @@ using ClickableTransparentOverlay;
 using System.Runtime.InteropServices;
 using System.Numerics;
 using KogamaTools.GUI.Headers;
+using UnityEngine;
+using KogamaTools.Behaviours;
 
 namespace KogamaTools.GUI
 {
@@ -11,7 +13,7 @@ namespace KogamaTools.GUI
         internal static bool ShouldRenderOverlay = true;
         private const float DefaultWidth = 416f;
         private const float DefaultHeight = 300f;
-        private static readonly Vector2 WindowSize = new Vector2(DefaultWidth, DefaultHeight);
+        private static readonly System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(DefaultWidth, DefaultHeight);
 
 
         private readonly string _windowName;
@@ -43,7 +45,7 @@ namespace KogamaTools.GUI
             ImGui.End();
         }
 
-        
+
 
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();

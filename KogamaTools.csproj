@@ -58,4 +58,7 @@
 			<HintPath>Lib\UnityEngine.UI.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25localappdata%25\KogamaLauncher-WWW\Launcher\Standalone\BepInEx\plugins\KogamaTools\&quot;&#xD;&#xA;" />
+	</Target>
 </Project>

@@ -34,7 +34,7 @@ namespace KogamaTools
             harmony.PatchAll();
 
             AddComponent<CameraFocus>();
-            unityMainThreadDispatcher = AddComponent<UnityMainThreadDispatcher>();
+            AddComponent<OverlayHotkeyListener>();
 
             Task.Run(overlay.Start().Wait);
 
