@@ -1,8 +1,5 @@
-﻿using UnityEngine.Networking;
-using UnityEngine;
-using UnityEngine;
+﻿using UnityEngine;
 using static UnityEngine.ImageConversion;
-using System.Text;
 
 
 namespace KogamaTools.Helpers
@@ -16,7 +13,7 @@ namespace KogamaTools.Helpers
             if (File.Exists(filePath)) // does not work if path has special characters
             {
                 byte[] fileData = File.ReadAllBytes(filePath);
-                tex = new Texture2D(1,1);
+                tex = new Texture2D(1, 1);
                 tex.LoadImage(fileData);
             }
             return tex;

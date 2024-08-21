@@ -3,8 +3,8 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using KogamaTools.Behaviours;
-using KogamaTools.GUI;
 using KogamaTools.Command;
+using KogamaTools.GUI;
 using KogamaTools.Helpers;
 
 namespace KogamaTools

@@ -10,9 +10,9 @@ namespace KogamaTools.Behaviours
         private void Update()
         {
             if (MVInputWrapper.DebugGetKeyDown(KeyCode.F1))
-                {
-                    KogamaToolsOverlay.ShouldRenderOverlay = !KogamaToolsOverlay.ShouldRenderOverlay;
-                }
+            {
+                KogamaToolsOverlay.ShouldRenderOverlay = !KogamaToolsOverlay.ShouldRenderOverlay;
+            }
         }
     }
 }

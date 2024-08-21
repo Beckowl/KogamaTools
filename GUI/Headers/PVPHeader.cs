@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Text;
+﻿using System.Text;
 using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
