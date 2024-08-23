@@ -50,7 +50,7 @@ namespace KogamaTools.GUI.Menus
 
             if (ImGui.Checkbox("Anti AFK", ref antiAFKEnabled))
             {
-                KogamaTools.unityMainThreadDispatcher.Enqueue(() => AwayMonitor.instance.idleKickEnabled = antiAFKEnabled); // just disabling IdleKickEnabled didn't work for some reason
+               UnityMainThreadDispatcher.Instance.Enqueue(() => AwayMonitor.instance.idleKickEnabled = antiAFKEnabled);
             }
 
             ImGui.Checkbox("Camera Focus", ref CameraFocus.Enabled);

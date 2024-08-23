@@ -35,6 +35,7 @@ namespace KogamaTools
 
             AddComponent<CameraFocus>();
             AddComponent<OverlayHotkeyListener>();
+            AddComponent<UnityMainThreadDispatcher>();
 
             Task.Run(overlay.Start().Wait);
 
