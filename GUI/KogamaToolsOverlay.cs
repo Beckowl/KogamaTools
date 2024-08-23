@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using ClickableTransparentOverlay;
 using ImGuiNET;
-using KogamaTools.GUI.Headers;
+using KogamaTools.GUI.Menus;
 
 namespace KogamaTools.GUI
 {
@@ -36,9 +36,13 @@ namespace KogamaTools.GUI
             ImGui.Begin(KogamaTools.ModName);
             ImGui.SetWindowSize(WindowSize, ImGuiCond.FirstUseEver);
 
-            BuildHeader.Render();
-            PVPHeader.Render();
+            if (ImGui.BeginTabBar("TabBar"))
+            {
+                BuildMenu.Render();
+                PVPMenu.Render();
 
+                ImGui.EndTabBar();
+            }
             ImGui.End();
         }
 
