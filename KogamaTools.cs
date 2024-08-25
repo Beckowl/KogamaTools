@@ -6,6 +6,7 @@ using KogamaTools.Behaviours;
 using KogamaTools.Command;
 using KogamaTools.GUI;
 using KogamaTools.Helpers;
+using UnityEngine;
 
 namespace KogamaTools
 {
@@ -19,24 +20,21 @@ namespace KogamaTools
         ModVersion = "0.1.0";
 
         private readonly Harmony harmony = new Harmony(ModGUID);
-#pragma warning disable CS8618
-        internal static ManualLogSource mls;
-#pragma warning restore CS861
-        internal static UnityMainThreadDispatcher unityMainThreadDispatcher;
+        internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
         internal static KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
 
         public override void Load()
         {
-            mls = Logger.CreateLogSource(ModGUID);
-
             ConfigHelper.BindConfigs();
             CommandHandler.LoadCommands();
+
             harmony.PatchAll();
 
             AddComponent<CameraFocus>();
             AddComponent<OverlayHotkeyListener>();
             AddComponent<UnityMainThreadDispatcher>();
 
+            Application.quitting += (Action)(() => { overlay.Close(); });
             Task.Run(overlay.Start().Wait);
 
             mls.LogInfo("KogamaTools isloaded, yay!");
