@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using KogamaTools.Behaviours;
 using KogamaTools.Patches;
 
 namespace KogamaTools.GUI.Menus
@@ -67,6 +68,14 @@ namespace KogamaTools.GUI.Menus
             }
 
             ImGui.Checkbox("Multi select", ref MultiSelect.ForceSelection);
+            if (MultiSelect.ForceSelection)
+            {
+                ImGui.SameLine();
+                if (ImGui.Button("Group selected objects"))
+                {
+                    ObjectGrouper.GroupSelectedObjects();
+                }
+            }
             ImGui.Checkbox("Movement constraint enabled", ref EditModeMovement.MovementConstraintEnabled);
             ImGui.Checkbox("Speed multiplier", ref EditModeMovement.SpeedMultEnabled);
 

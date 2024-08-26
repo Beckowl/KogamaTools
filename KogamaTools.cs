@@ -13,7 +13,6 @@ namespace KogamaTools
     [BepInPlugin(ModGUID, ModName, ModVersion)]
     public class KogamaTools : BasePlugin
     {
-
         public const string
         ModGUID = "KogamaTools",
         ModName = "KogamaTools",
@@ -33,6 +32,7 @@ namespace KogamaTools
             AddComponent<CameraFocus>();
             AddComponent<OverlayHotkeyListener>();
             AddComponent<UnityMainThreadDispatcher>();
+            AddComponent<ObjectGrouper>();
 
             Application.quitting += (Action)(() => { overlay.Close(); });
             Task.Run(overlay.Start().Wait);
