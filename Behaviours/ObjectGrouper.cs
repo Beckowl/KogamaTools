@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 namespace KogamaTools.Behaviours;
 internal class ObjectGrouper : MonoBehaviour
 {

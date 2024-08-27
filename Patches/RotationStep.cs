@@ -2,22 +2,21 @@
 using KogamaTools.Helpers;
 using UGUI.Desktop.Scripts.EditMode.Gizmo;
 
-namespace KogamaTools.Patches
-{
-    [HarmonyPatch(typeof(RotationHelper))]
-    internal static class RotationStep
-    {
-        internal static float Step = ConfigHelper.GetConfigValue<Single>("RotationStep");
-        internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("RotationStepEnabled");
+namespace KogamaTools.Patches;
 
-        [HarmonyPatch("RotateStep")]
-        [HarmonyPrefix]
-        private static void ApplyRotation(ref float rotationSpeed)
+[HarmonyPatch(typeof(RotationHelper))]
+internal static class RotationStep
+{
+    internal static float Step = ConfigHelper.GetConfigValue<Single>("RotationStep");
+    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("RotationStepEnabled");
+
+    [HarmonyPatch("RotateStep")]
+    [HarmonyPrefix]
+    private static void ApplyRotation(ref float rotationSpeed)
+    {
+        if (Enabled)
         {
-            if (Enabled)
-            {
-                rotationSpeed = Step * Math.Sign(rotationSpeed);
-            }
+            rotationSpeed = Step * Math.Sign(rotationSpeed);
         }
     }
 }

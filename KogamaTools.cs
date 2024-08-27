@@ -8,36 +8,35 @@ using KogamaTools.GUI;
 using KogamaTools.Helpers;
 using UnityEngine;
 
-namespace KogamaTools
+namespace KogamaTools;
+
+[BepInPlugin(ModGUID, ModName, ModVersion)]
+public class KogamaTools : BasePlugin
 {
-    [BepInPlugin(ModGUID, ModName, ModVersion)]
-    public class KogamaTools : BasePlugin
+    public const string
+    ModGUID = "KogamaTools",
+    ModName = "KogamaTools",
+    ModVersion = "0.1.0";
+
+    private readonly Harmony harmony = new Harmony(ModGUID);
+    internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
+    internal static KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
+
+    public override void Load()
     {
-        public const string
-        ModGUID = "KogamaTools",
-        ModName = "KogamaTools",
-        ModVersion = "0.1.0";
+        ConfigHelper.BindConfigs();
+        CommandHandler.LoadCommands();
 
-        private readonly Harmony harmony = new Harmony(ModGUID);
-        internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
-        internal static KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
+        harmony.PatchAll();
 
-        public override void Load()
-        {
-            ConfigHelper.BindConfigs();
-            CommandHandler.LoadCommands();
+        AddComponent<CameraFocus>();
+        AddComponent<OverlayHotkeyListener>();
+        AddComponent<UnityMainThreadDispatcher>();
+        AddComponent<ObjectGrouper>();
 
-            harmony.PatchAll();
+        Application.quitting += (Action)(() => { overlay.Close(); });
+        Task.Run(overlay.Start().Wait);
 
-            AddComponent<CameraFocus>();
-            AddComponent<OverlayHotkeyListener>();
-            AddComponent<UnityMainThreadDispatcher>();
-            AddComponent<ObjectGrouper>();
-
-            Application.quitting += (Action)(() => { overlay.Close(); });
-            Task.Run(overlay.Start().Wait);
-
-            mls.LogInfo("KogamaTools isloaded, yay!");
-        }
+        mls.LogInfo("KogamaTools isloaded, yay!");
     }
 }

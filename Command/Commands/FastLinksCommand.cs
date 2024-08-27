@@ -1,19 +1,18 @@
 ﻿using KogamaTools.Helpers;
 using KogamaTools.Patches;
 
-namespace KogamaTools.Command.Commands
-{
-    internal class FastLinksCommand : BaseCommand
-    {
-        public FastLinksCommand() : base("/fastlinks", "Disables link validation on the client side.")
-        {
-            AddVariant(args => Toggle());
-        }
+namespace KogamaTools.Command.Commands;
 
-        private void Toggle()
-        {
-            FastLinks.Enabled = !FastLinks.Enabled;
-            NotificationHelper.NotifySuccess($"Fast links {(FastLinks.Enabled ? "enabled" : "disabled")}.");
-        }
+internal class FastLinksCommand : BaseCommand
+{
+    public FastLinksCommand() : base("/fastlinks", "Disables link validation on the client side.")
+    {
+        AddVariant(args => Toggle());
+    }
+
+    private void Toggle()
+    {
+        FastLinks.Enabled = !FastLinks.Enabled;
+        NotificationHelper.NotifySuccess($"Fast links {(FastLinks.Enabled ? "enabled" : "disabled")}.");
     }
 }

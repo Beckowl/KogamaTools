@@ -1,18 +1,17 @@
 ﻿using KogamaTools.GUI;
 using UnityEngine;
 
-namespace KogamaTools.Behaviours
-{
-    internal class OverlayHotkeyListener : MonoBehaviour
-    {
-        public OverlayHotkeyListener(IntPtr handle) : base(handle) { }
+namespace KogamaTools.Behaviours;
 
-        private void Update()
+internal class OverlayHotkeyListener : MonoBehaviour
+{
+    public OverlayHotkeyListener(IntPtr handle) : base(handle) { }
+
+    private void Update()
+    {
+        if (MVInputWrapper.DebugGetKeyDown(KeyCode.F1))
         {
-            if (MVInputWrapper.DebugGetKeyDown(KeyCode.F1))
-            {
-                KogamaToolsOverlay.ShouldRenderOverlay = !KogamaToolsOverlay.ShouldRenderOverlay;
-            }
+            KogamaToolsOverlay.ShouldRenderOverlay = !KogamaToolsOverlay.ShouldRenderOverlay;
         }
     }
 }

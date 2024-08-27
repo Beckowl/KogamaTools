@@ -1,48 +1,47 @@
-﻿namespace KogamaTools.Command
+﻿namespace KogamaTools.Command;
+
+internal class CommandVariant
 {
-    internal class CommandVariant
+    public List<Type> ArgumentTypes { get; }
+    private readonly Action<object[]> Callback;
+    public string Usage { get; set; } = "";
+
+    public CommandVariant(List<Type> argumentTypes, Action<object[]> callback)
     {
-        public List<Type> ArgumentTypes { get; }
-        private readonly Action<object[]> Callback;
-        public string Usage { get; set; } = "";
+        ArgumentTypes = argumentTypes;
+        Callback = callback;
+    }
 
-        public CommandVariant(List<Type> argumentTypes, Action<object[]> callback)
+    public void SetUsage(string usage)
+    {
+        Usage = usage;
+    }
+
+    public bool TryParseArgs(string[] args, out object[] parsedArgs)
+    {
+        parsedArgs = new object[args.Length];
+
+        if (args.Length != ArgumentTypes.Count)
         {
-            ArgumentTypes = argumentTypes;
-            Callback = callback;
+            return false;
         }
 
-        public void SetUsage(string usage)
+        for (int i = 0; i < args.Length; i++)
         {
-            Usage = usage;
-        }
-
-        public bool TryParseArgs(string[] args, out object[] parsedArgs)
-        {
-            parsedArgs = new object[args.Length];
-
-            if (args.Length != ArgumentTypes.Count)
+            try
+            {
+                parsedArgs[i] = Convert.ChangeType(args[i], ArgumentTypes[i]);
+            }
+            catch
             {
                 return false;
             }
-
-            for (int i = 0; i < args.Length; i++)
-            {
-                try
-                {
-                    parsedArgs[i] = Convert.ChangeType(args[i], ArgumentTypes[i]);
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            return true;
         }
+        return true;
+    }
 
-        public void Execute(object[] args)
-        {
-            Callback(args);
-        }
+    public void Execute(object[] args)
+    {
+        Callback(args);
     }
 }
