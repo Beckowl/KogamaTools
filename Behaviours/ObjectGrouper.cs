@@ -20,7 +20,7 @@ internal class ObjectGrouper : MonoBehaviour
 
     private void Update()
     {
-        if (MVGameControllerBase.IsInitialized)
+        if (MVGameControllerBase.IsInitialized && MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
         {
             if (controller == null)
             {
