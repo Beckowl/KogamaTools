@@ -2,7 +2,7 @@
 using KogamaTools.Helpers;
 using UnityEngine;
 
-namespace KogamaTools.Features.Build;
+namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
 internal static class EditModeMovement

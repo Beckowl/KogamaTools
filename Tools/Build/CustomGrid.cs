@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
 
-namespace KogamaTools.Features.Build;
+namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
 internal static class CustomGrid

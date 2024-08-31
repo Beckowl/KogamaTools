@@ -2,7 +2,7 @@
 using KogamaTools.Helpers;
 using UGUI.Desktop.Scripts.EditMode.Gizmo;
 
-namespace KogamaTools.Features.Build;
+namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
 internal static class RotationStep

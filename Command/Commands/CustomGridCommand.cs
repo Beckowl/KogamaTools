@@ -1,5 +1,5 @@
-﻿using KogamaTools.Features.Build;
-using KogamaTools.Helpers;
+﻿using KogamaTools.Helpers;
+using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 

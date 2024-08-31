@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace KogamaTools.Features.Misc;
+namespace KogamaTools.Tools.Misc;
 
 [HarmonyPatch]
 internal static class NoCheatHandling

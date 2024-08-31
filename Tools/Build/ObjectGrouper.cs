@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace KogamaTools.Features.Build;
+namespace KogamaTools.Tools.Build;
 internal class ObjectGrouper : MonoBehaviour
 {
     private static FSMEntity editModeStateMachine;

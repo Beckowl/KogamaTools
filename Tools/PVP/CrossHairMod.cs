@@ -3,7 +3,7 @@ using KogamaTools.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace KogamaTools.Features.PVP;
+namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
 internal class CrossHairMod

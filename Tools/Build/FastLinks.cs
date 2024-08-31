@@ -3,7 +3,7 @@ using KogamaTools.Helpers;
 using MV.WorldObject;
 using static LogicObjectManager;
 
-namespace KogamaTools.Features.Build;
+namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
 internal static class FastLinks

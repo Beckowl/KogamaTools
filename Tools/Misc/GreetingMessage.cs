@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
 
-namespace KogamaTools.Features.Misc;
+namespace KogamaTools.Tools.Misc;
 
 [HarmonyPatch]
 internal static class GreetingMessage

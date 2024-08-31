@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace KogamaTools.Features.PVP;
+namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
 internal static class CameraMod

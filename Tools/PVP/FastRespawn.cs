@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
 
-namespace KogamaTools.Features.PVP;
+namespace KogamaTools.Tools.PVP;
 
 internal static class FastRespawn
 {

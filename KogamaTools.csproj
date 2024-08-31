@@ -59,7 +59,7 @@
 		</Reference>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Features\GraphicsSettings\" />
+	  <Folder Include="Tools\GraphicsSettings\" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25localappdata%25\KogamaLauncher-WWW\Launcher\Standalone\BepInEx\plugins\KogamaTools\&quot;&#xD;&#xA;" />

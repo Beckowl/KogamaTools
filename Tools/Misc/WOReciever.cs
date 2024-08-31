@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace KogamaTools.Features.Misc;
+namespace KogamaTools.Tools.Misc;
 
 [HarmonyPatch]
 internal static class WOReciever
@@ -13,7 +13,7 @@ internal static class WOReciever
 
     [HarmonyPatch(typeof(WorldNetwork), "CreateQueryEvent")]
     [HarmonyPostfix]
-    private static void AddToWorldObjects(MVWorldObjectClient root, int instigatorActorNumber)
+    private static void CreateQueryEvent(MVWorldObjectClient root, int instigatorActorNumber)
     {
         if (MVGameControllerBase.IsInitialized)
         {
