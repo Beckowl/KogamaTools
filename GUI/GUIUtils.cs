@@ -25,8 +25,8 @@ internal static class GUIUtils
     private static bool RenderString(string label, ref object value)
     {
         string tmp = (string)value;
-        if (ImGui.InputText(label, ref tmp, maxStringLength)) 
-        { 
+        if (ImGui.InputText(label, ref tmp, maxStringLength))
+        {
             value = tmp;
             return true;
         }

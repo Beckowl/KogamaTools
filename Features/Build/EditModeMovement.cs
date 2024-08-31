@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode))]
+[HarmonyPatch]
 internal static class EditModeMovement
 {
     internal static float SpeedMult = ConfigHelper.GetConfigValue<float>("SpeedMult");
     internal static bool SpeedMultEnabled = ConfigHelper.GetConfigValue<bool>("SpeedMultEnabled");
     internal static bool MovementConstraintEnabled = ConfigHelper.GetConfigValue<bool>("MovementConstraintEnabled");
 
-    [HarmonyPatch("MoveCharacter")]
+    [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode), "MoveCharacter")]
     [HarmonyPrefix]
     private static void MoveCharacter(ref Vector3 moveDelta, MVBuildModeAvatarLocal.EditMode __instance)
     {

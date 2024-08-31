@@ -2,34 +2,34 @@
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(SelectionController))]
+[HarmonyPatch]
 internal static class MultiSelect
 {
     internal static bool ForceSelection = false;
 
 
-    [HarmonyPatch("Select", new Type[] { typeof(VoxelHit), typeof(bool), typeof(bool) })]
+    [HarmonyPatch(typeof(SelectionController), "Select", new Type[] { typeof(VoxelHit), typeof(bool), typeof(bool) })]
     [HarmonyPrefix]
     private static void Select(ref bool addToSelection)
     {
         addToSelection = ForceSelection;
     }
 
-    [HarmonyPatch("DeSelectAll")]
+    [HarmonyPatch(typeof(SelectionController), "DeSelectAll")]
     [HarmonyPrefix]
     private static bool DeSelectAll()
     {
         return CanDeselect();
     }
 
-    [HarmonyPatch("DeSelectWorldObject")]
+    [HarmonyPatch(typeof(SelectionController), "DeSelectWorldObject")]
     [HarmonyPrefix]
     private static bool DeSelectWorldObject()
     {
         return CanDeselect();
     }
 
-    [HarmonyPatch("DeSelectAllExcept")]
+    [HarmonyPatch(typeof(SelectionController), "DeSelectAllExcept")]
     [HarmonyPrefix]
     private static bool DeSelectAllExcept()
     {

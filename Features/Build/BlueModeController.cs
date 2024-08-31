@@ -3,12 +3,12 @@ using KogamaTools.Helpers;
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(MainCameraManager))]
+[HarmonyPatch]
 internal static class BlueModeController
 {
     internal static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
 
-    [HarmonyPatch("UpdateCamera")]
+    [HarmonyPatch(typeof(MainCameraManager), "UpdateCamera")]
     [HarmonyPostfix]
     private static void UpdateCamera(MainCameraManager __instance)
     {

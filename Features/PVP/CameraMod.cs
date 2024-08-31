@@ -1,8 +1,9 @@
-﻿using KogamaTools.Helpers;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace KogamaTools.Features.PVP;
 
+[HarmonyPatch]
 internal static class CameraMod
 {
     internal static bool CustomFOVEnabled = false;
@@ -72,5 +73,48 @@ internal static class CameraMod
                 ref zoomVelocity,
                 1 / FocusSettings.FocusSpeed);
         }
+    }
+
+    // Rail gun FOV fix
+
+    [HarmonyPatch(typeof(PickupItemRailGun), "DoChargingAnimation")]
+    [HarmonyPrefix]
+    private static bool DoChargingAnimation(PickupItemRailGun __instance)
+    {
+        if (!FocusSettings.OverrideRailGunZoom)
+        {
+            return true;
+        }
+        __instance.currentCharge = __instance.chargeCurve.Evaluate((Time.time - __instance.chargeBeginTime) / __instance.curveChargeLength);
+        __instance.chargeAudioSource.pitch = 0.2f + __instance.currentCharge;
+        __instance.chargeParticles.time = __instance.currentCharge;
+
+        return false;
+    }
+
+    [HarmonyPatch(typeof(PickupItemRailGun), "Update")]
+    [HarmonyPrefix]
+    private static bool Update(PickupItemRailGun __instance)
+    {
+        if (__instance.isCharging)
+        {
+            __instance.DoChargingAnimation();
+            if (!__instance.chargeAudioSource.isPlaying)
+            {
+                __instance.chargeAudioSource.Play();
+            }
+            if (!__instance.chargeParticles.isPlaying)
+            {
+                __instance.chargeParticles.Play();
+            }
+        }
+        else
+        {
+            if (__instance.chargeParticles.isPlaying)
+            {
+                __instance.chargeParticles.Stop();
+            }
+        }
+        return false;
     }
 }

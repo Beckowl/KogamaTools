@@ -3,12 +3,12 @@ using KogamaTools.Helpers;
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(PaintCubes))]
+[HarmonyPatch]
 internal static class SingleSidePainting
 {
     internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("SingleSidePaintingEnabled");
 
-    [HarmonyPatch("Execute")]
+    [HarmonyPatch(typeof(PaintCubes), "Execute")]
     [HarmonyPrefix]
     static bool ReplaceCube(PaintCubes __instance, ref CubeModelingStateMachine e)
     {

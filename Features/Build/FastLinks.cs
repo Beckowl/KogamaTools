@@ -5,12 +5,12 @@ using static LogicObjectManager;
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(LogicObjectManager))]
+[HarmonyPatch]
 internal static class FastLinks
 {
     internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("FastLinksEnabled");
 
-    [HarmonyPatch("ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool) },
+    [HarmonyPatch(typeof(LogicObjectManager), "ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool) },
                 new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref })]
     [HarmonyPrefix]
     public static bool ValidateLink(ref bool loopDetected)
@@ -23,7 +23,7 @@ internal static class FastLinks
         return true;
     }
 
-    [HarmonyPatch("ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(ReportSeverity) },
+    [HarmonyPatch(typeof(LogicObjectManager), "ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(ReportSeverity) },
         new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
     [HarmonyPrefix]
     public static bool ValidateLink(ref ValidateLinkStatus __result, ref ReportSeverity reportSeverity)

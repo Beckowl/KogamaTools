@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(MVWorldObjectClient))]
+[HarmonyPatch]
 internal static class ForceFlags
 {
     internal static bool Enabled = false;
@@ -30,7 +30,7 @@ internal static class ForceFlags
         return (Flags & flag) == flag;
     }
 
-    [HarmonyPatch("HasInteractionFlag")]
+    [HarmonyPatch(typeof(MVWorldObjectClient), "HasInteractionFlag")]
     [HarmonyPostfix]
     private static void HasInteractionFlag(ref InteractionFlags flag, MVWorldObjectClient __instance, ref bool __result)
     {

@@ -22,11 +22,11 @@ internal static class PVPMenu
 
         if (ImGui.Checkbox("Anti AFK", ref antiAFKEnabled))
         {
-           UnityMainThreadDispatcher.Instance.Enqueue(() =>
-           {
-               AwayMonitor.instance.idleKickEnabled = antiAFKEnabled;
-               AwayMonitor.IdleKickEnabled = antiAFKEnabled;
-           });
+            UnityMainThreadDispatcher.Instance.Enqueue(() =>
+            {
+                AwayMonitor.instance.idleKickEnabled = antiAFKEnabled;
+                AwayMonitor.IdleKickEnabled = antiAFKEnabled;
+            });
         }
 
         ImGui.Checkbox("Camera Focus", ref CameraMod.FocusSettings.CameraFocusEnabled);

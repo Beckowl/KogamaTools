@@ -4,13 +4,14 @@ using UGUI.Desktop.Scripts.EditMode.Gizmo;
 
 namespace KogamaTools.Features.Build;
 
-[HarmonyPatch(typeof(RotationHelper))]
+[HarmonyPatch]
 internal static class RotationStep
 {
     internal static float Step = ConfigHelper.GetConfigValue<float>("RotationStep");
     internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("RotationStepEnabled");
 
-    [HarmonyPatch("RotateStep")]
+
+    [HarmonyPatch(typeof(RotationHelper), "RotateStep")]
     [HarmonyPrefix]
     private static void ApplyRotation(ref float rotationSpeed)
     {

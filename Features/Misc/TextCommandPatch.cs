@@ -3,10 +3,10 @@ using KogamaTools.Command;
 
 namespace KogamaTools.Features.Misc;
 
-[HarmonyPatch(typeof(TextCommand))]
+[HarmonyPatch]
 internal static class TextCommandPatch
 {
-    [HarmonyPatch("Resolve")]
+    [HarmonyPatch(typeof(TextCommand), "Resolve")]
     [HarmonyPrefix]
     private static bool Resolve(ref string commandLine)
     {
@@ -16,6 +16,7 @@ internal static class TextCommandPatch
         {
             return false;
         }
+
         return true;
     }
 }

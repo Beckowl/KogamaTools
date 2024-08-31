@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
 using KogamaTools.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +10,7 @@ internal class CrossHairMod
 {
     internal static bool CustomCrossHairColorEnabled = ConfigHelper.GetConfigValue<bool>("CustomCrossHairColorEnabled");
     internal static Color CrossHairColor = new();
+
     static CrossHairMod()
     {
         ColorHelper.TryParseColorString(ConfigHelper.GetConfigValue<string>("CrosshairColor"), out CrossHairColor);
