@@ -2,12 +2,12 @@
 using KogamaTools.Helpers;
 using UGUI.Desktop.Scripts.EditMode.Gizmo;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.Build;
 
 [HarmonyPatch(typeof(RotationHelper))]
 internal static class RotationStep
 {
-    internal static float Step = ConfigHelper.GetConfigValue<Single>("RotationStep");
+    internal static float Step = ConfigHelper.GetConfigValue<float>("RotationStep");
     internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("RotationStepEnabled");
 
     [HarmonyPatch("RotateStep")]

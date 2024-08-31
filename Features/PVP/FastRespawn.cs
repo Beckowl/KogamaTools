@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.PVP;
 
 internal static class FastRespawn
 {
@@ -9,7 +9,7 @@ internal static class FastRespawn
 
     private static bool RespawnPlayer()
     {
-        if (Enabled && (MVGameControllerBase.Game.IsPlaying))
+        if (Enabled && MVGameControllerBase.Game.IsPlaying)
         {
             MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.SetToSpawnPoint();
             MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.EnterPlayingState();

@@ -1,42 +1,14 @@
 ﻿using System.Text;
 using ImGuiNET;
 using KogamaTools.Behaviours;
+using KogamaTools.Features.PVP;
 using KogamaTools.Helpers;
-using KogamaTools.Patches;
-using UnityEngine;
-
-using UnityEngine.UI;
 
 namespace KogamaTools.GUI.Menus;
 
 internal static class PVPMenu
 {
-
     private static byte[] customCrosshairPath = new byte[1024];
-
-    private static void SetCrosshairTexture(string filePath) // i should move this to somewhere else
-    {
-        UnityMainThreadDispatcher.Instance.Enqueue(() =>
-        {
-            Texture2D tex = TextureHelper.LoadPNG(filePath);
-
-            if (tex == null)
-            {
-                NotificationHelper.NotifyError($"Invalid file path {filePath}.");
-                return;
-            }
-
-            CrossHair crosshair = MVGameControllerBase.PlayModeUI.GetCrossHair().Cast<CrossHair>();
-
-            Image image = crosshair.crossHair;
-            Sprite sprite = image.sprite;
-            Vector2 pivot = sprite.pivot;
-            Rect rect = sprite.rect;
-
-            Sprite newsprite = Sprite.Create(tex, rect, pivot);
-            image.sprite = newsprite;
-        });
-    }
 
     private static bool antiAFKEnabled = ConfigHelper.GetConfigValue<bool>("AntiAFKEnabled");
     internal static void Render()
@@ -50,43 +22,45 @@ internal static class PVPMenu
 
         if (ImGui.Checkbox("Anti AFK", ref antiAFKEnabled))
         {
-           UnityMainThreadDispatcher.Instance.Enqueue(() => AwayMonitor.instance.idleKickEnabled = antiAFKEnabled);
+           UnityMainThreadDispatcher.Instance.Enqueue(() =>
+           {
+               AwayMonitor.instance.idleKickEnabled = antiAFKEnabled;
+               AwayMonitor.IdleKickEnabled = antiAFKEnabled;
+           });
         }
 
-        ImGui.Checkbox("Camera Focus", ref CameraFocus.Enabled);
+        ImGui.Checkbox("Camera Focus", ref CameraMod.FocusSettings.CameraFocusEnabled);
 
-        if (CameraFocus.Enabled)
+        if (CameraMod.FocusSettings.CameraFocusEnabled)
         {
             ImGui.SameLine();
-            ImGui.Checkbox("Override rail gun zoom", ref CameraFocus.OverrideRailGunZoom);
+            ImGui.Checkbox("Override rail gun zoom", ref CameraMod.FocusSettings.OverrideRailGunZoom);
 
-            ImGui.InputFloat("FOV multiplier", ref CameraFocus.FOVMultiplier);
-            ImGui.InputFloat("Sensitivity multiplier", ref CameraFocus.SensitivityMultiplier);
-            ImGui.InputFloat("Zoom speed", ref CameraFocus.ZoomSpeed);
+            ImGui.InputFloat("FOV multiplier", ref CameraMod.FocusSettings.FOVMultiplier);
+            ImGui.InputFloat("Sensitivity multiplier", ref CameraMod.FocusSettings.SensitivityMultiplier);
+            ImGui.InputFloat("Zoom speed", ref CameraMod.FocusSettings.FocusSpeed);
         }
 
-        ImGui.Checkbox("Custom FOV", ref CameraFocus.CustomFOVEnabled);
+        ImGui.Checkbox("Custom FOV", ref CameraMod.CustomFOVEnabled);
 
-        if (CameraFocus.CustomFOVEnabled)
+        if (CameraMod.CustomFOVEnabled)
         {
-            ImGui.InputFloat("FOV", ref CameraFocus.CustomFOV);
+            ImGui.InputFloat("FOV", ref CameraMod.CustomFOV);
         }
 
         ImGui.PopItemWidth();
         ImGui.PushItemWidth(160);
 
-        ImGui.Checkbox("Custom crosshair color", ref CustomCrossHairColor.Enabled);
+        ImGui.Checkbox("Custom crosshair color", ref CrossHairMod.CustomCrossHairColorEnabled);
 
-        if (CustomCrossHairColor.Enabled)
+        if (CrossHairMod.CustomCrossHairColorEnabled)
         {
-            System.Numerics.Vector4 crosshaircolor = ColorHelper.ToVector4(CustomCrossHairColor.CrossHairColor);
+            System.Numerics.Vector4 crosshaircolor = ColorHelper.ToVector4(CrossHairMod.CrossHairColor);
             if (ImGui.ColorEdit4("Crosshair color", ref crosshaircolor))
             {
-                CustomCrossHairColor.SetColorFromVector4(crosshaircolor);
+                CrossHairMod.SetCrossHairColorFromVec4(crosshaircolor);
             }
         }
-
-
 
         ImGui.InputText("Custom crosshair", customCrosshairPath, (uint)customCrosshairPath.Length);
 
@@ -95,8 +69,8 @@ internal static class PVPMenu
         if (ImGui.Button("Load"))
         {
             string path = Encoding.UTF8.GetString(customCrosshairPath).TrimEnd('\0');
+            UnityMainThreadDispatcher.Instance.Enqueue(() => CrossHairMod.SetCrossHairTexture(path));
 
-            SetCrosshairTexture(path);
         }
 
         ImGui.SameLine();

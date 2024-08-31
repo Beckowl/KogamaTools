@@ -6,9 +6,14 @@ namespace KogamaTools.Command;
 
 internal static class CommandHandler
 {
+    static CommandHandler()
+    {
+        LoadCommands();
+    }
+
     private static List<ICommand> commands = new List<ICommand>();
 
-    internal static void LoadCommands()
+    private static void LoadCommands()
     {
         KogamaTools.mls.LogInfo("Loading chat commands...");
         Type interfaceType = typeof(ICommand);

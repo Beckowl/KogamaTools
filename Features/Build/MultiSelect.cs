@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.Build;
 
 [HarmonyPatch(typeof(SelectionController))]
 internal static class MultiSelect

@@ -3,7 +3,7 @@ using KogamaTools.Helpers;
 using MV.WorldObject;
 using static LogicObjectManager;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.Build;
 
 [HarmonyPatch(typeof(LogicObjectManager))]
 internal static class FastLinks
@@ -23,7 +23,7 @@ internal static class FastLinks
         return true;
     }
 
-    [HarmonyPatch("ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(LogicObjectManager.ReportSeverity) },
+    [HarmonyPatch("ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(ReportSeverity) },
         new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
     [HarmonyPrefix]
     public static bool ValidateLink(ref ValidateLinkStatus __result, ref ReportSeverity reportSeverity)

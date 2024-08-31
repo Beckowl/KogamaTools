@@ -1,6 +1,5 @@
 ﻿using ImGuiNET;
-using KogamaTools.Behaviours;
-using KogamaTools.Patches;
+using KogamaTools.Features.Build;
 
 namespace KogamaTools.GUI.Menus;
 
@@ -29,7 +28,6 @@ internal static class BuildMenu
         ImGui.Separator();
     }
 
-    // long ass method
     internal static void Render()
     {
         if (!ImGui.BeginTabItem("Build"))
@@ -84,7 +82,7 @@ internal static class BuildMenu
             ImGui.InputFloat("Multiplier", ref EditModeMovement.SpeedMult);
         }
 
-        ImGui.Checkbox("Blue mode enabled", ref BlueMode.BlueModeEnabled);
+        ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
         ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
         ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
         if (ForceFlags.Enabled)

@@ -2,12 +2,12 @@
 using KogamaTools.Helpers;
 using UnityEngine;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.Build;
 
 [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode))]
 internal static class EditModeMovement
 {
-    internal static float SpeedMult = ConfigHelper.GetConfigValue<Single>("SpeedMult");
+    internal static float SpeedMult = ConfigHelper.GetConfigValue<float>("SpeedMult");
     internal static bool SpeedMultEnabled = ConfigHelper.GetConfigValue<bool>("SpeedMultEnabled");
     internal static bool MovementConstraintEnabled = ConfigHelper.GetConfigValue<bool>("MovementConstraintEnabled");
 

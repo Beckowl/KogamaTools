@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using KogamaTools.Command;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.Misc;
 
 [HarmonyPatch(typeof(TextCommand))]
 internal static class TextCommandPatch

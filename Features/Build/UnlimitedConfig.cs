@@ -2,7 +2,7 @@
 using KogamaTools.Helpers;
 using UnityEngine;
 
-namespace KogamaTools.Patches;
+namespace KogamaTools.Features.Build;
 
 internal static class UnlimitedConfig
 {

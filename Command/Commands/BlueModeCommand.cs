@@ -1,5 +1,5 @@
-﻿using KogamaTools.Helpers;
-using KogamaTools.Patches;
+﻿using KogamaTools.Features.Build;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Command.Commands;
 
@@ -12,7 +12,7 @@ internal class BlueModeCommand : BaseCommand
 
     private void Toggle()
     {
-        BlueMode.BlueModeEnabled = !BlueMode.BlueModeEnabled;
-        NotificationHelper.NotifySuccess($"Blue mode {(BlueMode.BlueModeEnabled ? "enabled" : "disabled")}.");
+        BlueModeController.BlueModeEnabled = !BlueModeController.BlueModeEnabled;
+        NotificationHelper.NotifySuccess($"Blue mode {(BlueModeController.BlueModeEnabled ? "enabled" : "disabled")}.");
     }
 }

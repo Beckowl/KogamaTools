@@ -5,6 +5,12 @@ namespace KogamaTools.Helpers;
 
 internal static class ConfigHelper
 {
+
+    static ConfigHelper()
+    {
+        BindConfigs();
+    }
+
     private static ConfigFile configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, $"{KogamaTools.ModName}.cfg"), true);
     private static Dictionary<string, object> configEntries = new Dictionary<string, object>();
 
@@ -16,7 +22,7 @@ internal static class ConfigHelper
 
     // TODO: MOVE CONFIG DEFAULTS TO A SEPARATE FILE ASAP
     // Define default keybinds
-    public static void BindConfigs()
+    private static void BindConfigs()
     {
         // BUILD MODE
 
