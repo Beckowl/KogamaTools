@@ -9,15 +9,15 @@ internal static class WOReciever
     // can't use it because of il2cpp weirdness
 
     internal static OnWORecievedDelegate OnWORecieved = delegate { };
-    internal delegate void OnWORecievedDelegate(MVWorldObjectClient wo);
+    internal delegate void OnWORecievedDelegate(MVWorldObjectClient wo, int instigatorActorNumber);
 
-    [HarmonyPatch(typeof(MVWorldObjectClientManagerNetwork), "AddToWorldObjects")]
+    [HarmonyPatch(typeof(WorldNetwork), "CreateQueryEvent")]
     [HarmonyPostfix]
-    private static void AddToWorldObjects(MVWorldObjectClient wo)
+    private static void AddToWorldObjects(MVWorldObjectClient root, int instigatorActorNumber)
     {
         if (MVGameControllerBase.IsInitialized)
         {
-            OnWORecieved.Invoke(wo);
+            OnWORecieved.Invoke(root, instigatorActorNumber);
         }
     }
 }
