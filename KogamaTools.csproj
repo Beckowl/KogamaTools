@@ -12,55 +12,51 @@
     <PackageReference Include="ClickableTransparentOverlay" Version="6.2.1" />
   </ItemGroup>
 	<ItemGroup>
-		<Reference Include="0Harmony">
-			<HintPath>Lib\0Harmony.dll</HintPath>
-		</Reference>
-		<Reference Include="Assembly-CSharp">
-			<HintPath>Lib\Assembly-CSharp.dll</HintPath>
-		</Reference>
-		<Reference Include="BepInEx.Core">
-			<HintPath>Lib\BepInEx.Core.dll</HintPath>
-		</Reference>
-		<Reference Include="BepInEx.Unity.IL2CPP">
-			<HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
-		</Reference>
-		<Reference Include="Il2CppInterop.Runtime">
-			<HintPath>Lib\Il2CppInterop.Runtime.dll</HintPath>
-		</Reference>
-		<Reference Include="Il2Cppmscorlib">
-			<HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
-		</Reference>
-		<Reference Include="Il2CppSystem.Core">
-			<HintPath>Lib\Il2CppSystem.Core.dll</HintPath>
-		</Reference>
-		<Reference Include="MVCommon">
-			<HintPath>Lib\MVCommon.dll</HintPath>
-		</Reference>
-		<Reference Include="MVWorldObject">
-			<HintPath>Lib\MVWorldObject.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine">
-			<HintPath>Lib\UnityEngine.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.AudioModule">
-		  <HintPath>Lib\UnityEngine.AudioModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.CoreModule">
-			<HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.ImageConversionModule">
-		  <HintPath>Lib\UnityEngine.ImageConversionModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.ParticleSystemModule">
-		  <HintPath>Lib\UnityEngine.ParticleSystemModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>Lib\UnityEngine.UI.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Tools\GraphicsSettings\" />
+	  <Reference Include="0Harmony">
+	    <HintPath>Lib\0Harmony.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Assembly-CSharp">
+	    <HintPath>Lib\Assembly-CSharp.dll</HintPath>
+	  </Reference>
+	  <Reference Include="BepInEx.Core">
+	    <HintPath>Lib\BepInEx.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="BepInEx.Unity.IL2CPP">
+	    <HintPath>Lib\BepInEx.Unity.IL2CPP.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Il2CppInterop.Runtime">
+	    <HintPath>Lib\Il2CppInterop.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Il2Cppmscorlib">
+	    <HintPath>Lib\Il2Cppmscorlib.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Il2CppSystem.Core">
+	    <HintPath>Lib\Il2CppSystem.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="MVCommon">
+	    <HintPath>Lib\MVCommon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="MVWorldObject">
+	    <HintPath>Lib\MVWorldObject.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine">
+	    <HintPath>Lib\UnityEngine.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AudioModule">
+	    <HintPath>Lib\UnityEngine.AudioModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.CoreModule">
+	    <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ImageConversionModule">
+	    <HintPath>Lib\UnityEngine.ImageConversionModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ParticleSystemModule">
+	    <HintPath>Lib\UnityEngine.ParticleSystemModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UI">
+	    <HintPath>Lib\UnityEngine.UI.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25localappdata%25\KogamaLauncher-WWW\Launcher\Standalone\BepInEx\plugins\KogamaTools\&quot;&#xD;&#xA;" />
