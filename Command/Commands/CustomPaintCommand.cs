@@ -6,7 +6,7 @@ namespace KogamaTools.Command.Commands;
 [CommandName("/custompaint")]
 [CommandName("/singlesidepainting")]
 [CommandDescription("Enables individual painting of cube faces.")]
-internal class SingleSidePaintingCommand : BaseCommand
+internal class CustomPaintCommand : BaseCommand
 {
     [CommandVariant]
     private void Toggle()

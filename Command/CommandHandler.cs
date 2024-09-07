@@ -13,23 +13,6 @@ internal static class CommandHandler
 
     private static List<ICommand> commands = new List<ICommand>();
 
-    private static void LoadCommands()
-    {
-        KogamaTools.mls.LogInfo("Loading chat commands...");
-        var types = Assembly.GetExecutingAssembly()
-            .GetTypes()
-            .Where(t => t.GetCustomAttributes<CommandNameAttribute>().Any() && t.IsClass && !t.IsAbstract);
-
-        foreach (var type in types)
-        {
-            if (Activator.CreateInstance(type) is ICommand command)
-            {
-                commands.Add(command);
-                KogamaTools.mls.LogInfo($"Loaded \"{command.Names[0]}\" command!");
-            }
-        }
-    }
-
     internal static bool TryExecuteCommand(string commandLine)
     {
         List<string> components = ParseArgs(commandLine);
@@ -58,8 +41,15 @@ internal static class CommandHandler
         return false;
     }
 
+    internal static void ListCommands()
+    {
+        foreach (BaseCommand command in commands)
+        {
+            command.Describe();
+        }
+    }
 
-    static List<string> ParseArgs(string args)
+    private static List<string> ParseArgs(string args)
     {
         List<string> result = new List<string>();
         string pattern = @"([""'])(.*?)\1|(\S+)";
@@ -77,6 +67,24 @@ internal static class CommandHandler
         }
         return result;
     }
+
+    private static void LoadCommands()
+    {
+        KogamaTools.mls.LogInfo("Loading chat commands...");
+        var types = Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => t.GetCustomAttributes<CommandNameAttribute>().Any() && t.IsClass && !t.IsAbstract);
+
+        foreach (var type in types)
+        {
+            if (Activator.CreateInstance(type) is ICommand command)
+            {
+                commands.Add(command);
+                KogamaTools.mls.LogInfo($"Loaded \"{command.Names[0]}\" command!");
+            }
+        }
+    }
+
 }
 
 

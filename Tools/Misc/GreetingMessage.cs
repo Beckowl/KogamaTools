@@ -9,12 +9,13 @@ internal static class GreetingMessage
     internal static bool ShowGreetingMessage = ConfigHelper.GetConfigValue<bool>("ShowGreetingMessage");
 
     [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), "JoinNotification")]
-    [HarmonyPostfix]
+    [HarmonyPrefix]
     private static void JoinNotification()
     {
         if (ShowGreetingMessage)
         {
-            TextCommand.NotifyUser($"Welcome to {KogamaTools.ModName} v{KogamaTools.ModVersion}.");
+            NotificationHelper.NotifySuccess($"Welcome to {KogamaTools.ModName} v{KogamaTools.ModVersion}.");
+            NotificationHelper.NotifyUser("Press F1 to toggle the overlay.\nType /help to see available chat commands.\n");
         }
     }
 }

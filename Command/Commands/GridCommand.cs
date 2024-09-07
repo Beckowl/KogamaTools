@@ -3,9 +3,9 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
-[CommandName("/customgrid")]
+[CommandName("/grid")]
 [CommandDescription("Sets the grid size for object insertion, rotation and translation.")]
-internal class CustomGridCommand : BaseCommand
+internal class GridCommand : BaseCommand
 {
     [CommandVariant]
     private void Toggle()

@@ -97,9 +97,14 @@ internal abstract class BaseCommand : ICommand
         return CommandResult.InvalidArgs;
     }
 
+    public void Describe()
+    {
+        NotificationHelper.NotifyUser($"{string.Join(", ", Names)}: {Description}\n");
+    }
+
     public void DisplayHelp()
     {
-        NotificationHelper.NotifyUser($"{Names[0]}: {Description}");
+        Describe();
         NotificationHelper.NotifyUser("Usage:");
 
         foreach (CommandVariant variant in Variants)
