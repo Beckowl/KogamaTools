@@ -8,10 +8,8 @@ internal static class TextCommandPatch
 {
     [HarmonyPatch(typeof(TextCommand), "Resolve")]
     [HarmonyPrefix]
-    private static bool Resolve(ref string commandLine)
+    private static bool Resolve(string commandLine)
     {
-        TextCommand.Command command = commandLine;
-
         if (CommandHandler.TryExecuteCommand(commandLine))
         {
             return false;
