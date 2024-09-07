@@ -3,13 +3,12 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/custompaint")]
+[CommandName("/singlesidepainting")]
+[CommandDescription("Enables individual painting of cube faces.")]
 internal class SingleSidePaintingCommand : BaseCommand
 {
-    public SingleSidePaintingCommand() : base("/singlesidepainting", "Enables individual painting of cube faces.")
-    {
-        AddVariant(args => Toggle());
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         SingleSidePainting.Enabled = !SingleSidePainting.Enabled;

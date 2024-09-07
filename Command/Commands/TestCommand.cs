@@ -3,11 +3,14 @@
 namespace KogamaTools.Command.Commands;
 
 #if DEBUG
+[CommandName("/test")]
+[CommandDescription("Prints a message to the console.")]
 internal class TestCommand : BaseCommand
 {
-    public TestCommand() : base("/testmsg", "Prints a message to the console.")
+    [CommandVariant]
+    private void TestMessage()
     {
-        AddVariant(args => NotificationHelper.NotifyUser("Test Command is working!! :)"));
+        NotificationHelper.NotifyUser("Test command is working!! :)");
     }
 }
 #endif

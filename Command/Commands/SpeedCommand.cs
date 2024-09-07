@@ -3,24 +3,22 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/speed")]
+[CommandDescription("Sets a speed multiplier for movement in edit mode.")]
 internal class SpeedCommand : BaseCommand
 {
-    public SpeedCommand() : base("/speed", "Sets a speed multiplier for movement in edit mode.")
-    {
-        AddVariant(args => Toggle());
-        AddVariant(args => SetSpeed((float)args[0]), typeof(float));
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         EditModeMovement.SpeedMultEnabled = !EditModeMovement.SpeedMultEnabled;
         NotificationHelper.NotifySuccess($"Speed Multiplier {(EditModeMovement.SpeedMultEnabled ? "enabled" : "disabled")}.");
     }
 
-    private void SetSpeed(float speed)
+    [CommandVariant]
+    private void SetSpeed(float multiplier)
     {
-        EditModeMovement.SpeedMult = speed;
-        NotificationHelper.NotifySuccess($"Speed Multiplier set to {speed}.");
+        EditModeMovement.SpeedMult = multiplier;
+        NotificationHelper.NotifySuccess($"Speed Multiplier set to {multiplier}.");
         EditModeMovement.SpeedMultEnabled = true;
     }
 }

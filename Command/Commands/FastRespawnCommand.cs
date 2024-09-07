@@ -3,13 +3,11 @@ using KogamaTools.Tools.PVP;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/fastrespawn")]
+[CommandDescription("Skips the death animation when you press K.")]
 internal class FastRespawnCommand : BaseCommand
 {
-    public FastRespawnCommand() : base("/fastrespawn", "")
-    {
-        AddVariant(args => Toggle());
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         FastRespawn.Enabled = !FastRespawn.Enabled;

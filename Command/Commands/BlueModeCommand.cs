@@ -3,13 +3,11 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/bluemode")]
+[CommandDescription("Disables the blue background in model editing.")]
 internal class BlueModeCommand : BaseCommand
 {
-    public BlueModeCommand() : base("/bluemode", "Disables the blue background in model editing.")
-    {
-        AddVariant(args => Toggle());
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         BlueModeController.BlueModeEnabled = !BlueModeController.BlueModeEnabled;

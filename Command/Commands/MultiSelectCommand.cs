@@ -3,16 +3,14 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/multiselect")]
+[CommandDescription("Allows you to move/rotate multiple objects at once.")]
 internal class MultiSelectCommand : BaseCommand
 {
-    public MultiSelectCommand() : base("/multiselect", "Forces multi selection to not de-select objects unless it is disabled.")
-    {
-        AddVariant(args => Toggle());
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         MultiSelect.ForceSelection = !MultiSelect.ForceSelection;
-        NotificationHelper.NotifySuccess($"Multi selection forced {(MultiSelect.ForceSelection ? "on" : "off")}.");
+        NotificationHelper.NotifySuccess($"Multi selection {(MultiSelect.ForceSelection ? "enabled" : "disabled")}.");
     }
 }

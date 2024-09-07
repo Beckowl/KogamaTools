@@ -3,13 +3,11 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/nolimit")]
+[CommandDescription("Disables the minumum cube count and modeling constraint of models/avatars.")]
 internal class NoLimitCommand : BaseCommand
 {
-    public NoLimitCommand() : base("/nolimit", "Disables the minumum cube count and modeling constraint of models/avatars.")
-    {
-        AddVariant(args => Toggle());
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         NoLimit.Enabled = !NoLimit.Enabled;

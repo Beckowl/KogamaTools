@@ -1,10 +1,13 @@
 ﻿using KogamaTools.Helpers;
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/clear")]
+[CommandDescription("Prints a bunch of newlines to pretend it's clearing the chat.")]
 internal class ClearCommand : BaseCommand
 {
-    public ClearCommand() : base("/clear", "Prints a bunch of newlines to pretend it's clearing the chat")
+    [CommandVariant]
+    private void clearChat()
     {
-        AddVariant(args => NotificationHelper.NotifyUser(string.Concat(Enumerable.Repeat("\n", 10))));
+        NotificationHelper.NotifyUser("\n\n\n\n\n\n\n\n\n\n");
     }
 }

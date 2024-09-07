@@ -3,20 +3,18 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/rotationstep")]
+[CommandDescription("Defines the rotation angle in degrees for when something is rotated.")]
 internal class RotationStepCommand : BaseCommand
 {
-    public RotationStepCommand() : base("/rotationstep", "Defines the rotation angle in degrees for when something is rotated.")
-    {
-        AddVariant(args => Toggle());
-        AddVariant(args => SetSpeed((float)args[0]), typeof(float));
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         RotationStep.Enabled = !RotationStep.Enabled;
         NotificationHelper.NotifySuccess($"Custom rotation step {(RotationStep.Enabled ? "enabled" : "disabled")}.");
     }
 
+    [CommandVariant]
     private void SetSpeed(float step)
     {
         RotationStep.Step = step;

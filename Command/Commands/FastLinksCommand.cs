@@ -3,13 +3,11 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/fastlinks")]
+[CommandDescription("Disables link validation on the client side.")]
 internal class FastLinksCommand : BaseCommand
 {
-    public FastLinksCommand() : base("/fastlinks", "Disables link validation on the client side.")
-    {
-        AddVariant(args => Toggle());
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         FastLinks.Enabled = !FastLinks.Enabled;

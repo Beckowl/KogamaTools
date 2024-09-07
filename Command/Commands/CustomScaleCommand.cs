@@ -3,20 +3,18 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/modelscale")]
+[CommandDescription("Sets a custom scale for newly created models.")]
 internal class CustomScaleCommand : BaseCommand
 {
-    public CustomScaleCommand() : base("/modelscale", "Sets a custom scale for newly created models.")
-    {
-        AddVariant(args => Toggle());
-        AddVariant(args => SetScale((float)args[0]), typeof(float));
-    }
-
+    [CommandVariant]
     private void Toggle()
     {
         CustomModelScale.Enabled = !CustomModelScale.Enabled;
         NotificationHelper.NotifySuccess($"Custom model scale {(CustomModelScale.Enabled ? "enabled" : "disabled")}");
     }
 
+    [CommandVariant]
     private void SetScale(float scale)
     {
         if (scale == 0)

@@ -3,24 +3,22 @@ using KogamaTools.Tools.Build;
 
 namespace KogamaTools.Command.Commands;
 
+[CommandName("/unlimitedconfig")]
+[CommandDescription("Defines a custom range for input fields/sliders.")]
 internal class UnlimitedConfigCommand : BaseCommand
 {
-    public UnlimitedConfigCommand() : base("/unlimitedconfig", "")
-    {
-        AddVariant(args => Toggle());
-        AddVariant(args => SetValues((float)args[0], UnlimitedConfig.MaxValue), typeof(float));
-        AddVariant(args => SetValues((float)args[0], (float)args[1]), typeof(float), typeof(float));
-    }
+    [CommandVariant]
     private void Toggle()
     {
         UnlimitedConfig.Enabled = !UnlimitedConfig.Enabled;
-        NotificationHelper.NotifySuccess($"Unlimited config {(UnlimitedConfig.Enabled ? "Enabled" : "Disabled")}.");
+        NotificationHelper.NotifySuccess($"Unlimited config {(UnlimitedConfig.Enabled ? "enabled" : "disabled")}.");
     }
-    private void SetValues(float minValue, float maxValue)
+
+    [CommandVariant]
+    private void SetRange(float minValue, float maxValue)
     {
         UnlimitedConfig.MinValue = minValue;
         UnlimitedConfig.MaxValue = maxValue;
-
         UnlimitedConfig.Enabled = true;
 
         NotificationHelper.NotifySuccess($"Unlimited config range set to {UnlimitedConfig.MinValue} - {UnlimitedConfig.MaxValue}.");

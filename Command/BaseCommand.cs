@@ -1,10 +1,12 @@
-﻿using KogamaTools.Helpers;
+﻿using System.Reflection;
+using Il2CppSystem.Reflection;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Command;
 
 internal interface ICommand
 {
-    string Name { get; }
+    List<string> Names { get; }
     string Description { get; }
     List<CommandVariant> Variants { get; }
     CommandResult TryExecute(string[] args);
@@ -19,28 +21,60 @@ public enum CommandResult
 
 internal abstract class BaseCommand : ICommand
 {
-    public string Name { get; }
-    public string Description { get; }
+    public List<string> Names { get; private set; } = new List<string>();
+    public string Description { get; private set; }
     public List<CommandVariant> Variants { get; } = new List<CommandVariant>();
 
-    protected BaseCommand(string name, string description)
+    protected BaseCommand()
     {
-        Name = name;
-        Description = description;
+        LoadMetadata();
     }
 
-    protected CommandVariant AddVariant(Action<object[]> callback, params Type[] argumentTypes)
+    private void LoadNames(Type type)
     {
-        var variant = new CommandVariant(new List<Type>(argumentTypes), callback);
-        Variants.Add(variant);
-        return variant;
+        IEnumerable<CommandNameAttribute> nameAttributes = type.GetCustomAttributes<CommandNameAttribute>();
+        foreach (var nameAttr in nameAttributes)
+        {
+            Names.Add(nameAttr.Name);
+        }
     }
 
-    protected CommandVariant AddVariant(Action<object[]> callback)
+    private void LoadDescription(Type type)
     {
-        var variant = new CommandVariant(new List<Type> { }, callback);
-        Variants.Add(variant);
-        return variant;
+        CommandDescriptionAttribute? descriptionAttribute = type.GetCustomAttribute<CommandDescriptionAttribute>();
+        if (descriptionAttribute != null)
+        {
+            Description = descriptionAttribute.Description;
+        }
+    }
+
+    private void LoadVariants(Type type)
+    {
+        IEnumerable<System.Reflection.MethodInfo> methods = type.GetMethods(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+           .Where(m => m.GetCustomAttributes<CommandVariantAttribute>().Any());
+
+        foreach (var method in methods)
+        {
+            System.Reflection.ParameterInfo[] parameters = method.GetParameters();
+            List<Type> argumentTypes = parameters.Select(p => p.ParameterType).ToList();
+            List<string?> ArgumentNames = method.GetParameters().Select(p => p.Name).ToList();
+
+            Action<object[]> callback = (args) => method.Invoke(this, args);
+
+            CommandVariant variant = new CommandVariant(argumentTypes, callback);
+            variant.SetUsage(string.Join(" ", ArgumentNames.Select(name => $"<{name}>")));
+
+            Variants.Add(variant);
+        }
+    }
+
+    private void LoadMetadata()
+    {
+        Type type = GetType();
+
+        LoadNames(type);
+        LoadDescription(type);
+        LoadVariants(type);
     }
 
     public CommandResult TryExecute(string[] args)
@@ -65,19 +99,12 @@ internal abstract class BaseCommand : ICommand
 
     public void DisplayHelp()
     {
-        NotificationHelper.NotifyUser($"{Name}: {Description}");
+        NotificationHelper.NotifyUser($"{Names[0]}: {Description}");
         NotificationHelper.NotifyUser("Usage:");
 
         foreach (CommandVariant variant in Variants)
         {
-            if (string.IsNullOrEmpty(variant.Usage))
-            {
-                NotificationHelper.NotifyUser(Name);
-                continue;
-            }
-
-
-            NotificationHelper.NotifyUser(variant.Usage);
+            NotificationHelper.NotifyUser($"{Names[0]} {variant.Usage}");
         }
     }
 }
