@@ -33,13 +33,14 @@ internal class KogamaToolsOverlay : Overlay
             return;
         }
 
-        ImGui.Begin(KogamaTools.ModName);
-        ImGui.SetWindowSize(WindowSize, ImGuiCond.FirstUseEver);
+        ImGui.Begin(KogamaTools.ModName, ImGuiWindowFlags.NoResize);
+        ImGui.SetWindowSize(WindowSize, ImGuiCond.Always);
 
         if (ImGui.BeginTabBar("TabBar"))
         {
             BuildMenu.Render();
             PVPMenu.Render();
+            GraphicsMenu.Render();
 
             ImGui.EndTabBar();
         }

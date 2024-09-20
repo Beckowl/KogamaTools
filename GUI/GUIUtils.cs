@@ -1,16 +1,45 @@
-﻿using ImGuiNET;
+﻿using System.Numerics;
+using ImGuiNET;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.GUI;
 
 internal static class GUIUtils
 {
     private const int maxStringLength = 512;
+
+    internal static bool RenderControlForObject(string label, ref object value)
+    {
+        bool result = value switch
+        {
+            UnityEngine.Color => RenderColor(label, ref value),
+            int => RenderInt(label, ref value),
+            string => RenderString(label, ref value),
+            bool => RenderBool(label, ref value),
+            float => RenderFloat(label, ref value),
+            Enum => RenderEnum(label, ref value),
+            _ => WarnInvalid(value)
+        };
+
+        return result;
+    }
+
     private static bool WarnInvalid(object value)
     {
-        KogamaTools.mls.LogInfo($"Cannot render control for {value}");
+        //KogamaTools.mls.LogInfo($"Cannot render control for {value}");
         return false;
     }
 
+    private static bool RenderColor(string label, ref object value)
+    {
+        Vector4 temp = ColorHelper.ToVector4((UnityEngine.Color)value);
+        if (ImGui.ColorEdit4(label, ref temp))
+        {
+            value = ColorHelper.ToUnityColor(temp);
+            return true;
+        }
+        return false;
+    }
     private static bool RenderInt(string label, ref object value)
     {
         int temp = (int)value;
@@ -66,19 +95,5 @@ internal static class GUIUtils
             return true;
         }
         return false;
-    }
-    static bool RenderControlForObject(string label, ref object value)
-    {
-        bool result = value switch
-        {
-            int => RenderInt(label, ref value),
-            string => RenderString(label, ref value),
-            bool => RenderBool(label, ref value),
-            float => RenderFloat(label, ref value),
-            Enum => RenderEnum(label, ref value),
-            _ => WarnInvalid(value)
-        };
-
-        return result;
     }
 }
