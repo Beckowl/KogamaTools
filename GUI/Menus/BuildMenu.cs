@@ -84,6 +84,7 @@ internal static class BuildMenu
 
         ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
         ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
+        ImGui.Checkbox("Link fix", ref LinkFix.Enabled);
         ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
         if (ForceFlags.Enabled)
         {

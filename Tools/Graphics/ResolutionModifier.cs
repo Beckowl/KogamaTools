@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KogamaTools.Tools.Graphics;
+﻿namespace KogamaTools.Tools.Graphics;
 internal static class ResolutionModifier
 {
     internal static int[] resolution = new int[2] { UnityEngine.Screen.width, UnityEngine.Screen.height };

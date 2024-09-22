@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using ImGuiNET;
+﻿using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Tools.Graphics;
 using UnityEngine;
@@ -31,7 +25,7 @@ internal class GraphicsMenu
         }
 
         if (ImGui.InputFloat("Shadow distance", ref ShadowDistModifier.ShadowDistance))
-        { 
+        {
             ShadowDistModifier.ApplyShadowDistance();
         }
 
@@ -42,5 +36,5 @@ internal class GraphicsMenu
 
         ImGui.EndTabItem();
     }
-    
+
 }

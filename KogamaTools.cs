@@ -4,7 +4,6 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using KogamaTools.Behaviours;
 using KogamaTools.GUI;
-using KogamaTools.Tools.PVP;
 using UnityEngine;
 
 namespace KogamaTools;
@@ -33,7 +32,7 @@ public class KogamaTools : BasePlugin
 
         AddComponent<OverlayHotkeyListener>();
         AddComponent<UnityMainThreadDispatcher>();
-        
+
 
         Application.quitting += (Action)(() => { overlay.Close(); });
         Task.Run(overlay.Start().Wait);

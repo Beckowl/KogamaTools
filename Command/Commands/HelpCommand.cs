@@ -1,6 +1,4 @@
-﻿using KogamaTools.Helpers;
-
-namespace KogamaTools.Command.Commands;
+﻿namespace KogamaTools.Command.Commands;
 
 [CommandName("/help")]
 [CommandDescription("Lists all commands available.")]
