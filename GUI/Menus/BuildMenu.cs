@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using KogamaTools.Behaviours;
 using KogamaTools.Tools.Build;
 
 namespace KogamaTools.GUI.Menus;
@@ -35,6 +36,12 @@ internal static class BuildMenu
 
         ImGui.PushItemWidth(100);
         ImGui.Checkbox("No build limit", ref NoLimit.Enabled);
+
+        ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
+        ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeMovement.MovementConstraintEnabled);
+
+        ImGui.Checkbox("Speed multiplier", ref EditModeMovement.SpeedMultEnabled);
+
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
         ImGui.Checkbox("Custom model scale", ref CustomModelScale.Enabled);
 
@@ -50,19 +57,19 @@ internal static class BuildMenu
             ImGui.InputFloat("Rotation step", ref RotationStep.Step);
         }
 
+        ImGui.Checkbox("Custom grid size", ref CustomGrid.Enabled);
+
+        if (CustomGrid.Enabled)
+        {
+            ImGui.InputFloat("Grid size", ref CustomGrid.GridSize);
+        }
+
         ImGui.Checkbox("Unlimited config", ref UnlimitedConfig.Enabled);
 
         if (UnlimitedConfig.Enabled)
         {
             ImGui.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
             ImGui.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
-        }
-
-        ImGui.Checkbox("Custom grid size", ref CustomGrid.Enabled);
-
-        if (CustomGrid.Enabled)
-        {
-            ImGui.InputFloat("Grid size", ref CustomGrid.GridSize);
         }
 
         ImGui.Checkbox("Multi select", ref MultiSelect.ForceSelection);
@@ -74,17 +81,16 @@ internal static class BuildMenu
                 ObjectGrouper.GroupSelectedObjects();
             }
         }
-        ImGui.Checkbox("Movement constraint enabled", ref EditModeMovement.MovementConstraintEnabled);
-        ImGui.Checkbox("Speed multiplier", ref EditModeMovement.SpeedMultEnabled);
+        ImGui.Checkbox("Group edit (BETA)", ref GroupEdit.Enabled);
 
         if (EditModeMovement.SpeedMultEnabled)
         {
             ImGui.InputFloat("Multiplier", ref EditModeMovement.SpeedMult);
         }
 
-        ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
         ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
         ImGui.Checkbox("Link fix", ref LinkFix.Enabled);
+
         ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
         if (ForceFlags.Enabled)
         {

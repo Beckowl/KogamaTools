@@ -5,7 +5,7 @@ namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
 
-internal class LinkFix
+internal static class LinkFix
 {
     internal static bool Enabled = false;
     private static bool connectorSelected = false;
@@ -44,15 +44,15 @@ internal class LinkFix
 
     private static void SetConnections(MVWorldObjectClient wo)
     {
-    switch (wo.SelectedConnector)
-    {
-        case SelectedConnector.Input:
-            tempLink.inputWOID = wo.id;
-            break;
-        case SelectedConnector.Output:
-            tempLink.outputWOID = wo.id;
-            break;
-    }
+        switch (wo.SelectedConnector)
+        {
+            case SelectedConnector.Input:
+                tempLink.inputWOID = wo.id;
+                break;
+            case SelectedConnector.Output:
+                tempLink.outputWOID = wo.id;
+                break;
+        }
     }
 
     private static void BeginLink(MVWorldObjectClient wo)
