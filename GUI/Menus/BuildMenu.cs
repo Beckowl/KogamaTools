@@ -81,7 +81,6 @@ internal static class BuildMenu
                 ObjectGrouper.GroupSelectedObjects();
             }
         }
-        ImGui.Checkbox("Group edit (BETA)", ref GroupEdit.Enabled);
 
         if (EditModeMovement.SpeedMultEnabled)
         {

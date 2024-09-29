@@ -5,25 +5,52 @@ using UnityEngine;
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
-internal class GroupEdit : MonoBehaviour
+internal class GroupEdit
 {
-    internal static bool Enabled = false;
+    internal static Stack<MVGroup> GroupStack = new();
+    private static bool IsEditingGroup => GroupStack.Count > 0;
 
-    [HarmonyPatch(typeof(ContextMenuController), "PopGizmos")]
-    [HarmonyPrefix]
-    private static void PopGizmos(ContextMenuController __instance)
+    static GroupEdit()
     {
-        if (!Enabled) return;
+        CustomContextMenu.AddButton(
+            obj => MVGameControllerBase.WOCM.IsType(obj.id, WorldObjectType.Group),
+            "Edit Group",
+            (menu) => EnterGroupEdit(menu.selectedWorldObject)
+        );
+    }
 
-        var menus = FindObjectsOfType<ContextMenu>();
+    private static void EnterGroupEdit(MVWorldObjectClient wo)
+    {
+        if (wo.id == MVGameControllerBase.WOCM.RootGroup.Id) return;
 
-        ContextMenu? menu = menus.FirstOrDefault();
+        EditorStateMachine esm = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
 
-        if (menu == null) return;
+        wo.OnEnterObject(esm);
+    }
 
-        if (MVGameControllerBase.WOCM.IsType(__instance.woID, WorldObjectType.Group))
+    private static void HighlightObjects(MVGroup group, bool highlight)
+    {
+        foreach (MVWorldObjectClient mvworldObjectClient in group.children.Values)
         {
-            menu.AddButton("Edit Group", new Action(__instance.EnterCubeEdit));
+            foreach (Link link in mvworldObjectClient.OutputLinkRefs)
+            {
+                LinkObjectScript linkScript = MVGameControllerBase.Game.worldNetwork.links.linkObjects[link.id];
+
+                SharedCubeFunctions.SetLayerRecursively(linkScript.transform, highlight);
+            }
+            mvworldObjectClient.gameObject.layer = 14;
+            SharedCubeFunctions.SetLayerRecursively(mvworldObjectClient.transform, highlight);
+        }
+    }
+
+    private static void ExitAllGroups()
+    {
+        EditorStateMachine esm = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
+
+        while (GroupStack.TryPop(out MVGroup? group))
+        {
+            HighlightObjects(group, false);
+            group.OnExitObject(esm);
         }
     }
 
@@ -31,38 +58,33 @@ internal class GroupEdit : MonoBehaviour
     [HarmonyPostfix]
     private static void OnEnterObject(MVGroup __instance)
     {
-        HighLightLinks(__instance, true);
-    }
-
-    private static void HighLightLinks(MVWorldObjectClient wo, bool highlight)
-    {
-        MVGroup group = wo.Cast<MVGroup>();
-
-        foreach (MVWorldObjectClient mvworldObjectClient in group.children.Values)
-        {
-            foreach (Link link in mvworldObjectClient.OutputLinkRefs)
-            {
-                LinkObjectScript linkscript = MVGameControllerBase.Game.worldNetwork.links.linkObjects[link.id];
-
-                SharedCubeFunctions.SetLayerRecursively(linkscript.transform, highlight);
-            }
-            SharedCubeFunctions.SetLayerRecursively(wo.transform, highlight);
-        }
+        HighlightObjects(__instance, true);
+        GroupStack.Push(__instance);
     }
 
     [HarmonyPatch(typeof(DesktopEditModeController), "EnterPlayMode")]
     [HarmonyPrefix]
     private static void EnterPlayMode()
     {
-        MVGroup parentGroup = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine.ParentGroup;
+        ExitAllGroups();
+    }
 
-        HighLightLinks(parentGroup, false);
+    [HarmonyPatch(typeof(Links), "AddLink")]
+    [HarmonyPostfix]
+    private static void AddLink(ref Link link)
+    {
+        if (!IsEditingGroup) return;
+
+        LinkObjectScript linkScript = MVGameControllerBase.Game.worldNetwork.links.linkObjects[link.id];
+        SharedCubeFunctions.SetLayerRecursively(linkScript.transform, true);
     }
 
     [HarmonyPatch(typeof(ESTranslate), "Exit")]
     [HarmonyPrefix]
     private static bool Exit(EditorStateMachine e, ESTranslate __instance)
     {
+        if (!IsEditingGroup) return true;
+
         MVGameControllerBase.GameEventManager.AvatarCommandsBuildMode.LaserCommands.ChangeState(LaserPointerState.Idle);
         MVGameControllerBase.GameEventManager.AvatarCommandsBuildMode.LaserCommands.SetLaserActiveState(false);
         e.MainCameraManager.IgnoreInputTypes(IgnoreInputTypes.None);
