@@ -54,9 +54,6 @@
 	  <Reference Include="UnityEngine.ParticleSystemModule">
 	    <HintPath>Lib\UnityEngine.ParticleSystemModule.dll</HintPath>
 	  </Reference>
-	  <Reference Include="UnityEngine.PhysicsModule">
-	    <HintPath>Lib\UnityEngine.PhysicsModule.dll</HintPath>
-	  </Reference>
 	  <Reference Include="UnityEngine.UI">
 	    <HintPath>Lib\UnityEngine.UI.dll</HintPath>
 	  </Reference>
