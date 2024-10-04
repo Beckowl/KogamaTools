@@ -4,7 +4,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using KogamaTools.Behaviours;
 using KogamaTools.GUI;
-using KogamaTools.Helpers;
+using KogamaTools.Tools.Build;
 using UnityEngine;
 
 namespace KogamaTools;
@@ -20,7 +20,7 @@ public class KogamaTools : BasePlugin
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
     internal static KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
-    internal static KogamaTools? Instance;
+    internal static KogamaTools Instance = null!;
 
     public override void Load()
     {
@@ -33,6 +33,8 @@ public class KogamaTools : BasePlugin
 
         AddComponent<OverlayHotkeyListener>();
         AddComponent<UnityMainThreadDispatcher>();
+        AddComponent<GameInitChecker>();
+        AddComponent<MultiSelect>();
 
         Application.quitting += (Action)(() => { overlay.Close(); });
         Task.Run(overlay.Start().Wait);
