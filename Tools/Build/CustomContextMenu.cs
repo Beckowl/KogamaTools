@@ -15,7 +15,7 @@ internal class CustomContextMenu : MonoBehaviour
 
     internal static void AddButton(string buttonName, Action<ContextMenuController> action)
     {
-        menuItems.Add(new ContextMenuItem((wo)=>true, buttonName, action));
+        menuItems.Add(new ContextMenuItem((wo) => true, buttonName, action));
     }
 
     [HarmonyPatch(typeof(ContextMenuController), "PopGizmos")]
@@ -38,7 +38,7 @@ internal class CustomContextMenu : MonoBehaviour
     {
         var menus = FindObjectsOfType<ContextMenu>();
 
-        ContextMenu? menu = menus.First();
+        ContextMenu? menu = menus.FirstOrDefault();
 
         if (menu == null) return null;
 
