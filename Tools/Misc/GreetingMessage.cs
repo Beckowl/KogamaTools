@@ -7,7 +7,7 @@ namespace KogamaTools.Tools.Misc;
 [HarmonyPatch]
 internal static class GreetingMessage
 {
-    internal static bool ShowGreetingMessage = ConfigHelper.GetConfigValue<bool>("ShowGreetingMessage");
+    internal static bool ShowGreetingMessage = true;
 
     internal static void JoinNotification()
     {

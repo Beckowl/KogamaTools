@@ -10,7 +10,7 @@ internal static class PVPMenu
 {
     private static byte[] customCrosshairPath = new byte[1024];
 
-    private static bool antiAFKEnabled = ConfigHelper.GetConfigValue<bool>("AntiAFKEnabled");
+    private static bool antiAFKEnabled = false;
     internal static void Render()
     {
         if (!ImGui.BeginTabItem("PvP"))

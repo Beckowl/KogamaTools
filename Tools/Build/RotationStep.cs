@@ -7,8 +7,8 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class RotationStep
 {
-    internal static float Step = ConfigHelper.GetConfigValue<float>("RotationStep");
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("RotationStepEnabled");
+    internal static float Step = 15f;
+    internal static bool Enabled = false;
 
 
     [HarmonyPatch(typeof(RotationHelper), "RotateStep")]

@@ -7,9 +7,9 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class UnlimitedConfig
 {
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("UnlimitedConfigEnabled");
-    internal static float MinValue = ConfigHelper.GetConfigValue<float>("MinValue");
-    internal static float MaxValue = ConfigHelper.GetConfigValue<float>("MaxValue");
+    internal static bool Enabled = false;
+    internal static float MinValue = 0;
+    internal static float MaxValue = 1;
 
 
     [HarmonyPatch(typeof(SettingsSlider), "Initialize", new Type[] { typeof(string), typeof(float), typeof(float), typeof(float) })]

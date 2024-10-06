@@ -6,7 +6,7 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class BlueModeController
 {
-    internal static bool BlueModeEnabled = ConfigHelper.GetConfigValue<bool>("BlueModeEnabled");
+    internal static bool BlueModeEnabled = true;
 
     [HarmonyPatch(typeof(MainCameraManager), "UpdateCamera")]
     [HarmonyPostfix]

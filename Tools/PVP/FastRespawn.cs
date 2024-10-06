@@ -5,7 +5,7 @@ namespace KogamaTools.Tools.PVP;
 
 internal static class FastRespawn
 {
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("FastRespawnEnabled");
+    internal static bool Enabled = false;
 
     private static bool RespawnPlayer()
     {

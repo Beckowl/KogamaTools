@@ -7,9 +7,9 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class EditModeMovement
 {
-    internal static float SpeedMult = ConfigHelper.GetConfigValue<float>("SpeedMult");
-    internal static bool SpeedMultEnabled = ConfigHelper.GetConfigValue<bool>("SpeedMultEnabled");
-    internal static bool MovementConstraintEnabled = ConfigHelper.GetConfigValue<bool>("MovementConstraintEnabled");
+    internal static float SpeedMult = 2;
+    internal static bool SpeedMultEnabled = false;
+    internal static bool MovementConstraintEnabled = true;
 
     [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode), "MoveCharacter")]
     [HarmonyPrefix]

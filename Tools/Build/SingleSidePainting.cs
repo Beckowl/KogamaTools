@@ -6,7 +6,7 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class SingleSidePainting
 {
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("SingleSidePaintingEnabled");
+    internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(PaintCubes), "Execute")]
     [HarmonyPrefix]

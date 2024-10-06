@@ -8,13 +8,8 @@ namespace KogamaTools.Tools.PVP;
 [HarmonyPatch]
 internal class CrossHairMod
 {
-    internal static bool CustomCrossHairColorEnabled = ConfigHelper.GetConfigValue<bool>("CustomCrossHairColorEnabled");
-    internal static Color CrossHairColor = new();
-
-    static CrossHairMod()
-    {
-        ColorHelper.TryParseColorString(ConfigHelper.GetConfigValue<string>("CrosshairColor"), out CrossHairColor);
-    }
+    internal static bool CustomCrossHairColorEnabled = false;
+    internal static Color CrossHairColor = new(0, 1, 0, 0);
 
     internal static void SetCrossHairColorFromVec4(System.Numerics.Vector4 color)
     {

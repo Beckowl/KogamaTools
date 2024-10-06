@@ -6,8 +6,8 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class CustomGrid
 {
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomGridEnabled");
-    internal static float GridSize = ConfigHelper.GetConfigValue<float>("GridSize");
+    internal static bool Enabled = false;
+    internal static float GridSize = 1;
 
 
     [HarmonyPatch(typeof(ESTranslate), "Execute")]

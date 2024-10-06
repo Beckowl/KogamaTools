@@ -1,6 +1,6 @@
 ﻿using KogamaTools.Helpers;
 
-namespace KogamaTools.Command;
+namespace KogamaTools.Command.Commands;
 
 [CommandName("/teleport")]
 [CommandName("/tp")] // alias

@@ -6,7 +6,7 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class NoLimit
 {
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("NoLimitEnabled");
+    internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(ConstraintVisualizer), "Init")]
     [HarmonyPrefix]

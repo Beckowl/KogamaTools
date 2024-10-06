@@ -6,8 +6,8 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class CustomModelScale
 {
-    internal static float CustomScale = ConfigHelper.GetConfigValue<float>("CustomScale");
-    internal static bool Enabled = ConfigHelper.GetConfigValue<bool>("CustomScaleEnabled");
+    internal static float CustomScale = 4;
+    internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(EditorWorldObjectCreation), "OnAddNewPrototype")]
     [HarmonyPrefix]
