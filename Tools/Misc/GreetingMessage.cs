@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
 
 namespace KogamaTools.Tools.Misc;
@@ -8,9 +9,7 @@ internal static class GreetingMessage
 {
     internal static bool ShowGreetingMessage = ConfigHelper.GetConfigValue<bool>("ShowGreetingMessage");
 
-    [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), "JoinNotification")]
-    [HarmonyPrefix]
-    private static void JoinNotification()
+    internal static void JoinNotification()
     {
         if (ShowGreetingMessage)
         {
