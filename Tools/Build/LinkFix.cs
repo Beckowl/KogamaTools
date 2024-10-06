@@ -1,50 +1,59 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
 using MV.WorldObject;
+using UnityEngine;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
-
-internal static class LinkFix
+internal class LinkFix : MonoBehaviour
 {
-    internal static bool Enabled = false;
-    private static bool connectorSelected = false;
+    internal static bool Enabled = true;
     private static Link tempLink = new();
+    private static int connectorCounter = 0;
 
-    [HarmonyPatch(typeof(FSMEntity), "PushState", new Type[] { typeof(EditorEvent) })]
-    [HarmonyPrefix]
-    private static bool PushState(EditorEvent nextState)
+    private void Update()
     {
-        return !Enabled || nextState != EditorEvent.ESAddLink;
-    }
+        if (!Enabled) return;
 
-    [HarmonyPatch(typeof(MVWorldObjectClient), "OnClickHandler")]
-    [HarmonyPostfix]
-    private static void OnClickHandler(ref MVWorldObjectClient __instance, bool __result)
-    {
-        if (!Enabled || !__result || !IsConnectorValid(__instance))
+        if (MVInputWrapper.GetBooleanControlDown(KogamaControls.PointerSelect))
         {
-            return;
-        }
+            VoxelHit voxelHit = new();
 
-        if (!connectorSelected)
-        {
-            BeginLink(__instance);
-        }
-        else
-        {
-            EndLink(__instance);
+            if (ObjectPicker.Pick(ref voxelHit) && voxelHit.woId != -1)
+            {
+                MVWorldObjectClient worldObjectClient = MVGameControllerBase.WOCM.GetWorldObjectClient(voxelHit.woId);
+                if (worldObjectClient != null && IsPointerOverConnector(worldObjectClient, out SelectedConnector connector))
+                {
+                    HandleAddLink(worldObjectClient, connector);
+                    return;
+                }
+            }
+
+            ResetTempLink();
         }
     }
 
-    private static bool IsConnectorValid(MVWorldObjectClient wo)
+    private static bool IsPointerOverConnector(MVWorldObjectClient wo, out SelectedConnector connector)
     {
-        return wo.SelectedConnector == SelectedConnector.Input || wo.SelectedConnector == SelectedConnector.Output;
+        connector = SelectedConnector.None;
+
+        if (wo.HasInputConnector && wo.IsPointOverInputConnector(MVInputWrapper.GetPointerPosition()))
+        {
+            connector = SelectedConnector.Input;
+            return true;
+        }
+        else if (wo.HasOutputConnector && wo.IsPointOverOutputConnector(MVInputWrapper.GetPointerPosition()))
+        {
+            connector = SelectedConnector.Output;
+            return true;
+        }
+        return false;
     }
 
-    private static void SetConnections(MVWorldObjectClient wo)
+    private static void HandleAddLink(MVWorldObjectClient wo, SelectedConnector connectorType)
     {
-        switch (wo.SelectedConnector)
+        switch (connectorType)
         {
             case SelectedConnector.Input:
                 tempLink.inputWOID = wo.id;
@@ -53,28 +62,32 @@ internal static class LinkFix
                 tempLink.outputWOID = wo.id;
                 break;
         }
-    }
 
-    private static void BeginLink(MVWorldObjectClient wo)
-    {
-        connectorSelected = true;
-        tempLink = new Link();
+        connectorCounter++;
 
-        SetConnections(wo);
+        MVGameControllerBase.MainCameraManager.lineDrawManager.SetTempLink(tempLink);
 
-        MVGameControllerBase.MainCameraManager.LineDrawManager.SetTempLink(tempLink);
-    }
-
-    private static void EndLink(MVWorldObjectClient wo)
-    {
-        SetConnections(wo);
-
-        if (tempLink.inputWOID != -1 && tempLink.outputWOID != -1)
+        if (connectorCounter >= 2) 
         {
-            MVGameControllerBase.OperationRequests.AddLink(tempLink);
+            if (tempLink.inputWOID != -1 && tempLink.outputWOID != -1)
+            {
+                MVGameControllerBase.OperationRequests.AddLink(tempLink);
+            }
+            ResetTempLink();
         }
+    }
 
+    private static void ResetTempLink()
+    {
         MVGameControllerBase.MainCameraManager.LineDrawManager.SetTempLink(null);
-        connectorSelected = false;
+        tempLink = new();
+        connectorCounter = 0;
+    }
+
+    [HarmonyPatch(typeof(FSMEntity), "PushState", new Type[] { typeof(EditorEvent) })]
+    [HarmonyPrefix]
+    private static bool PushState(EditorEvent nextState)
+    {
+        return !Enabled || nextState != EditorEvent.ESAddLink;
     }
 }

@@ -4,6 +4,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using KogamaTools.Behaviours;
 using KogamaTools.GUI;
+using KogamaTools.Tools.Build;
 using KogamaTools.Tools.PVP;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ public class KogamaTools : BasePlugin
         AddComponent<UnityMainThreadDispatcher>();
         AddComponent<GameInitChecker>();
         AddComponent<CameraMod.FocusBehaviour>();
+        AddComponent<LinkFix>();
 
         Application.quitting += (Action)(() => { overlay.Close(); });
         Task.Run(overlay.Start().Wait);
