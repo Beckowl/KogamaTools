@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using KogamaTools.Helpers;
 using UGUI.Desktop.Scripts.EditMode.Gizmo;
 
 namespace KogamaTools.Tools.Build;
