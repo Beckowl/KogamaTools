@@ -11,11 +11,6 @@ internal static class CameraMod
 
     internal static CamFocusSettings FocusSettings = new CamFocusSettings();
 
-    static CameraMod()
-    {
-        KogamaTools.Instance.AddComponent<FocusBehaviour>();
-    }
-
     internal struct CamFocusSettings
     {
         internal bool CameraFocusEnabled = true;
@@ -27,7 +22,7 @@ internal static class CameraMod
         public CamFocusSettings() { }
     }
 
-    private class FocusBehaviour : MonoBehaviour
+    internal class FocusBehaviour : MonoBehaviour
     {
         private float originalSensitivity;
         private float zoomVelocity = 0f;
