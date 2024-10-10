@@ -39,6 +39,9 @@
 	  <Reference Include="MVWorldObject">
 	    <HintPath>Lib\MVWorldObject.dll</HintPath>
 	  </Reference>
+	  <Reference Include="Photon3Unity3D">
+	    <HintPath>Lib\Photon3Unity3D.dll</HintPath>
+	  </Reference>
 	  <Reference Include="UnityEngine">
 	    <HintPath>Lib\UnityEngine.dll</HintPath>
 	  </Reference>

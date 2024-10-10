@@ -41,6 +41,7 @@ internal class KogamaToolsOverlay : Overlay
             BuildMenu.Render();
             PVPMenu.Render();
             GraphicsMenu.Render();
+            InfoMenu.Render();
 
             ImGui.EndTabBar();
         }
