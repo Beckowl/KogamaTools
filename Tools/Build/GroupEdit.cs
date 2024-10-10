@@ -38,6 +38,12 @@ internal class GroupEdit
 
                 SharedCubeFunctions.SetLayerRecursively(linkScript.transform, highlight);
             }
+            foreach (ObjectLink objectLink in mvworldObjectClient.objectLinkRefs)
+            {
+                ObjectLinkObjectScript linkScript = MVGameControllerBase.Game.worldNetwork.objectLinks.objectLinkObjects[objectLink.id];
+
+                SharedCubeFunctions.SetLayerRecursively(linkScript.transform, highlight);
+            }
             mvworldObjectClient.gameObject.layer = 14;
             SharedCubeFunctions.SetLayerRecursively(mvworldObjectClient.transform, highlight);
         }
