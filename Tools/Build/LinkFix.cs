@@ -2,6 +2,7 @@
 using KogamaTools.Helpers;
 using MV.WorldObject;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace KogamaTools.Tools.Build;
 
@@ -16,6 +17,28 @@ internal class LinkFix : MonoBehaviour
     {
         if (!Enabled) return;
 
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        HandleLinkContextMenu();
+        HandleConnectors();
+    }
+
+    private static void HandleLinkContextMenu()
+    {
+        if (MVInputWrapper.GetBooleanControlDown(KogamaControls.PointerSelectAlt))
+        {
+            VoxelHit voxelHit = new();
+            var pickedLink = ObjectPicker.PickLink(ref voxelHit);
+
+            if (pickedLink != null)
+            {
+                MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().contextMenuController.ShowContextMenuLink(pickedLink.linkID, pickedLink.isObjectLink, voxelHit.point);
+            }
+        }
+    }
+
+    private static void HandleConnectors()
+    {
         if (MVInputWrapper.GetBooleanControlDown(KogamaControls.PointerSelect))
         {
             VoxelHit voxelHit = new();
@@ -67,7 +90,7 @@ internal class LinkFix : MonoBehaviour
 
         MVGameControllerBase.MainCameraManager.lineDrawManager.SetTempLink(tempLink);
 
-        if (connectorCounter >= 2) 
+        if (connectorCounter >= 2)
         {
             if (tempLink.inputWOID != -1 && tempLink.outputWOID != -1)
             {

@@ -3,6 +3,32 @@
 namespace KogamaTools.Helpers;
 internal static class ObjectPicker
 {
+
+    internal static LinkObjectBase PickLink(ref VoxelHit hit)
+    {
+        if (MVGameControllerBase.MainCameraManager.IsLogicRendered)
+        {
+            float num = float.PositiveInfinity;
+
+            if (Pick(ref hit))
+            {
+                num = hit.distance;
+            }
+
+            Ray ray = MVGameControllerBase.MainCameraManager.MainCamera.ScreenPointToRay(MVInputWrapper.GetPointerPosition());
+            int layerMask = 1 << LayerMask.NameToLayer("Logic") | 1 << LayerMask.NameToLayer("LogicSelected");
+            RaycastHit raycastHit;
+
+            Physics.Raycast(ray, out raycastHit, float.PositiveInfinity, layerMask);
+            if (raycastHit.collider != null && raycastHit.distance < num)
+            {
+                hit.point = raycastHit.point;
+                return raycastHit.collider.gameObject.GetComponentInChildren<LinkObjectBase>();
+            }
+        }
+        return null!;
+    }
+
     internal static bool Pick(ref VoxelHit vhit, Il2CppSystem.Collections.Generic.HashSet<int> ignoreWoIds = null!, int layerMask = -262149)
     {
         Ray ray = ScreenToRay();
