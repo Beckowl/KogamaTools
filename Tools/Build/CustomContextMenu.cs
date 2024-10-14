@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace KogamaTools.Tools.Build;
 
@@ -8,60 +9,44 @@ internal class CustomContextMenu : MonoBehaviour
 {
     private static readonly List<ContextMenuItem> menuItems = new List<ContextMenuItem>();
 
-    internal static void AddButton(Func<MVWorldObjectClient, bool> condition, string buttonName, Action<ContextMenuController> action)
+    internal static void AddButton(Func<MVWorldObjectClient, bool> condition, string buttonName, Action<MVWorldObjectClient> action)
     {
         menuItems.Add(new ContextMenuItem(condition, buttonName, action));
     }
 
-    internal static void AddButton(string buttonName, Action<ContextMenuController> action)
-    {
-        menuItems.Add(new ContextMenuItem((wo) => true, buttonName, action));
-    }
-
-    [HarmonyPatch(typeof(ContextMenuController), "PopGizmos")]
+    [HarmonyPatch(typeof(ContextMenu), "AddButton")]
     [HarmonyPrefix]
-    private static void PopGizmos(ContextMenuController __instance)
+    private static bool AddButton(string buttonText, UnityAction onClickCallback, ContextMenu __instance)
     {
-        var wo = __instance.selectedWorldObject;
-        if (wo == null) return;
+        MVWorldObjectClient wo = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().contextMenuController.selectedWorldObject;
+
+        if (buttonText != TM._("Info")) return true;
 
         foreach (var item in menuItems)
         {
             if (item.Condition(wo))
             {
-                CreateMenuItem(item.ButtonName, () => item.Action(__instance));
+                AddCustomButton(item.ButtonName, () => item.Action(wo), __instance);
             }
         }
+
+        return (ForceFlags.Flags & InteractionFlags.Info) == InteractionFlags.Info && ForceFlags.Enabled;
     }
 
-    private static ContextMenu? FindContextMenu()
+    private static void AddCustomButton(string buttonText, Action onClickCallback, ContextMenu __instance)
     {
-        var menus = FindObjectsOfType<ContextMenu>();
-
-        ContextMenu? menu = menus.FirstOrDefault();
-
-        if (menu == null) return null;
-
-        return menu;
-    }
-
-    private static void CreateMenuItem(string buttonName, Action onClick)
-    {
-        ContextMenu? menu = FindContextMenu();
-
-        if (menu != null)
-        {
-            menu.AddButton(buttonName, onClick + menu.Pop);
-        }
+        ContextMenuButton contextMenuButton = Instantiate(__instance.contextMenuButtonPrefab);
+        contextMenuButton.Initialize(buttonText, onClickCallback + __instance.Pop);
+        contextMenuButton.transform.SetParent(__instance.transform, false);
     }
 
     private class ContextMenuItem
     {
         public Func<MVWorldObjectClient, bool> Condition { get; }
         public string ButtonName { get; }
-        public Action<ContextMenuController> Action { get; }
+        public Action<MVWorldObjectClient> Action { get; }
 
-        public ContextMenuItem(Func<MVWorldObjectClient, bool> condition, string buttonName, Action<ContextMenuController> action)
+        public ContextMenuItem(Func<MVWorldObjectClient, bool> condition, string buttonName, Action<MVWorldObjectClient> action)
         {
             Condition = condition;
             ButtonName = buttonName;

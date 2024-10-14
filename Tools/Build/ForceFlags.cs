@@ -34,6 +34,12 @@ internal static class ForceFlags
     [HarmonyPostfix]
     private static void HasInteractionFlag(ref InteractionFlags flag, MVWorldObjectClient __instance, ref bool __result)
     {
+        if (flag == InteractionFlags.Info)
+        {
+            __result = true;
+            return;
+        }
+
         if (!Enabled)
         {
             return;

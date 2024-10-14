@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using KogamaTools.Behaviours;
 using KogamaTools.Tools.Build;
 
 namespace KogamaTools.GUI.Menus;
@@ -77,7 +78,7 @@ internal static class BuildMenu
             ImGui.SameLine();
             if (ImGui.Button("Group selected objects"))
             {
-                ObjectGrouper.GroupSelectedObjects();
+                UnityMainThreadDispatcher.Instance.Enqueue(() => { ObjectGrouper.GroupSelectedObjects(); });
             }
         }
 
