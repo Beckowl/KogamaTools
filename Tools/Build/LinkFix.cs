@@ -15,9 +15,8 @@ internal class LinkFix : MonoBehaviour
 
     private void Update()
     {
-        if (!Enabled) return;
-
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (!MVGameControllerBase.IsInitialized) return;
+        if (!Enabled || EventSystem.current.IsPointerOverGameObject() || MVGameControllerBase.Game.IsPlaying) return;
 
         HandleLinkContextMenu();
         HandleConnectors();
@@ -112,5 +111,12 @@ internal class LinkFix : MonoBehaviour
     private static bool PushState(EditorEvent nextState)
     {
         return !Enabled || nextState != EditorEvent.ESAddLink;
+    }
+
+    [HarmonyPatch(typeof(DesktopEditModeController), "EnterPlayMode")]
+    [HarmonyPrefix]
+    private static void EnterPlayMode()
+    {
+        ResetTempLink();
     }
 }
