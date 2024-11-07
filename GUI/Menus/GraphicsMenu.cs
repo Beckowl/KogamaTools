@@ -15,6 +15,7 @@ internal class GraphicsMenu
         {
             UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fog = FogModifier.FogEnabled; });
         }
+        /*
         if (FogModifier.FogEnabled)
         {
             if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0, 1)) 
@@ -28,6 +29,7 @@ internal class GraphicsMenu
                 UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fogDensity = FogModifier.FogDensity; });
             }    
         }
+        */
 
         ImGui.InputInt2("Resolution", ref ResolutionModifier.resolution[0]);
         ImGui.Checkbox("Fullscreen", ref ResolutionModifier.fullscreen);

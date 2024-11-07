@@ -1,4 +1,5 @@
 ﻿
+using ClickableTransparentOverlay;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
 
@@ -7,11 +8,6 @@ internal class GameInitChecker : MonoBehaviour
 {
     internal static OnGameInitializedDelegate OnGameInitialized = delegate { KogamaTools.mls.LogInfo("Game is initialized."); };
     internal delegate void OnGameInitializedDelegate();
-
-    static GameInitChecker()
-    {
-        OnGameInitialized += GreetingMessage.JoinNotification;
-    }
 
     private static bool initialized = false;
     void Update()

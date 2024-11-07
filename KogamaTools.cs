@@ -5,6 +5,7 @@ using HarmonyLib;
 using KogamaTools.Behaviours;
 using KogamaTools.GUI;
 using KogamaTools.Tools.Build;
+using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class KogamaTools : BasePlugin
 
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
-    internal static KogamaToolsOverlay overlay = new KogamaToolsOverlay(ModName);
+    internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay(ModName);
     internal static KogamaTools Instance = null!;
 
     public override void Load()
@@ -34,12 +35,16 @@ public class KogamaTools : BasePlugin
 
         AddComponent<OverlayHotkeyListener>();
         AddComponent<UnityMainThreadDispatcher>();
-        AddComponent<GameInitChecker>();
         AddComponent<CameraMod.FocusBehaviour>();
         AddComponent<LinkFix>();
+        AddComponent<GameInitChecker>();
 
-        Application.quitting += (Action)(() => { overlay.Close(); });
-        Task.Run(overlay.Start().Wait);
+        GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
+        GameInitChecker.OnGameInitialized += () =>
+        {
+            Application.quitting += (Action)(() => {Overlay.Close(); });
+            Task.Run(Overlay.Start().Wait);
+        };
 
         mls.LogInfo("KogamaTools isloaded, yay!");
     }

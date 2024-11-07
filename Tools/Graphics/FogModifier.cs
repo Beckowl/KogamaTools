@@ -28,6 +28,8 @@ internal class FogModifier : MonoBehaviour
     {
         value = FogEnabled;
     }
+    // TODO: make this toggleable
+    /*
 
     [HarmonyPatch(typeof(RenderSettings), nameof(RenderSettings.fogDensity), MethodType.Setter)]
     [HarmonyPrefix]
@@ -35,4 +37,5 @@ internal class FogModifier : MonoBehaviour
     {
         value = FogDensity;
     }
+    */
 }
