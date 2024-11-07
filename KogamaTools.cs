@@ -35,7 +35,7 @@ public class KogamaTools : BasePlugin
 
         AddComponent<OverlayHotkeyListener>();
         AddComponent<UnityMainThreadDispatcher>();
-        AddComponent<CameraMod.FocusBehaviour>();
+        AddComponent<FOVModifier.FocusBehaviour>();
         AddComponent<LinkFix>();
         AddComponent<GameInitChecker>();
 

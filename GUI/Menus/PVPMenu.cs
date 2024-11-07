@@ -29,36 +29,36 @@ internal static class PVPMenu
             });
         }
 
-        ImGui.Checkbox("Camera Focus", ref CameraMod.FocusSettings.CameraFocusEnabled);
+        ImGui.Checkbox("Camera Focus", ref FOVModifier.FocusSettings.CameraFocusEnabled);
 
-        if (CameraMod.FocusSettings.CameraFocusEnabled)
+        if (FOVModifier.FocusSettings.CameraFocusEnabled)
         {
             ImGui.SameLine();
-            ImGui.Checkbox("Override rail gun zoom", ref CameraMod.FocusSettings.OverrideRailGunZoom);
+            ImGui.Checkbox("Override rail gun zoom", ref FOVModifier.FocusSettings.OverrideRailGunZoom);
 
-            ImGui.InputFloat("FOV multiplier", ref CameraMod.FocusSettings.FOVMultiplier);
-            ImGui.InputFloat("Sensitivity multiplier", ref CameraMod.FocusSettings.SensitivityMultiplier);
-            ImGui.InputFloat("Zoom speed", ref CameraMod.FocusSettings.FocusSpeed);
+            ImGui.InputFloat("FOV multiplier", ref FOVModifier.FocusSettings.FOVMultiplier);
+            ImGui.InputFloat("Sensitivity multiplier", ref FOVModifier.FocusSettings.SensitivityMultiplier);
+            ImGui.InputFloat("Zoom speed", ref FOVModifier.FocusSettings.FocusSpeed);
         }
 
-        ImGui.Checkbox("Custom FOV", ref CameraMod.CustomFOVEnabled);
+        ImGui.Checkbox("Custom FOV", ref FOVModifier.CustomFOVEnabled);
 
-        if (CameraMod.CustomFOVEnabled)
+        if (FOVModifier.CustomFOVEnabled)
         {
-            ImGui.InputFloat("FOV", ref CameraMod.CustomFOV);
+            ImGui.InputFloat("FOV", ref FOVModifier.CustomFOV);
         }
 
         ImGui.PopItemWidth();
         ImGui.PushItemWidth(160);
 
-        ImGui.Checkbox("Custom crosshair color", ref CrossHairMod.CustomCrossHairColorEnabled);
+        ImGui.Checkbox("Custom crosshair color", ref CustomCrossHairColor.Enabled);
 
-        if (CrossHairMod.CustomCrossHairColorEnabled)
+        if (CustomCrossHairColor.Enabled)
         {
-            System.Numerics.Vector4 crosshaircolor = ColorHelper.ToVector4(CrossHairMod.CrossHairColor);
+            System.Numerics.Vector4 crosshaircolor = ColorHelper.ToVector4(CustomCrossHairColor.Color);
             if (ImGui.ColorEdit4("Crosshair color", ref crosshaircolor))
             {
-                CrossHairMod.SetCrossHairColorFromVec4(crosshaircolor);
+                CustomCrossHairColor.SetCrossHairColorFromVec4(crosshaircolor);
             }
         }
 
@@ -69,7 +69,7 @@ internal static class PVPMenu
         if (ImGui.Button("Load"))
         {
             string path = Encoding.UTF8.GetString(customCrosshairPath).TrimEnd('\0');
-            UnityMainThreadDispatcher.Instance.Enqueue(() => CrossHairMod.SetCrossHairTexture(path));
+            UnityMainThreadDispatcher.Instance.Enqueue(() => CustomCrossHairColor.SetCrossHairTexture(path));
 
         }
 

@@ -10,17 +10,17 @@ internal class CrossHairColorCommand : BaseCommand
     [CommandVariant]
     private void Toggle()
     {
-        CrossHairMod.CustomCrossHairColorEnabled = !CrossHairMod.CustomCrossHairColorEnabled;
-        NotificationHelper.NotifySuccess($"Crosshair color {(CrossHairMod.CustomCrossHairColorEnabled ? "enabled" : "disabled")}.");
+        CustomCrossHairColor.Enabled = !CustomCrossHairColor.Enabled;
+        NotificationHelper.NotifySuccess($"Crosshair color {(CustomCrossHairColor.Enabled ? "enabled" : "disabled")}.");
     }
 
     [CommandVariant]
     private void SetColor(string colorString)
     {
-        if (ColorHelper.TryParseColorString(colorString, out CrossHairMod.CrossHairColor))
+        if (ColorHelper.TryParseColorString(colorString, out CustomCrossHairColor.Color))
         {
             NotificationHelper.NotifySuccess($"Crosshair color set to \"{colorString}\".");
-            CrossHairMod.CustomCrossHairColorEnabled = true;
+            CustomCrossHairColor.Enabled = true;
             return;
         }
         NotificationHelper.WarnUser($"The color \"{colorString}\" is invalid!");

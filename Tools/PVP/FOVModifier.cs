@@ -4,7 +4,7 @@ using UnityEngine;
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
-internal static class CameraMod
+internal static class FOVModifier
 {
     internal static bool CustomFOVEnabled = false;
     internal static float CustomFOV = 60;

@@ -6,17 +6,17 @@ using UnityEngine.UI;
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
-internal class CrossHairMod
+internal class CustomCrossHairColor
 {
-    internal static bool CustomCrossHairColorEnabled = false;
-    internal static Color CrossHairColor = new(0, 1, 0, 0);
+    internal static bool Enabled = false;
+    internal static Color Color = new(0, 1, 0, 0);
 
     internal static void SetCrossHairColorFromVec4(System.Numerics.Vector4 color)
     {
-        CrossHairColor.r = color.X;
-        CrossHairColor.g = color.Y;
-        CrossHairColor.b = color.Z;
-        CrossHairColor.a = color.W;
+        Color.r = color.X;
+        Color.g = color.Y;
+        Color.b = color.Z;
+        Color.a = color.W;
     }
 
     internal static void SetCrossHairTexture(string filePath)
@@ -44,12 +44,12 @@ internal class CrossHairMod
     [HarmonyPostfix]
     private static void UpdateCrossHair(CrossHair __instance, ref PickupItem pickupItem)
     {
-        if (!CustomCrossHairColorEnabled)
+        if (!Enabled)
             return;
 
         if (__instance.crossHair != null)
         {
-            __instance.crossHair.color = CrossHairColor;
+            __instance.crossHair.color = Color;
         }
     }
 }
