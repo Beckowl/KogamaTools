@@ -1,7 +1,4 @@
-﻿
-using ClickableTransparentOverlay;
-using KogamaTools.Tools.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace KogamaTools.Behaviours;
 internal class GameInitChecker : MonoBehaviour
