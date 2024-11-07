@@ -7,6 +7,7 @@ namespace KogamaTools.Tools.Graphics;
 internal class FogModifier : MonoBehaviour
 {
     internal static bool FogEnabled = HasFog();
+    internal static float FogDensity = RenderSettings.fogDensity;
 
     private static bool HasFog()
     {
@@ -26,5 +27,12 @@ internal class FogModifier : MonoBehaviour
     private static void FogPrefix(ref bool value)
     {
         value = FogEnabled;
+    }
+
+    [HarmonyPatch(typeof(RenderSettings), nameof(RenderSettings.fogDensity), MethodType.Setter)]
+    [HarmonyPrefix]
+    private static void FogDensityPrefix(ref float value)
+    {
+        value = FogDensity;
     }
 }

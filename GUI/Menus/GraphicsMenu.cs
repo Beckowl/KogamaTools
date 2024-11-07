@@ -15,6 +15,19 @@ internal class GraphicsMenu
         {
             UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fog = FogModifier.FogEnabled; });
         }
+        if (FogModifier.FogEnabled)
+        {
+            if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0, 1)) 
+            {
+                UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fogDensity = FogModifier.FogDensity; });
+            }
+            ImGui.SameLine();
+
+            if (ImGui.InputFloat("", ref FogModifier.FogDensity))
+            {
+                UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fogDensity = FogModifier.FogDensity; });
+            }    
+        }
 
         ImGui.InputInt2("Resolution", ref ResolutionModifier.resolution[0]);
         ImGui.Checkbox("Fullscreen", ref ResolutionModifier.fullscreen);
@@ -32,6 +45,14 @@ internal class GraphicsMenu
         if (ImGui.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
         {
             ClipPlaneModifier.ApplyClipPlane();
+        }
+
+        if (ImGui.Checkbox("Themes enabled", ref ThemeModifier.ThemesEnabled))
+        {
+            UnityMainThreadDispatcher.Instance.Enqueue(() =>
+            {
+                ThemeModifier.UpdateThemesEnabled();
+            });
         }
 
         ImGui.EndTabItem();
