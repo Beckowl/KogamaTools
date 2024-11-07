@@ -22,15 +22,9 @@ public class KogamaTools : BasePlugin
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
     internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay(ModName);
-    internal static KogamaTools Instance = null!;
 
     public override void Load()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
         harmony.PatchAll();
 
         AddComponent<OverlayHotkeyListener>();

@@ -102,7 +102,7 @@ public class UnityMainThreadDispatcher : MonoBehaviour
         yield return null;
     }
 
-    private static UnityMainThreadDispatcher _instance = null;
+    private static UnityMainThreadDispatcher _instance = null!;
 
     public static bool Exists()
     {
@@ -132,6 +132,6 @@ public class UnityMainThreadDispatcher : MonoBehaviour
 
     private void OnDestroy()
     {
-        _instance = null;
+        _instance = null!;
     }
 }

@@ -22,7 +22,7 @@ public enum CommandResult
 internal abstract class BaseCommand : ICommand
 {
     public List<string> Names { get; private set; } = new List<string>();
-    public string Description { get; private set; }
+    public string Description { get; private set; } = String.Empty;
     public List<CommandVariant> Variants { get; } = new List<CommandVariant>();
 
     protected BaseCommand()

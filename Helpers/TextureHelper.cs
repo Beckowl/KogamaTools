@@ -7,7 +7,7 @@ internal static class TextureHelper
 {
     public static Texture2D LoadPNG(string filePath)
     {
-        Texture2D tex = null;
+        Texture2D tex = null!;
 
         if (File.Exists(filePath)) // does not work if path has special characters
         {
