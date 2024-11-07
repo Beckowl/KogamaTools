@@ -6,11 +6,6 @@ internal class ObjectGrouper : MonoBehaviour
     private static FSMEntity editModeStateMachine;
     private static ESWaitForGroup grouper = new();
 
-    static ObjectGrouper()
-    {
-        KogamaTools.Instance.AddComponent<ObjectGrouper>();
-    }
-
     internal static void GroupSelectedObjects()
     {
         if (editModeStateMachine == null)

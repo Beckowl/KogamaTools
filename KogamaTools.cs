@@ -37,6 +37,7 @@ public class KogamaTools : BasePlugin
         AddComponent<UnityMainThreadDispatcher>();
         AddComponent<FOVModifier.FocusBehaviour>();
         AddComponent<LinkFix>();
+        AddComponent<ObjectGrouper>();
         AddComponent<GameInitChecker>();
 
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
