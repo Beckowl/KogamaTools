@@ -38,6 +38,7 @@ internal class InfoMenu
             ImGui.Text("\n");
             ImGui.Text($"Ping:\t{ping}ms");
             ImGui.Text($"FPS:\t{fps}");
+            ImGui.Text("\nMade by Becko.");
 
             ImGui.EndTabItem();
         }
