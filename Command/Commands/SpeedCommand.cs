@@ -10,15 +10,15 @@ internal class SpeedCommand : BaseCommand
     [CommandVariant]
     private void Toggle()
     {
-        EditModeMovement.SpeedMultEnabled = !EditModeMovement.SpeedMultEnabled;
-        NotificationHelper.NotifySuccess($"Speed Multiplier {(EditModeMovement.SpeedMultEnabled ? "enabled" : "disabled")}.");
+        EditModeSpeed.MultiplierEnabled = !EditModeSpeed.MultiplierEnabled;
+        NotificationHelper.NotifySuccess($"Speed Multiplier {(EditModeSpeed.MultiplierEnabled ? "enabled" : "disabled")}.");
     }
 
     [CommandVariant]
     private void SetSpeed(float multiplier)
     {
-        EditModeMovement.SpeedMult = multiplier;
+        EditModeSpeed.Multiplier = multiplier;
         NotificationHelper.NotifySuccess($"Speed Multiplier set to {multiplier}.");
-        EditModeMovement.SpeedMultEnabled = true;
+        EditModeSpeed.MultiplierEnabled = true;
     }
 }

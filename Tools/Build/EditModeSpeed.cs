@@ -4,21 +4,21 @@ using UnityEngine;
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
-internal static class EditModeMovement
+internal static class EditModeSpeed
 {
-    internal static float SpeedMult = 2;
-    internal static bool SpeedMultEnabled = false;
+    internal static float Multiplier = 2;
+    internal static bool MultiplierEnabled = false;
     internal static bool MovementConstraintEnabled = true;
 
     [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode), "MoveCharacter")]
     [HarmonyPrefix]
     private static void MoveCharacter(ref Vector3 moveDelta, MVBuildModeAvatarLocal.EditMode __instance)
     {
-        if (SpeedMultEnabled)
+        if (MultiplierEnabled)
         {
-            moveDelta.x *= SpeedMult;
-            moveDelta.y *= SpeedMult;
-            moveDelta.z *= SpeedMult;
+            moveDelta.x *= Multiplier;
+            moveDelta.y *= Multiplier;
+            moveDelta.z *= Multiplier;
         }
 
         __instance.MovementConstrained = __instance.MovementConstrained && MovementConstraintEnabled;

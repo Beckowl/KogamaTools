@@ -38,9 +38,9 @@ internal static class BuildMenu
         ImGui.Checkbox("No build limit", ref NoLimit.Enabled);
 
         ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
-        ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeMovement.MovementConstraintEnabled);
+        ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeSpeed.MovementConstraintEnabled);
 
-        ImGui.Checkbox("Speed multiplier", ref EditModeMovement.SpeedMultEnabled);
+        ImGui.Checkbox("Speed multiplier", ref EditModeSpeed.MultiplierEnabled);
 
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
         ImGui.Checkbox("Custom model scale", ref CustomModelScale.Enabled);
@@ -82,9 +82,9 @@ internal static class BuildMenu
             }
         }
 
-        if (EditModeMovement.SpeedMultEnabled)
+        if (EditModeSpeed.MultiplierEnabled)
         {
-            ImGui.InputFloat("Multiplier", ref EditModeMovement.SpeedMult);
+            ImGui.InputFloat("Multiplier", ref EditModeSpeed.Multiplier);
         }
 
         ImGui.Checkbox("Fast links", ref FastLinks.Enabled);

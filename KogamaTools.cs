@@ -35,6 +35,7 @@ public class KogamaTools : BasePlugin
         AddComponent<GameInitChecker>();
 
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
+        GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
         GameInitChecker.OnGameInitialized += () =>
         {
             Application.quitting += (Action)(() => { Overlay.Close(); });

@@ -19,8 +19,6 @@ internal static class CustomGrid
         }
     }
 
-
-
     [HarmonyPatch(typeof(MVWorldObjectClient), "GetClosestGridPoint")]
     [HarmonyPrefix]
     static void GetClosestGridPoint(ref float gridSize)

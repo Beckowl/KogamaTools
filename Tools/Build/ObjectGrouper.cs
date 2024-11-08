@@ -1,28 +1,27 @@
-﻿using UnityEngine;
+﻿using HarmonyLib;
+using KogamaTools.Helpers;
+using UnityEngine;
 
 namespace KogamaTools.Tools.Build;
+
+[HarmonyPatch]
 internal class ObjectGrouper : MonoBehaviour
 {
+    internal static bool CanGroup = false;
     private static FSMEntity editModeStateMachine = null!;
     private static ESWaitForGroup grouper = new();
 
+    internal static void OnGameInitialized()
+    {
+        editModeStateMachine = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
+    }
+
     internal static void GroupSelectedObjects()
     {
-        if (editModeStateMachine == null)
+        if (editModeStateMachine != null)
         {
-            if (MVGameControllerBase.IsInitialized && MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
-            {
-                editModeStateMachine = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
-                grouper.Enter(editModeStateMachine);
-            }
-            else
-            {
-                KogamaTools.mls.LogError("Game has not loaded yet");
-            }
-            return;
+            grouper.Enter(editModeStateMachine);
         }
-
-        grouper.Enter(editModeStateMachine);
     }
 
     private void Update()
@@ -33,6 +32,20 @@ internal class ObjectGrouper : MonoBehaviour
             {
                 grouper.Execute(editModeStateMachine);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(ESWaitForGroup), "WOCM_OnTransferWosResponse")]
+    [HarmonyPrefix]
+    private static void WOCM_OnTransferWosResponse(OnTransferWosResponseEventArgs e)
+    {
+        if (e.success)
+        {
+            NotificationHelper.NotifySuccess("Objects grouped successfully.");
+        }
+        else
+        {
+            NotificationHelper.NotifyError("Failed to group objects.");
         }
     }
 }
