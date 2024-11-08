@@ -44,6 +44,10 @@ internal static class BuildMenu
         ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeSpeed.MovementConstraintEnabled);
 
         ImGui.Checkbox("Speed multiplier", ref EditModeSpeed.MultiplierEnabled);
+        if (EditModeSpeed.MultiplierEnabled)
+        {
+            ImGui.InputFloat("Multiplier", ref EditModeSpeed.Multiplier);
+        }
 
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
         ImGui.Checkbox("Custom model scale", ref CustomModelScale.Enabled);
@@ -83,11 +87,6 @@ internal static class BuildMenu
             {
                 UnityMainThreadDispatcher.Instance.Enqueue(() => { ObjectGrouper.GroupSelectedObjects(); });
             }
-        }
-
-        if (EditModeSpeed.MultiplierEnabled)
-        {
-            ImGui.InputFloat("Multiplier", ref EditModeSpeed.Multiplier);
         }
 
         ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
