@@ -31,6 +31,9 @@ internal static class BuildMenu
 
     internal static void Render()
     {
+        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play)
+            return;
+ 
         if (!ImGui.BeginTabItem("Build"))
             return;
 

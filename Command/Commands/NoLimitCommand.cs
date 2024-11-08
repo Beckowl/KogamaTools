@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/nolimit")]
 [CommandDescription("Disables the minumum cube count and modeling constraint of models/avatars.")]
+[BuildModeOnly]
 internal class NoLimitCommand : BaseCommand
 {
     [CommandVariant]

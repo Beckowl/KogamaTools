@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/bluemode")]
 [CommandDescription("Disables the blue background in model editing.")]
+[BuildModeOnly]
 internal class BlueModeCommand : BaseCommand
 {
     [CommandVariant]

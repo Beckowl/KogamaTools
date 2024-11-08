@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/speed")]
 [CommandDescription("Sets a speed multiplier for movement in edit mode.")]
+[BuildModeOnly]
 internal class SpeedCommand : BaseCommand
 {
     [CommandVariant]

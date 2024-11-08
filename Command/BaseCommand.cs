@@ -8,6 +8,7 @@ internal interface ICommand
 {
     List<string> Names { get; }
     string Description { get; }
+    bool BuildModeOnly { get; }
     List<CommandVariant> Variants { get; }
     CommandResult TryExecute(string[] args);
     void DisplayHelp();
@@ -16,13 +17,16 @@ internal interface ICommand
 public enum CommandResult
 {
     Ok,
-    InvalidArgs
+    InvalidArgs,
+    BuildModeOnly
 }
 
 internal abstract class BaseCommand : ICommand
 {
     public List<string> Names { get; private set; } = new List<string>();
     public string Description { get; private set; } = String.Empty;
+
+    public bool BuildModeOnly { get; private set; }
     public List<CommandVariant> Variants { get; } = new List<CommandVariant>();
 
     protected BaseCommand()
@@ -75,6 +79,8 @@ internal abstract class BaseCommand : ICommand
         LoadNames(type);
         LoadDescription(type);
         LoadVariants(type);
+
+        BuildModeOnly = type.GetCustomAttributes(typeof(BuildModeOnlyAttribute)).Any();
     }
 
     public CommandResult TryExecute(string[] args)
@@ -83,6 +89,11 @@ internal abstract class BaseCommand : ICommand
         {
             DisplayHelp();
             return CommandResult.Ok;
+        }
+
+        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play && BuildModeOnly)
+        {
+            return CommandResult.BuildModeOnly;
         }
 
         foreach (CommandVariant variant in Variants)

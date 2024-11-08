@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/rotationstep")]
 [CommandDescription("Defines the rotation angle in degrees for when something is rotated.")]
+[BuildModeOnly]
 internal class RotationStepCommand : BaseCommand
 {
     [CommandVariant]

@@ -13,7 +13,10 @@ internal class ObjectGrouper : MonoBehaviour
 
     internal static void OnGameInitialized()
     {
-        editModeStateMachine = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
+        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Play)
+        {
+            editModeStateMachine = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
+        }
     }
 
     internal static void GroupSelectedObjects()

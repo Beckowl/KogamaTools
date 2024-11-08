@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/modelscale")]
 [CommandDescription("Sets a custom scale for newly created models.")]
+[BuildModeOnly]
 internal class ModelScaleCommand : BaseCommand
 {
     [CommandVariant]

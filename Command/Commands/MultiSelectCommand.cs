@@ -4,7 +4,9 @@ using KogamaTools.Tools.Build;
 namespace KogamaTools.Command.Commands;
 
 [CommandName("/multiselect")]
+[CommandName("/msel")]
 [CommandDescription("Allows you to move/rotate multiple objects at once.")]
+[BuildModeOnly]
 internal class MultiSelectCommand : BaseCommand
 {
     [CommandVariant]

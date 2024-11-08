@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/group")]
 [CommandDescription("Groups all selected objects.")]
+[BuildModeOnly]
 internal class GroupCommand : BaseCommand
 {
     [CommandVariant]

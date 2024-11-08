@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/fastlinks")]
 [CommandDescription("Disables link validation on the client side.")]
+[BuildModeOnly]
 internal class FastLinksCommand : BaseCommand
 {
     [CommandVariant]

@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 [CommandName("/teleport")]
 [CommandName("/tp")] // alias
 [CommandDescription("Teleports you to a specified player's position.")]
+[BuildModeOnly]
 internal class TeleportCommand : BaseCommand
 {
     [CommandVariant]

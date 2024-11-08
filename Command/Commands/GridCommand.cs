@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/grid")]
 [CommandDescription("Sets the grid size for object insertion, rotation and translation.")]
+[BuildModeOnly]
 internal class GridCommand : BaseCommand
 {
     [CommandVariant]

@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/unlimitedconfig")]
 [CommandDescription("Defines a custom range for input fields/sliders.")]
+[BuildModeOnly]
 internal class UnlimitedConfigCommand : BaseCommand
 {
     [CommandVariant]

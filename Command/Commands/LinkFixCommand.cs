@@ -5,6 +5,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/linkfix")]
 [CommandDescription("Allows connections between grouped logic.")]
+[BuildModeOnly]
 internal class LinkFixCommand : BaseCommand
 {
     [CommandVariant]
