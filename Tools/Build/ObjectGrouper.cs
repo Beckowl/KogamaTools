@@ -8,7 +8,7 @@ namespace KogamaTools.Tools.Build;
 internal class ObjectGrouper : MonoBehaviour
 {
     internal static bool CanGroup = false;
-    private static FSMEntity editModeStateMachine = null!;
+    private static EditorStateMachine editModeStateMachine = null!;
     private static ESWaitForGroup grouper = new();
 
     internal static void OnGameInitialized()
@@ -38,6 +38,36 @@ internal class ObjectGrouper : MonoBehaviour
         }
     }
 
+    [HarmonyPatch(typeof(MVWorldObjectClientManagerNetwork), "SetOwnerInHierarchy")]
+    [HarmonyPrefix]
+    private static bool SetOwnerInHierarchy(MVWorldObjectClientManagerNetwork __instance, int id, int actorNr)
+    {
+        __instance.worldObjects[id].OwnerActorNr = actorNr;
+        if (__instance.worldObjects[id].GetType() == typeof(MVGroup))
+        {
+            foreach (MVWorldObjectClient mvworldObjectClient in ((MVGroup)__instance.worldObjects[id]).Children)
+            {
+                mvworldObjectClient.OwnerActorNr = actorNr;
+            }
+        }
+        return false;
+    }
+
+    [HarmonyPatch(typeof(ESWaitForGroup), "Enter")]
+    [HarmonyPostfix]
+    private static void Enter(ESWaitForGroup __instance)
+    {
+        for (int i = __instance.lockList.Count - 1; i >= 0; i--)
+        {
+            int id = __instance.lockList[i];
+            if (MVGameControllerBase.WOCM.IsType(id, MV.WorldObject.WorldObjectType.CubeModel))
+            {
+                __instance.lockList.RemoveAt(i);
+                NotificationHelper.WarnUser($"Grouping models is currently not supported. World object {id} will not be grouped.");
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(ESWaitForGroup), "WOCM_OnTransferWosResponse")]
     [HarmonyPrefix]
     private static void WOCM_OnTransferWosResponse(OnTransferWosResponseEventArgs e)
@@ -45,6 +75,8 @@ internal class ObjectGrouper : MonoBehaviour
         if (e.success)
         {
             NotificationHelper.NotifySuccess("Objects grouped successfully.");
+            MultiSelect.ForceSelection = false;
+            editModeStateMachine.DeSelectAll();
         }
         else
         {

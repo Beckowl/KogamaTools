@@ -15,7 +15,7 @@ internal class KogamaToolsOverlay : Overlay
 
     private readonly string _windowName;
 
-    public KogamaToolsOverlay(string windowName) : base(windowName)
+    public KogamaToolsOverlay(string windowName) : base(windowName, true)
     {
         _windowName = windowName;
     }
