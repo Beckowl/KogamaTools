@@ -111,6 +111,8 @@ internal class LinkFix : MonoBehaviour
     [HarmonyPrefix]
     private static bool Enter(ESAddObjectLink __instance, EditorStateMachine esm)
     {
+        if (!Enabled) return true;
+
         MVWorldObjectClient worldObject = null!;
 
         VoxelHit voxelHit = new();
