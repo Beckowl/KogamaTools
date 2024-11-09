@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using ClickableTransparentOverlay;
+using Il2CppInterop.Runtime;
 using ImGuiNET;
 using KogamaTools.GUI.Menus;
 
@@ -8,10 +9,9 @@ namespace KogamaTools.GUI;
 internal class KogamaToolsOverlay : Overlay
 {
     internal static bool ShouldRenderOverlay = true;
-    private const float DefaultWidth = 416f;
-    private const float DefaultHeight = 300f;
+    private const int DefaultWidth = 416;
+    private const int DefaultHeight = 300;
     private static readonly System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(DefaultWidth, DefaultHeight);
-
 
     private readonly string _windowName;
 
@@ -22,7 +22,9 @@ internal class KogamaToolsOverlay : Overlay
 
     protected override Task PostInitialized()
     {
+        IL2CPP.il2cpp_thread_attach(IL2CPP.il2cpp_domain_get());
         VSync = true;
+        Size = new System.Drawing.Size(DefaultWidth, DefaultHeight);
         return Task.CompletedTask;
     }
 
