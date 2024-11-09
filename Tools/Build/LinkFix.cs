@@ -59,13 +59,14 @@ internal class LinkFix : MonoBehaviour
     private static bool IsPointerOverConnector(MVWorldObjectClient wo, out SelectedConnector connector)
     {
         connector = SelectedConnector.None;
+        Vector3 mousePosition = MVInputWrapper.GetPointerPosition();
 
-        if (wo.HasInputConnector && wo.IsPointOverInputConnector(MVInputWrapper.GetPointerPosition()))
+        if (wo.HasInputConnector && wo.IsPointOverOutputConnector(mousePosition))
         {
             connector = SelectedConnector.Input;
             return true;
         }
-        else if (wo.HasOutputConnector && wo.IsPointOverOutputConnector(MVInputWrapper.GetPointerPosition()))
+        else if (wo.HasOutputConnector && wo.IsPointOverOutputConnector(mousePosition))
         {
             connector = SelectedConnector.Output;
             return true;
@@ -104,6 +105,35 @@ internal class LinkFix : MonoBehaviour
         MVGameControllerBase.MainCameraManager.LineDrawManager.SetTempLink(null);
         tempLink = new();
         connectorCounter = 0;
+    }
+
+    [HarmonyPatch(typeof(ESAddObjectLink), "Enter")]
+    [HarmonyPrefix]
+    private static bool Enter(ESAddObjectLink __instance, EditorStateMachine esm)
+    {
+        MVWorldObjectClient worldObject = null!;
+
+        VoxelHit voxelHit = new();
+
+        if (ObjectPicker.Pick(ref voxelHit) && voxelHit.woId != -1)
+        {
+            worldObject = MVGameControllerBase.WOCM.GetWorldObjectClient(voxelHit.woId);
+        }
+
+        if (worldObject != null)
+        {
+            __instance.tempLink = new ObjectLink();
+            if (worldObject.SelectedConnector != SelectedConnector.Object)
+            {
+                Debug.LogError("Should not happen - object links can only be added when starting from object-connector");
+                esm.PopState();
+                return false;
+            }
+            __instance.tempLink.objectConnectorWOID = worldObject.Id;
+            MVGameControllerBase.MainCameraManager.LineDrawManager.SetTempObjectLink(__instance.tempLink);
+            __instance.woRef = MVGameControllerBase.WOCM.GetWorldObjectClientRef(worldObject.Id);
+        }
+        return false;
     }
 
     [HarmonyPatch(typeof(FSMEntity), "PushState", new Type[] { typeof(EditorEvent) })]
