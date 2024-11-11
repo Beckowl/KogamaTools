@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System.Runtime.InteropServices;
+using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -33,6 +34,7 @@ public class KogamaTools : BasePlugin
         AddComponent<LinkFix>();
         AddComponent<ObjectGrouper>();
         AddComponent<GameInitChecker>();
+        AddComponent<ModelReplicator>();
 
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
         GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
