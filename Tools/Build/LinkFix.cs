@@ -61,16 +61,18 @@ internal class LinkFix : MonoBehaviour
         connector = SelectedConnector.None;
         Vector3 mousePosition = MVInputWrapper.GetPointerPosition();
 
-        if (wo.HasInputConnector && wo.IsPointOverOutputConnector(mousePosition))
+        if (wo.HasInputConnector && wo.IsPointOverInputConnector(mousePosition))
         {
             connector = SelectedConnector.Input;
             return true;
         }
-        else if (wo.HasOutputConnector && wo.IsPointOverOutputConnector(mousePosition))
+
+        if (wo.HasOutputConnector && wo.IsPointOverOutputConnector(mousePosition))
         {
             connector = SelectedConnector.Output;
             return true;
         }
+
         return false;
     }
 
