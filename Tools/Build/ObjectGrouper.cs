@@ -68,9 +68,7 @@ internal class ObjectGrouper : MonoBehaviour
                 NotificationHelper.WarnUser($"Grouping models is currently not supported. World object with ID {id} will not be grouped.");
                 continue;
             }
-
-            MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(id);
-            if ((wo.DocumentationType & (MVWorldObjectDocumentationType.Hovercraft | MVWorldObjectDocumentationType.BigJetpack | MVWorldObjectDocumentationType.BigJetpack)) != 0)
+            else if (MVGameControllerBase.WOCM.IsType(id, MV.WorldObject.WorldObjectType.WorldObjectSpawnerVehicle))
             {
                 __instance.lockList.RemoveAt(i);
                 MVGameControllerBase.OperationRequests.LockHierarchy(id, false);
