@@ -10,9 +10,10 @@ internal class ObjectGrouper : MonoBehaviour
     private static EditorStateMachine editModeStateMachine = null!;
     private static ESWaitForGroup grouper = new();
 
+
     internal static void OnGameInitialized()
     {
-        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Play)
+        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
         {
             editModeStateMachine = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
         }

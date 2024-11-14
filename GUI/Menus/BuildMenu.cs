@@ -31,7 +31,7 @@ internal static class BuildMenu
 
     internal static void Render()
     {
-        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play)
+        if (!(MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit || MVGameControllerBase.GameMode == MV.Common.MVGameMode.CharacterEditor))
             return;
  
         if (!ImGui.BeginTabItem("Build"))
@@ -50,55 +50,59 @@ internal static class BuildMenu
         }
 
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
-        ImGui.Checkbox("Custom model scale", ref CustomModelScale.Enabled);
 
-        if (CustomModelScale.Enabled)
+        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
         {
-            ImGui.InputFloat("Scale", ref CustomModelScale.CustomScale);
-        }
+            ImGui.Checkbox("Custom model scale", ref CustomModelScale.Enabled);
 
-        ImGui.Checkbox("Custom rotation step", ref RotationStep.Enabled);
-
-        if (RotationStep.Enabled)
-        {
-            ImGui.InputFloat("Rotation step", ref RotationStep.Step);
-        }
-
-        ImGui.Checkbox("Custom grid size", ref CustomGrid.Enabled);
-
-        if (CustomGrid.Enabled)
-        {
-            ImGui.InputFloat("Grid size", ref CustomGrid.GridSize);
-        }
-
-        ImGui.Checkbox("Unlimited config", ref UnlimitedConfig.Enabled);
-
-        if (UnlimitedConfig.Enabled)
-        {
-            ImGui.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
-            ImGui.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
-        }
-
-        ImGui.Checkbox("Multi select", ref MultiSelect.ForceSelection);
-        if (MultiSelect.ForceSelection)
-        {
-            ImGui.SameLine();
-            if (ImGui.Button("Group selected objects"))
+            if (CustomModelScale.Enabled)
             {
-                UnityMainThreadDispatcher.Instance.Enqueue(() => { ObjectGrouper.GroupSelectedObjects(); });
+                ImGui.InputFloat("Scale", ref CustomModelScale.CustomScale);
             }
-        }
 
-        ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
-        ImGui.Checkbox("Link fix", ref LinkFix.Enabled);
-        ImGui.Checkbox("Force object links", ref ForceObjectLinks.Enabled);
+            ImGui.Checkbox("Custom rotation step", ref RotationStep.Enabled);
 
-        ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
-        if (ForceFlags.Enabled)
-        {
-            ImGui.SameLine();
-            ImGui.Checkbox("Override", ref ForceFlags.Override);
-            ShowInteractionFlags();
+            if (RotationStep.Enabled)
+            {
+                ImGui.InputFloat("Rotation step", ref RotationStep.Step);
+            }
+
+            ImGui.Checkbox("Custom grid size", ref CustomGrid.Enabled);
+
+            if (CustomGrid.Enabled)
+            {
+                ImGui.InputFloat("Grid size", ref CustomGrid.GridSize);
+            }
+
+            ImGui.Checkbox("Unlimited config", ref UnlimitedConfig.Enabled);
+
+            if (UnlimitedConfig.Enabled)
+            {
+                ImGui.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
+                ImGui.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
+            }
+
+            ImGui.Checkbox("Multi select", ref MultiSelect.ForceSelection);
+            if (MultiSelect.ForceSelection)
+            {
+                ImGui.SameLine();
+                if (ImGui.Button("Group selected objects"))
+                {
+                    UnityMainThreadDispatcher.Instance.Enqueue(() => { ObjectGrouper.GroupSelectedObjects(); });
+                }
+            }
+
+            ImGui.Checkbox("Fast links", ref FastLinks.Enabled);
+            ImGui.Checkbox("Link fix", ref LinkFix.Enabled);
+            ImGui.Checkbox("Force object links", ref ForceObjectLinks.Enabled);
+
+            ImGui.Checkbox("Force interaction flags", ref ForceFlags.Enabled);
+            if (ForceFlags.Enabled)
+            {
+                ImGui.SameLine();
+                ImGui.Checkbox("Override", ref ForceFlags.Override);
+                ShowInteractionFlags();
+            }
         }
 
         ImGui.PopItemWidth();

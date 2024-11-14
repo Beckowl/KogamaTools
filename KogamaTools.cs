@@ -18,7 +18,7 @@ public class KogamaTools : BasePlugin
     public const string
     ModGUID = "KogamaTools",
     ModName = "KogamaTools",
-    ModVersion = "0.1.2";
+    ModVersion = "0.1.4";
 
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
@@ -32,12 +32,12 @@ public class KogamaTools : BasePlugin
         AddComponent<UnityMainThreadDispatcher>();
         AddComponent<FOVModifier.FocusBehaviour>();
         AddComponent<LinkFix>();
-        AddComponent<ObjectGrouper>();
         AddComponent<GameInitChecker>();
         AddComponent<ModelReplicator>();
+        AddComponent<ObjectGrouper>();
 
-        GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
         GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
+        GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
         GameInitChecker.OnGameInitialized += () =>
         {
             Application.quitting += (Action)(() => { Overlay.Close(); });

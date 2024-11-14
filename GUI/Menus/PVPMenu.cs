@@ -13,6 +13,10 @@ internal static class PVPMenu
     private static bool antiAFKEnabled = false;
     internal static void Render()
     {
+
+        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.CharacterEditor)
+            return;
+
         if (!ImGui.BeginTabItem("PvP"))
             return;
 
