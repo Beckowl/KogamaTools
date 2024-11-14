@@ -13,8 +13,8 @@ internal class GroupEdit
     static GroupEdit()
     {
         CustomContextMenu.AddButton(
-            wo => MVGameControllerBase.WOCM.IsType(wo.id, WorldObjectType.Group) && !GroupStack.Contains(wo),
             "Edit Group",
+            wo => MVGameControllerBase.WOCM.IsType(wo.id, WorldObjectType.Group) && !GroupStack.Contains(wo),
             wo => EnterGroupEdit(wo)
         );
     }

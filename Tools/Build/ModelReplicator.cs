@@ -37,8 +37,8 @@ internal class ModelReplicator : MonoBehaviour
         ResetState();
 
         CustomContextMenu.AddButton(
-            wo => CanCopyModel(wo),
             "Copy Model",
+            wo => CanCopyModel(wo),
             wo => SetSourceModel(wo)
             );
 
