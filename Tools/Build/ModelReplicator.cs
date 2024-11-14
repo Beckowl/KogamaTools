@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
+using HarmonyLib;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using MV.WorldObject;
@@ -16,23 +18,33 @@ enum ModelReplicatorState
 [HarmonyPatch]
 internal class ModelReplicator : MonoBehaviour
 {
-    private static ModelReplicatorState state;
+    private static ModelReplicator instance = null!;
     private static MVCubeModelBase sourceModel = null!;
     private static MVCubeModelBase destinationModel = null!;
-    private static Dictionary<IntVector, Cube> cubesToCopy = new();
-    private static int cubeIndex = 0;
-
+    private static ModelReplicatorState state;
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         ResetState();
 
         CustomContextMenu.AddButton(
             wo => CanCopyModel(wo),
             "Copy model",
-            wo => EnterCopyModel(wo)
+            wo => SetSourceModel(wo)
             );
 
         WOReciever.OnWORecieved += OnWORecieved;
+    }
+
+    private static void ResetState()
+    {
+        state = ModelReplicatorState.None;
+        sourceModel = null!;
+        destinationModel = null!;
     }
 
     private static bool CanCopyModel(MVWorldObjectClient wo)
@@ -48,7 +60,7 @@ internal class ModelReplicator : MonoBehaviour
         return false;
     }
 
-    private static void EnterCopyModel(MVWorldObject wo)
+    private static void SetSourceModel(MVWorldObject wo)
     {
         ResetState();
         MVCubeModelBase prototype = wo.Cast<MVCubeModelBase>();
@@ -60,15 +72,15 @@ internal class ModelReplicator : MonoBehaviour
         }
     }
 
-    private static void ResetState()
+    private static void SetDestinationModel(MVWorldObject wo)
     {
-        state = ModelReplicatorState.None;
-        sourceModel = null!;
-        destinationModel = null!;
-        cubesToCopy = null!;
-        cubeIndex = 0;
+        MVCubeModelBase prototype = wo.Cast<MVCubeModelBase>();
+        if (prototype != null)
+        {
+            destinationModel = prototype;
+            state = ModelReplicatorState.CopyInProgress;
+        }
     }
-
 
     private static void OnWORecieved(MVWorldObject root, int instigatorActorNr)
     {
@@ -79,78 +91,34 @@ internal class ModelReplicator : MonoBehaviour
                 return;
             }
 
-            MVCubeModelBase prototype = root.Cast<MVCubeModelBase>();
-            if (prototype != null)
-            {
-                destinationModel = prototype;
-                state = ModelReplicatorState.CopyInProgress;
-                NotificationHelper.NotifyUser("The model copy process has started. You can delete the object to abort the process.");
-            }
+            SetDestinationModel(root);
+            instance.StartCoroutine(CopyModel(sourceModel, destinationModel).WrapToIl2Cpp());
         }
     }
 
-    private void Update()
+    private static IEnumerator CopyModel(MVCubeModelBase source, MVCubeModelBase destination)
     {
-        if (state == ModelReplicatorState.CopyInProgress)
+        NotificationHelper.NotifyUser("The model copy process has started. You can delete the target model at any time to abort the process.");
+
+        foreach (CubeModelChunk chunk in source.prototypeCubeModel.Chunks.Values)
         {
-            if (cubesToCopy == null)
+            var enumerator = chunk.cells.GetEnumerator();
+
+            while (enumerator.MoveNext())
             {
-                cubesToCopy = GetCubesFromModel(sourceModel);
-            }
+                if (state != ModelReplicatorState.CopyInProgress)
+                {
+                    yield break;
+                }
 
-            try
-            {
-                var kvp = cubesToCopy.ElementAt(cubeIndex);
-                AddCubeToModel(kvp.Key, kvp.Value, destinationModel);
-                cubeIndex++;
-            }
-            catch (Exception e)
-            {
-                NotificationHelper.NotifyError(e.ToString());
-#if DEBUG
-                KogamaTools.mls.LogInfo(cubesToCopy.Count() + "\t" + cubeIndex);
-#endif
-                ResetState();
-            }
+                IntVector cubePos = enumerator.Current.Key;
+                AddCubeToModel(cubePos, source.GetCube(cubePos), destination);
 
-
-            if (cubeIndex >= cubesToCopy.Count)
-            {
-                ResetState();
-                NotificationHelper.NotifySuccess("Model copied successfully.");
-            }
-        }
-    }
-
-    private static Dictionary<IntVector, Cube> GetCubesFromModel(MVCubeModelBase model)
-    {
-        Dictionary<IntVector, Cube> cubes = new Dictionary<IntVector, Cube>();
-        Queue<IntVector> toVisit = new Queue<IntVector>();
-
-        IntVector origin = new IntVector(0, 0, 0);
-        toVisit.Enqueue(origin);
-
-        while (toVisit.Count > 0 && cubes.Count < model.prototypeCubeModel.CubeCount)
-        {
-            IntVector currentPos = toVisit.Dequeue();
-
-            if (cubes.ContainsKey(currentPos)) continue;
-
-            Cube cube = model.GetCube(currentPos);
-            if (cube != null)
-            {
-                cubes[currentPos] = cube;
-
-                toVisit.Enqueue(new IntVector(currentPos.x + 1, currentPos.y, currentPos.z));
-                toVisit.Enqueue(new IntVector(currentPos.x - 1, currentPos.y, currentPos.z));
-                toVisit.Enqueue(new IntVector(currentPos.x, currentPos.y + 1, currentPos.z));
-                toVisit.Enqueue(new IntVector(currentPos.x, currentPos.y - 1, currentPos.z));
-                toVisit.Enqueue(new IntVector(currentPos.x, currentPos.y, currentPos.z + 1));
-                toVisit.Enqueue(new IntVector(currentPos.x, currentPos.y, currentPos.z - 1));
+                yield return new WaitForSeconds(Mathf.Max(1f / 60f - Time.deltaTime, 0f));
             }
         }
 
-        return cubes;
+        NotificationHelper.NotifySuccess("Model copied successfully.");
     }
 
     private static void AddCubeToModel(IntVector position, Cube cube, MVCubeModelBase target)
