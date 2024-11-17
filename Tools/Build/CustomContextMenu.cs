@@ -9,7 +9,7 @@ internal class CustomContextMenu : MonoBehaviour
 {
     private static readonly List<ContextMenuItem> menuItems = new List<ContextMenuItem>();
 
-    internal static void AddButton(Func<MVWorldObjectClient, bool> condition, string buttonName, Action<MVWorldObjectClient> action)
+    internal static void AddButton(string buttonName, Func<MVWorldObjectClient, bool> condition, Action<MVWorldObjectClient> action)
     {
         menuItems.Add(new ContextMenuItem(condition, buttonName, action));
     }
