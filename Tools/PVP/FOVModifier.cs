@@ -4,6 +4,8 @@ using UnityEngine;
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
+
+// TODO: Refactor this. this code is shit
 internal static class FOVModifier
 {
     internal static bool CustomFOVEnabled = false;
@@ -35,6 +37,11 @@ internal static class FOVModifier
                 HandleFocus();
                 DoZoom();
             }
+            if (MVGameControllerBase.Game != null && isZooming && !MVGameControllerBase.Game.IsPlaying)
+            {
+                MVInputWrapper.MouseSensitivityModifier = originalSensitivity;
+                isZooming = false;
+            }
         }
 
         private void HandleFocus()
@@ -50,6 +57,7 @@ internal static class FOVModifier
                 MVInputWrapper.MouseSensitivityModifier *= FocusSettings.SensitivityMultiplier;
                 isZooming = true;
             }
+
             else if (MVInputWrapper.GetBooleanControlUp(KogamaControls.PointerSelectAlt))
             {
                 MVInputWrapper.MouseSensitivityModifier = originalSensitivity;
