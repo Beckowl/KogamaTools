@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -18,7 +17,7 @@ public class KogamaTools : BasePlugin
     public const string
     ModGUID = "KogamaTools",
     ModName = "KogamaTools",
-    ModVersion = "0.1.5";
+    ModVersion = "0.1.7";
 
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
@@ -38,11 +37,13 @@ public class KogamaTools : BasePlugin
 
         GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
+        GameInitChecker.OnGameInitialized += () => { AddComponent<ModelImporter>(); };
         GameInitChecker.OnGameInitialized += () =>
         {
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);
         };
+        GameInitChecker.OnGameInitialized += ModelExporter.Init;
 
         mls.LogInfo("KogamaTools isloaded, yay!");
     }

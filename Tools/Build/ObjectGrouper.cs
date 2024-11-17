@@ -78,7 +78,7 @@ internal class ObjectGrouper : MonoBehaviour
             }
         }
         __instance.lockCount = __instance.lockList.Count;
-        if (__instance.lockCount < 2 ) 
+        if (__instance.lockCount < 2)
         {
             NotificationHelper.WarnUser("Cannot group less than 2 objects.");
             __instance.abort = true;

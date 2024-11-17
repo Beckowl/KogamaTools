@@ -33,7 +33,7 @@ internal static class BuildMenu
     {
         if (!(MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit || MVGameControllerBase.GameMode == MV.Common.MVGameMode.CharacterEditor))
             return;
- 
+
         if (!ImGui.BeginTabItem("Build"))
             return;
 

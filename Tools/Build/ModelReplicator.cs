@@ -5,6 +5,7 @@ using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using MV.WorldObject;
 using UnityEngine;
+using static KogamaTools.Helpers.ModelHelper;
 
 namespace KogamaTools.Tools.Build;
 
@@ -37,7 +38,7 @@ internal class ModelReplicator : MonoBehaviour
         ResetState();
 
         CustomContextMenu.AddButton(
-            wo => CanCopyModel(wo),
+            wo => IsModelOwner(wo),
             "Copy Model",
             wo => SetSourceModel(wo)
             );
@@ -45,35 +46,8 @@ internal class ModelReplicator : MonoBehaviour
         WOReciever.OnWORecieved += OnWORecieved;
     }
 
-    private static bool GetModelFromWO(MVWorldObject wo, out MVCubeModelBase modelBase)
-    {
-        modelBase = null!;
 
-        if (MVGameControllerBase.WOCM.IsType(wo.id, WorldObjectType.CubeModel))
-        {
-            try
-            {
-                modelBase = wo.Cast<MVCubeModelBase>();
-                return modelBase != null;
-            }
-            catch (Exception e)
-            {
-                NotificationHelper.NotifyError(e.ToString());
-            }
-        }
-
-        return false;
-    }
-    private static bool CanCopyModel(MVWorldObjectClient wo)
-    {
-        if (GetModelFromWO(wo, out MVCubeModelBase model))
-        {
-           return model.prototypeCubeModel.AuthorProfileID == MVGameControllerBase.Game.LocalPlayer.ProfileID;
-        }
-        return false;
-    }
-
-    private static void SetSourceModel(MVWorldObject wo)
+    private static void SetSourceModel(MVWorldObjectClient wo)
     {
         ResetState();
 
@@ -85,7 +59,7 @@ internal class ModelReplicator : MonoBehaviour
         };
     }
 
-    private static void SetDestinationModel(MVWorldObject wo)
+    private static void SetDestinationModel(MVWorldObjectClient wo)
     {
         if (GetModelFromWO(wo, out MVCubeModelBase model))
         {
@@ -94,7 +68,7 @@ internal class ModelReplicator : MonoBehaviour
         }
     }
 
-    private static void OnWORecieved(MVWorldObject root, int instigatorActorNr)
+    private static void OnWORecieved(MVWorldObjectClient root, int instigatorActorNr)
     {
         if (state == ModelReplicatorState.WaitingForTargetModel && instigatorActorNr == MVGameControllerBase.Game.LocalPlayer.ActorNr)
         {
@@ -129,17 +103,6 @@ internal class ModelReplicator : MonoBehaviour
         }
 
         NotificationHelper.NotifySuccess("Model copied successfully.");
-    }
-
-    private static void AddCubeToModel(IntVector position, Cube cube, MVCubeModelBase target)
-    {
-        if (target.ContainsCube(position))
-        {
-            target.RemoveCube(position);
-        }
-
-        target.AddCube(position, cube);
-        target.HandleDelta();
     }
 
     [HarmonyPatch(typeof(MVWorldObjectClient), "Delete")]
