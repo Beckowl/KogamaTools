@@ -41,6 +41,7 @@ internal class ModelImporter : MonoBehaviour
 
     public static bool LoadModelData(string path)
     {
+        ResetState();
         NotificationHelper.NotifyUser("Loading model data...");
         try
         {
@@ -65,9 +66,8 @@ internal class ModelImporter : MonoBehaviour
 
             return true;
         }
-        catch (Exception ex)
+        catch
         {
-            NotificationHelper.NotifyError($"Failed to load model data: {ex.Message}");
             return false;
         }
     }
@@ -78,6 +78,12 @@ internal class ModelImporter : MonoBehaviour
         {
             using MemoryStream memoryStream = new(data);
             using BinaryReader reader = new(memoryStream);
+
+            string signature = reader.ReadString();
+            if (signature != "KTMODEL")
+            {
+                throw new Exception($"Invalid model file.");
+            }
 
             float scale = reader.ReadSingle();
             Dictionary<IntVector, Cube> cubes = new();
@@ -99,7 +105,7 @@ internal class ModelImporter : MonoBehaviour
         }
         catch (Exception ex)
         {
-            NotificationHelper.NotifyError($"Failed to deserialize model data: {ex.Message}");
+            NotificationHelper.NotifyError($"Failed to load model data: {ex.Message}");
             throw;
         }
     }

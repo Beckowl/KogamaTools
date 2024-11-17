@@ -18,7 +18,7 @@ internal static class ModelExporter
             byte[] modelData = SerializeModel(model);
             try
             {
-                string modelPath = Path.Combine(Paths.PluginPath, $"{KogamaTools.ModName}\\Models\\{model.id}.bin");
+                string modelPath = Path.Combine(Paths.PluginPath, $"{KogamaTools.ModName}\\Models\\{model.id}.ktm");
                 string directoryPath = Path.GetDirectoryName(modelPath)!;
 
                 if (!Directory.Exists(directoryPath))
@@ -42,6 +42,7 @@ internal static class ModelExporter
         using (MemoryStream memoryStream = new MemoryStream())
         using (BinaryWriter writer = new BinaryWriter(memoryStream))
         {
+            writer.Write("KTMODEL");
             writer.Write(source.prototypeCubeModel.Scale);
 
             foreach (CubeModelChunk chunk in source.prototypeCubeModel.Chunks.Values)

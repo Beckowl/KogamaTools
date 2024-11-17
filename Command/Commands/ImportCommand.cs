@@ -6,8 +6,8 @@ namespace KogamaTools.Command.Commands;
 internal class ImportCommand : BaseCommand
 {
     [CommandVariant]
-    private void ImportModel(string path)
+    private void ImportModel(string filePath)
     {
-        ModelImporter.LoadModelData(path);
+        ModelImporter.LoadModelData(filePath);
     }
 }
