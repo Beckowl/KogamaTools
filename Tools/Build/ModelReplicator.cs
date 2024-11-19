@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using MV.WorldObject;
@@ -96,7 +97,17 @@ internal class ModelReplicator : MonoBehaviour
                 }
 
                 IntVector cubePos = enumerator.Current.Key;
-                AddCubeToModel(cubePos, source.GetCube(cubePos), destination);
+
+                Cube cube = source.GetCube(cubePos);
+
+                if (!MVMaterialRepository.instance.IsMaterialUnlocked(new Il2CppStructArray<byte>(cube.faceMaterials)))
+                {
+                    NotificationHelper.WarnUser($"Replacing materials at {cubePos.ToString()}: Material is locked.");
+
+                    cube = MakeCubeFromBytes(cube.byteCorners, DefaultMaterials);
+                }
+
+                AddCubeToModel(cubePos, cube, destination);
 
                 yield return new WaitForSeconds(Mathf.Max(1f / 60f - Time.deltaTime, 0f));
             }

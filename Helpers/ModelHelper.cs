@@ -4,6 +4,8 @@ using MV.WorldObject;
 namespace KogamaTools.Helpers;
 internal static class ModelHelper
 {
+
+    internal static byte[] DefaultMaterials = { 21, 21, 21, 21, 21, 21 };
     internal static bool GetModelFromWO(MVWorldObjectClient wo, out MVCubeModelBase modelBase)
     {
         modelBase = null!;

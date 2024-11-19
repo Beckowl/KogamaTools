@@ -1,9 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using MV.WorldObject;
+using RTG;
 using UnityEngine;
 using static KogamaTools.Helpers.ModelHelper;
 
@@ -97,6 +99,13 @@ internal class ModelImporter : MonoBehaviour
 
                 byte[] faceMaterials = reader.ReadBytes(6);
                 byte[] byteCorners = reader.ReadBytes(8);
+
+                if (!MVMaterialRepository.instance.IsMaterialUnlocked(new Il2CppStructArray<byte>(faceMaterials)))
+                {
+                    NotificationHelper.WarnUser($"Replacing materials at {cubePos.ToString()}: Material is locked.");
+
+                    faceMaterials = DefaultMaterials;
+                }
 
                 cubes.Add(cubePos, MakeCubeFromBytes(byteCorners, faceMaterials));
             }

@@ -8,7 +8,7 @@ internal static class ModelExporter
 {
     internal static void Init()
     {
-        CustomContextMenu.AddButton("Export Model", wo => IsModel(wo), wo => ExportModel(wo));
+        CustomContextMenu.AddButton("Export Model", wo => IsModelOwner(wo), wo => ExportModel(wo));
     }
 
     private static void ExportModel(MVWorldObjectClient wo)
