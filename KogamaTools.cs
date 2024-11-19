@@ -17,7 +17,7 @@ public class KogamaTools : BasePlugin
     public const string
     ModGUID = "KogamaTools",
     ModName = "KogamaTools",
-    ModVersion = "0.1.7";
+    ModVersion = "0.1.8";
 
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);

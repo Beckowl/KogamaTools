@@ -5,7 +5,6 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using MV.WorldObject;
-using RTG;
 using UnityEngine;
 using static KogamaTools.Helpers.ModelHelper;
 
