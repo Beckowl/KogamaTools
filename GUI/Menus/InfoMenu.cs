@@ -1,4 +1,5 @@
-﻿using ImGuiNET;
+﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
+using ImGuiNET;
 using KogamaTools.Behaviours;
 using UnityEngine;
 
@@ -39,6 +40,7 @@ internal class InfoMenu
             ImGui.Text($"Ping:\t{ping}ms");
             ImGui.Text($"FPS:\t{fps}");
             ImGui.Text("\nMade by Becko.");
+            ImGui.Text("\nSpecial thanks to MauryDev & Eveldee");
 
             ImGui.EndTabItem();
         }
@@ -55,7 +57,6 @@ internal class InfoMenu
         prototypeCount = GetPrototypeCount();
         ping = MVGameControllerBase.Game.Peer.RoundTripTime;
         fps = 1 / Time.deltaTime;
-
     }
 
     private static int GetPrototypeCount()

@@ -1,11 +1,13 @@
-﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
+﻿using System.Collections;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
-using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
 using static System.Environment;
 using static System.IO.Path;
 using static KogamaTools.Helpers.ModelHelper;
+using static KogamaTools.Helpers.NotificationHelper;
+
 namespace KogamaTools.Tools.Build;
 
 internal enum ModelImporterState
@@ -38,7 +40,7 @@ internal class ModelImporter : MonoBehaviour
     internal static void ImportModel(string path)
     {
         ResetState();
-        NotificationHelper.NotifyUser("Loading model data...");
+        NotifyUser("Loading model data...");
         byte[] serializedData;
         try
         {
@@ -46,21 +48,23 @@ internal class ModelImporter : MonoBehaviour
         }
         catch (Exception e)
         {
-            NotificationHelper.NotifyError(e.Message);
+            NotifyError(e.Message);
             throw;
         }
-        NotificationHelper.NotifySuccess("Model data loaded successfully.");
+
+        NotifySuccess("Model data loaded successfully.");
 
         data = DeSerializeModelData(serializedData);
 
         MVCubeModelBase targetModel = GetTargetModel();
 
-        if (targetModel.id != 75579)
+        if (targetModel != null && targetModel.id != 75579) // root id
         {
-            BeginImport(targetModel);
+            instance.StartCoroutine(BeginImport(targetModel).WrapToIl2Cpp());
             return;
         }
 
+        state = ModelImporterState.WaitingForModel;
         RequestCubeModel(data.Scale);
     }
 
@@ -78,26 +82,36 @@ internal class ModelImporter : MonoBehaviour
 
         byte[] data = File.ReadAllBytes(path);
 
+        if (data == null || data.Length == 0)
+        {
+            throw new Exception("Loaded model data is empty or invalid.");
+        }
 
         return data;
     }
 
-    private static void BeginImport(MVCubeModelBase model)
-    {
-        targetModelID = model.id;
-        state = ModelImporterState.ImportInProgress;
-        instance.StartCoroutine(BuildModel(model, data).WrapToIl2Cpp());
-    }
     private static void OnWORecieved(MVWorldObjectClient wo, int instigatorActorNr)
     {
         if (state == ModelImporterState.WaitingForModel && instigatorActorNr == MVGameControllerBase.Game.LocalPlayer.ActorNr)
         {
             if (TryGetModelFromWO(wo, out var model))
             {
-                BeginImport(model);
+                instance.StartCoroutine(BeginImport(model).WrapToIl2Cpp());
             }
         }
     }
+
+    private static IEnumerator BeginImport(MVCubeModelBase model)
+    {
+        targetModelID = model.id;
+        state = ModelImporterState.ImportInProgress;
+
+        yield return instance.StartCoroutine(BuildModel(model, data).WrapToIl2Cpp());
+
+        NotifySuccess("Model imported successfully.");
+    }
+
+
 
     [HarmonyPatch(typeof(MVWorldObjectClient), "Delete")]
     [HarmonyPrefix]
@@ -110,4 +124,3 @@ internal class ModelImporter : MonoBehaviour
         }
     }
 }
-

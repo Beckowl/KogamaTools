@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KogamaTools.Helpers;
+﻿using KogamaTools.Helpers;
 using KogamaTools.Tools.Build;
 using static KogamaTools.Helpers.ModelHelper;
 
@@ -25,7 +20,7 @@ internal class CopyModelCommand : BaseCommand
 
         if (!CanExportModel(targetModel))
         {
-            NotificationHelper.WarnUser("You do not own this model!");
+            NotificationHelper.WarnUser("You do not own this model.");
             return;
         }
 

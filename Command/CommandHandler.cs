@@ -15,6 +15,8 @@ internal static class CommandHandler
 
     internal static bool TryExecuteCommand(string commandLine)
     {
+        commandLine = commandLine.Trim(); // i thought the command handler already had this
+
         List<string> components = ParseArgs(commandLine);
         string commandName = components[0];
 

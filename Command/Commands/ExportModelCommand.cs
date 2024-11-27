@@ -1,5 +1,6 @@
 ﻿using KogamaTools.Tools.Build;
 using static KogamaTools.Helpers.ModelHelper;
+using static KogamaTools.Helpers.NotificationHelper;
 
 namespace KogamaTools.Command.Commands;
 [CommandName("/exportmodel")]
@@ -11,6 +12,13 @@ internal class ExportModelCommand : BaseCommand
     private void ExportModel()
     {
         MVCubeModelBase model = GetTargetModel();
+
+        if (model == null)
+        {
+            WarnUser("Could not get target model.");
+            return;
+        }
+
         ModelExporter.ExportModel(model);
     }
 }
