@@ -1,5 +1,7 @@
-﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
+﻿using System.Collections;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
+using KogamaTools.Helpers;
 using UnityEngine;
 using static KogamaTools.Helpers.ModelHelper;
 
@@ -45,7 +47,14 @@ internal class CopyPasteModel : MonoBehaviour
     internal static void PasteModel(MVCubeModelBase model)
     {
         targetModelID = model.id;
-        instance.StartCoroutine(BuildModel(model, copiedData).WrapToIl2Cpp());
+        instance.StartCoroutine(BeginBuildModel(model).WrapToIl2Cpp());
+    }
+
+    private static IEnumerator BeginBuildModel(MVCubeModelBase model)
+    {
+        NotificationHelper.NotifyUser("The model copy process has started. You can delete the target model at any time to abort it.");
+        yield return instance.StartCoroutine(BuildModel(model, copiedData).WrapToIl2Cpp());
+        NotificationHelper.NotifySuccess("Model imported successfully.");
     }
 
 
