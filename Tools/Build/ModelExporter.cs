@@ -1,6 +1,6 @@
-﻿using BepInEx;
-using KogamaTools.Helpers;
-using MV.WorldObject;
+﻿using KogamaTools.Helpers;
+using static System.Environment;
+using static System.IO.Path;
 using static KogamaTools.Helpers.ModelHelper;
 
 namespace KogamaTools.Tools.Build;
@@ -11,60 +11,41 @@ internal static class ModelExporter
         CustomContextMenu.AddButton("Export Model", wo => IsModelOwner(wo), wo => ExportModel(wo));
     }
 
-    private static void ExportModel(MVWorldObjectClient wo)
+    internal static void ExportModel(MVWorldObjectClient wo)
     {
-        if (GetModelFromWO(wo, out MVCubeModelBase model))
+        if (TryGetModelFromWO(wo, out var model))
         {
-            byte[] modelData = SerializeModel(model);
-            try
-            {
-                string modelPath = Path.Combine(Paths.PluginPath, $"{KogamaTools.ModName}\\Models\\{model.id}.ktm");
-                string directoryPath = Path.GetDirectoryName(modelPath)!;
-
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-
-                File.WriteAllBytes(modelPath, modelData);
-
-                NotificationHelper.NotifySuccess($"Model exported to {modelPath}.");
-            }
-            catch (Exception ex)
-            {
-                KogamaTools.mls.LogError($"Failed to save model data: {ex.ToString()}");
-            }
+            ExportModel(model);
         }
     }
 
-    public static byte[] SerializeModel(MVCubeModelBase source)
+    internal static void ExportModel(MVCubeModelBase model)
     {
-        using (MemoryStream memoryStream = new MemoryStream())
-        using (BinaryWriter writer = new BinaryWriter(memoryStream))
+        ModelData data = GetModelData(model);
+        byte[] serializedData = SerializeModelData(data);
+
+        WriteDataToDisk(serializedData, model.id.ToString());
+    }
+
+    private static void WriteDataToDisk(byte[] modelData, string filename)
+    {
+        try
         {
-            writer.Write("KTMODEL");
-            writer.Write(source.prototypeCubeModel.Scale);
+            string modelPath = Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models", $"{filename}.ktm");
+            string directoryPath = GetDirectoryName(modelPath)!;
 
-            foreach (CubeModelChunk chunk in source.prototypeCubeModel.Chunks.Values)
+            if (!Directory.Exists(directoryPath))
             {
-                var enumerator = chunk.cells.GetEnumerator();
-
-                while (enumerator.MoveNext())
-                {
-                    IntVector cubePos = enumerator.Current.Key;
-                    CubeBase cube = source.GetCube(cubePos);
-
-                    writer.Write(cubePos.x);
-                    writer.Write(cubePos.y);
-                    writer.Write(cubePos.z);
-
-                    writer.Write(cube.FaceMaterials);
-
-                    writer.Write(cube.ByteCorners);
-                }
+                Directory.CreateDirectory(directoryPath);
             }
 
-            return memoryStream.ToArray();
+            File.WriteAllBytes(modelPath, modelData);
+
+            NotificationHelper.NotifySuccess($"Model exported to {modelPath}.");
+        }
+        catch (Exception ex)
+        {
+            KogamaTools.mls.LogError($"Failed to save model data: {ex.ToString()}");
         }
     }
 }

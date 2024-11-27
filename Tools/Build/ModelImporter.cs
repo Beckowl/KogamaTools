@@ -1,13 +1,11 @@
-﻿using BepInEx;
-using BepInEx.Unity.IL2CPP.Utils.Collections;
+﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
-using MV.WorldObject;
 using UnityEngine;
+using static System.Environment;
+using static System.IO.Path;
 using static KogamaTools.Helpers.ModelHelper;
-
 namespace KogamaTools.Tools.Build;
 
 internal enum ModelImporterState
@@ -20,12 +18,10 @@ internal enum ModelImporterState
 [HarmonyPatch]
 internal class ModelImporter : MonoBehaviour
 {
-    private static MVCubeModelBase targetModel = null!;
+    private static ModelImporter instance = null!;
+    private static ModelData data = null!;
     private static ModelImporterState state = ModelImporterState.None;
-    private static DeserializedModelData deserializedModelData = null!;
-    private static string currentModelPath = null!;
-    internal static ModelImporter instance = null!;
-
+    private static int targetModelID;
     private void Awake()
     {
         instance ??= this;
@@ -34,147 +30,84 @@ internal class ModelImporter : MonoBehaviour
 
     private static void ResetState()
     {
-        targetModel = null!;
         state = ModelImporterState.None;
-        deserializedModelData = null!;
-        currentModelPath = null!;
+        data = null!;
+        targetModelID = -1;
     }
 
-    public static bool LoadModelData(string path)
+    internal static void ImportModel(string path)
     {
         ResetState();
         NotificationHelper.NotifyUser("Loading model data...");
+        byte[] serializedData;
         try
         {
-            if (!Path.IsPathFullyQualified(path))
-            {
-                path = Path.Combine(Paths.PluginPath, $"{KogamaTools.ModName}\\Models\\{path}");
-            }
-
-            if (!File.Exists(path))
-            {
-                NotificationHelper.WarnUser($"File does not exist: {path}");
-                return false;
-            }
-
-            byte[] data = File.ReadAllBytes(path);
-            currentModelPath = path;
-
-            deserializedModelData = DeserializeModel(data);
-            NotificationHelper.NotifySuccess("Model data loaded successfully.");
-
-            RequestCubeModel(deserializedModelData.Scale);
-
-            return true;
+            serializedData = LoadModelData(path);
         }
-        catch
+        catch (Exception e)
         {
-            return false;
-        }
-    }
-
-    private static DeserializedModelData DeserializeModel(byte[] data)
-    {
-        try
-        {
-            using MemoryStream memoryStream = new(data);
-            using BinaryReader reader = new(memoryStream);
-
-            string signature = reader.ReadString();
-            if (signature != "KTMODEL")
-            {
-                throw new Exception($"Invalid model file.");
-            }
-
-            float scale = reader.ReadSingle();
-            Dictionary<IntVector, Cube> cubes = new();
-
-            while (memoryStream.Position < memoryStream.Length)
-            {
-                short x = reader.ReadInt16();
-                short y = reader.ReadInt16();
-                short z = reader.ReadInt16();
-                IntVector cubePos = new(x, y, z);
-
-                byte[] faceMaterials = reader.ReadBytes(6);
-                byte[] byteCorners = reader.ReadBytes(8);
-
-                if (!MVMaterialRepository.instance.IsMaterialUnlocked(new Il2CppStructArray<byte>(faceMaterials)))
-                {
-                    NotificationHelper.WarnUser($"Replacing materials at {cubePos.ToString()}: Material is locked.");
-
-                    faceMaterials = DefaultMaterials;
-                }
-
-                cubes.Add(cubePos, MakeCubeFromBytes(byteCorners, faceMaterials));
-            }
-
-            return new DeserializedModelData(scale, cubes);
-        }
-        catch (Exception ex)
-        {
-            NotificationHelper.NotifyError($"Failed to load model data: {ex.Message}");
+            NotificationHelper.NotifyError(e.Message);
             throw;
         }
+        NotificationHelper.NotifySuccess("Model data loaded successfully.");
+
+        data = DeSerializeModelData(serializedData);
+
+        MVCubeModelBase targetModel = GetTargetModel();
+
+        if (targetModel.id != 75579)
+        {
+            BeginImport(targetModel);
+            return;
+        }
+
+        RequestCubeModel(data.Scale);
     }
 
-    private static void RequestCubeModel(float scale)
+    private static byte[] LoadModelData(string path)
     {
-        MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().editorWorldObjectCreation.OnAddNewPrototype(string.Empty, scale);
-        state = ModelImporterState.WaitingForModel;
+        if (!IsPathFullyQualified(path))
+        {
+            path = Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models", path);
+        }
+
+        if (!File.Exists(path))
+        {
+            throw new Exception($"File does not exist.");
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+
+
+        return data;
     }
 
-    private static void OnWORecieved(MVWorldObjectClient root, int instigatorActorNr)
+    private static void BeginImport(MVCubeModelBase model)
+    {
+        targetModelID = model.id;
+        state = ModelImporterState.ImportInProgress;
+        instance.StartCoroutine(BuildModel(model, data).WrapToIl2Cpp());
+    }
+    private static void OnWORecieved(MVWorldObjectClient wo, int instigatorActorNr)
     {
         if (state == ModelImporterState.WaitingForModel && instigatorActorNr == MVGameControllerBase.Game.LocalPlayer.ActorNr)
         {
-            if (GetModelFromWO(root, out targetModel))
+            if (TryGetModelFromWO(wo, out var model))
             {
-                state = ModelImporterState.ImportInProgress;
-                instance.StartCoroutine(BuildModel(targetModel, deserializedModelData.Cubes).WrapToIl2Cpp());
+                BeginImport(model);
             }
         }
-    }
-
-    private static System.Collections.IEnumerator BuildModel(MVCubeModelBase model, Dictionary<IntVector, Cube> cubes)
-    {
-        NotificationHelper.NotifyUser("Importing model. You can delete the target model at any time to abort the process.");
-        foreach (KeyValuePair<IntVector, Cube> kvp in cubes)
-        {
-            if (state != ModelImporterState.ImportInProgress)
-            {
-                yield break;
-            }
-
-            AddCubeToModel(kvp.Key, kvp.Value, model);
-            yield return new WaitForSeconds(Mathf.Max(1f / 60f - Time.deltaTime, 0f));
-        }
-
-        NotificationHelper.NotifySuccess("Model import complete.");
-        ResetState();
     }
 
     [HarmonyPatch(typeof(MVWorldObjectClient), "Delete")]
     [HarmonyPrefix]
     private static void UnregisterWorldObject(MVWorldObjectClient __instance)
     {
-        if (state == ModelImporterState.ImportInProgress && __instance.id == targetModel.id)
+        if (state == ModelImporterState.ImportInProgress && __instance.id == targetModelID)
         {
+            instance.StopAllCoroutines();
             ResetState();
         }
     }
-
-    private class DeserializedModelData
-    {
-        public float Scale { get; }
-        public Dictionary<IntVector, Cube> Cubes { get; }
-
-        public DeserializedModelData(float scale, Dictionary<IntVector, Cube> cubes)
-        {
-            Scale = scale;
-            Cubes = cubes;
-        }
-    }
-
 }
 

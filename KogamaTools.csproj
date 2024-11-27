@@ -54,6 +54,9 @@
 	  <Reference Include="UnityEngine.ImageConversionModule">
 	    <HintPath>Lib\UnityEngine.ImageConversionModule.dll</HintPath>
 	  </Reference>
+	  <Reference Include="UnityEngine.IMGUIModule">
+	    <HintPath>Lib\UnityEngine.IMGUIModule.dll</HintPath>
+	  </Reference>
 	  <Reference Include="UnityEngine.ParticleSystemModule">
 	    <HintPath>Lib\UnityEngine.ParticleSystemModule.dll</HintPath>
 	  </Reference>
