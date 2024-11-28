@@ -27,23 +27,25 @@ public class KogamaTools : BasePlugin
     {
         harmony.PatchAll();
 
-        AddComponent<OverlayHotkeyListener>();
-        AddComponent<UnityMainThreadDispatcher>();
-        AddComponent<FOVModifier.FocusBehaviour>();
-        AddComponent<LinkFix>();
         AddComponent<GameInitChecker>();
-        AddComponent<CopyPasteModel>();
-        AddComponent<ObjectGrouper>();
 
         GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
-        GameInitChecker.OnGameInitialized += () => { AddComponent<ModelImporter>(); };
+        GameInitChecker.OnGameInitialized += ModelExporter.Init;
         GameInitChecker.OnGameInitialized += () =>
         {
+            AddComponent<ModelImporter>();
+            AddComponent<OverlayHotkeyListener>();
+            AddComponent<UnityMainThreadDispatcher>();
+            AddComponent<FOVModifier.FocusBehaviour>();
+            AddComponent<LinkFix>();
+            AddComponent<CopyPasteModel>();
+            AddComponent<ObjectGrouper>();
+            AddComponent<GameMetricsUpdater>();
+
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);
         };
-        GameInitChecker.OnGameInitialized += ModelExporter.Init;
 
         mls.LogInfo("KogamaTools isloaded, yay!");
     }
