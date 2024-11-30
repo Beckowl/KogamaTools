@@ -1,42 +1,56 @@
 ﻿using HarmonyLib;
+using MV.Common;
 
-namespace KogamaTools.Tools.PVP;
-
-internal static class FastRespawn
+namespace KogamaTools.Tools.PVP
 {
-    internal static bool Enabled = false;
-
-    private static bool RespawnPlayer()
+    [HarmonyPatch]
+    internal class FastRespawn
     {
-        if (Enabled && MVGameControllerBase.Game.IsPlaying)
+        internal static bool Enabled = false;
+        private static void RespawnPlayer()
         {
             MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.SetToSpawnPoint();
             MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.EnterPlayingState();
+        }
+
+        [HarmonyPatch(typeof(MVAvatarLocal), "Suicide")]
+        [HarmonyPrefix]
+        private static bool Suicide(MVAvatarLocal __instance)
+        {
+            if (!Enabled) return true;
+
+            if (!__instance.IsInMode(SpawnRoleModeType.Dead))
+            {
+                if (__instance.interactableLocal.LastDamageSource == null || __instance.interactableLocal.LastDamageSource.Outdated)
+                {
+                    __instance.Die();
+                    RespawnPlayer();
+                }
+                else
+                {
+                    __instance.interactableLocal.DieFromRespawn(__instance.interactableLocal.LastDamageSource.shooter, __instance.interactableLocal.LastDamageSource.damageType);
+                }
+            }
+
             return false;
         }
-        return true;
-    }
 
-    [HarmonyPatch(typeof(DesktopPlayModeController))]
-    private static class DesktopPlayModeControllerPatch
-    {
-
-        [HarmonyPatch("Respawn")]
+        [HarmonyPatch(typeof(AvatarInteractable), "DoKilledNotification")]
+        [HarmonyPatch(typeof(AvatarInteractable), "DieFromFalling")]
         [HarmonyPrefix]
-        static bool Respawn()
+        private static void DoKilledNotification(AvatarInteractable __instance)
         {
-            return RespawnPlayer();
+            if (Enabled)
+            {
+                RespawnPlayer();
+            }
         }
-    }
 
-    [HarmonyPatch(typeof(DeathUIController))]
-    private static class DeathUIControllerPatch
-    {
-        [HarmonyPatch("OnLocalPlayerKilled")]
+        [HarmonyPatch(typeof(DeathUIController), "StartDeathBriefing")]
         [HarmonyPrefix]
-        static bool OnLocalPlayerKilled()
+        private static bool OnSetToDeadMode()
         {
-            return RespawnPlayer();
+            return !Enabled;
         }
     }
 }
