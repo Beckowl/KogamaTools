@@ -37,6 +37,8 @@ namespace KogamaTools.Tools.PVP
 
         [HarmonyPatch(typeof(AvatarInteractable), "DoKilledNotification")]
         [HarmonyPatch(typeof(AvatarInteractable), "DieFromFalling")]
+        [HarmonyPatch(typeof(AvatarInteractable), "DieFromStuck")]
+        [HarmonyPatch(typeof(AvatarInteractable), "DieFromBeingStuck")]
         [HarmonyPrefix]
         private static void DoKilledNotification(AvatarInteractable __instance)
         {
