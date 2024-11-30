@@ -35,7 +35,7 @@ internal class KogamaToolsOverlay : Overlay
             return;
         }
 
-        ImGui.Begin(KogamaTools.ModName, ImGuiWindowFlags.NoResize);
+        ImGui.Begin($"{KogamaTools.ModName} v{KogamaTools.ModVersion}", ImGuiWindowFlags.NoResize);
         ImGui.SetWindowSize(WindowSize, ImGuiCond.Always);
 
         if (ImGui.BeginTabBar("TabBar"))
