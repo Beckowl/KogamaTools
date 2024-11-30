@@ -38,6 +38,12 @@ internal class CopyPasteModel : MonoBehaviour
 
     internal static void PasteModel(MVWorldObjectClient wo)
     {
+        if (copiedData == null)
+        {
+            NotificationHelper.WarnUser("No data to copy");
+            return;
+        }
+
         if (TryGetModelFromWO(wo, out var model))
         {
             PasteModel(model);

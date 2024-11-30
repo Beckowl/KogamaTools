@@ -1,4 +1,5 @@
-﻿using KogamaTools.Tools.Build;
+﻿using KogamaTools.Helpers;
+using KogamaTools.Tools.Build;
 using static KogamaTools.Helpers.ModelHelper;
 namespace KogamaTools.Command.Commands;
 
@@ -10,6 +11,13 @@ internal class PasteModelCommand : BaseCommand
     private void PasteModel()
     {
         MVCubeModelBase targetModel = GetTargetModel();
+
+        if (targetModel == null)
+        {
+            NotificationHelper.WarnUser("Could not find target cube model.");
+            return;
+        }
+
         CopyPasteModel.PasteModel(targetModel);
     }
 }
