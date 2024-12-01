@@ -4,6 +4,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using KogamaTools.Behaviours;
 using KogamaTools.GUI;
+using KogamaTools.Helpers;
 using KogamaTools.Tools.Build;
 using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
@@ -32,10 +33,13 @@ public class KogamaTools : BasePlugin
         GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
         GameInitChecker.OnGameInitialized += ModelExporter.Init;
+        GameInitChecker.OnGameInitialized += RuntimeReferences.LoadReferences;
+        GameInitChecker.OnGameInitialized += MouseColorPick.SubscribeHotkeys;
+
         GameInitChecker.OnGameInitialized += () =>
         {
             AddComponent<ModelImporter>();
-            AddComponent<OverlayHotkeyListener>();
+            AddComponent<HotkeySubscriber>();
             AddComponent<UnityMainThreadDispatcher>();
             AddComponent<FOVModifier.FocusBehaviour>();
             AddComponent<LinkFix>();

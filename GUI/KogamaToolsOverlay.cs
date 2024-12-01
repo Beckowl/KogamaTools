@@ -2,6 +2,8 @@
 using ClickableTransparentOverlay;
 using Il2CppInterop.Runtime;
 using ImGuiNET;
+using UnityEngine;
+using KogamaTools.Behaviours;
 using KogamaTools.GUI.Menus;
 
 namespace KogamaTools.GUI;
@@ -23,6 +25,9 @@ internal class KogamaToolsOverlay : Overlay
     protected override Task PostInitialized()
     {
         IL2CPP.il2cpp_thread_attach(IL2CPP.il2cpp_domain_get());
+
+        HotkeySubscriber.Subscribe(KeyCode.F1, ToggleOverlay);
+
         VSync = true;
         Size = new System.Drawing.Size(DefaultWidth, DefaultHeight);
         return Task.CompletedTask;
@@ -50,6 +55,10 @@ internal class KogamaToolsOverlay : Overlay
         ImGui.End();
     }
 
+    private void ToggleOverlay()
+    {
+        ShouldRenderOverlay = !ShouldRenderOverlay;
+    }
 
 
     [DllImport("user32.dll")]
