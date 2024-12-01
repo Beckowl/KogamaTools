@@ -137,6 +137,7 @@ internal static class ModelHelper
 
     internal static IEnumerator BuildModel(MVCubeModelBase target, ModelData data)
     {
+        NotificationHelper.NotifyUser("The model build process has started. You can delete the target model at any time to abort it.");
         foreach (KeyValuePair<IntVector, Cube> kvp in data.Cubes)
         {
             IntVector cubePos = kvp.Key;

@@ -25,7 +25,6 @@ internal class CopyModelCommand : BaseCommand
         }
 
         CopyPasteModel.CopyModel(targetModel);
-        NotificationHelper.NotifySuccess("Model copied successfully.");
     }
 
     private bool CanExportModel(MVCubeModelBase model)

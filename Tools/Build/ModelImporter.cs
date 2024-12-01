@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
+using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
 using static System.Environment;
@@ -111,16 +112,14 @@ internal class ModelImporter : MonoBehaviour
         NotifySuccess("Model imported successfully.");
     }
 
-
-
-    [HarmonyPatch(typeof(MVWorldObjectClient), "Delete")]
+    [HarmonyPatch(typeof(MVWorldObjectClientManagerNetwork), "DestroyWO")]
     [HarmonyPrefix]
-    private static void UnregisterWorldObject(MVWorldObjectClient __instance)
+    private static void UnregisterWorldObject(int id)
     {
-        if (state == ModelImporterState.ImportInProgress && __instance.id == targetModelID)
+        if (state == ModelImporterState.ImportInProgress && id == targetModelID)
         {
             instance.StopAllCoroutines();
-            ResetState();
+            NotifySuccess("Model import was aborted.");
         }
     }
 }

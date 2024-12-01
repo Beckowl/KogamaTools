@@ -34,6 +34,7 @@ internal class CopyPasteModel : MonoBehaviour
     internal static void CopyModel(MVCubeModelBase model)
     {
         copiedData = GetModelData(model);
+        NotificationHelper.NotifySuccess("Model copied successfully.");
     }
 
     internal static void PasteModel(MVWorldObjectClient wo)
@@ -58,19 +59,19 @@ internal class CopyPasteModel : MonoBehaviour
 
     private static IEnumerator BeginBuildModel(MVCubeModelBase model)
     {
-        NotificationHelper.NotifyUser("The model copy process has started. You can delete the target model at any time to abort it.");
         yield return instance.StartCoroutine(BuildModel(model, copiedData).WrapToIl2Cpp());
         NotificationHelper.NotifySuccess("Model imported successfully.");
     }
 
 
-    [HarmonyPatch(typeof(MVWorldObjectClient), "Delete")]
+    [HarmonyPatch(typeof(MVWorldObjectClientManagerNetwork), "DestroyWO")]
     [HarmonyPrefix]
-    private static void UnregisterWorldObject(MVWorldObjectClient __instance)
+    private static void UnregisterWorldObject(int id)
     {
-        if (__instance.id == targetModelID)
+        if (id == targetModelID)
         {
             instance.StopAllCoroutines();
+            NotificationHelper.NotifySuccess("Model copy was aborted.");
         }
     }
 }
