@@ -12,6 +12,8 @@ internal static class MouseColorPick
 
     private static void DoPicking()
     {
+        if (MVGameControllerBase.Game.IsPlaying) return;
+
         CubeModelingStateMachine e = RuntimeReferences.CubeModelingStateMachine;
         CubePickingInfo pickingInfo = new();
 
