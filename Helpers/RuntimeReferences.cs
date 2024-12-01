@@ -9,15 +9,18 @@
 
         internal static void LoadReferences()
         {
-            DesktopEditModeController = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>();
-            if (DesktopEditModeController == null)
+            if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
             {
-                throw new InvalidOperationException("Failed to initialize DesktopEditModeController.");
-            }
+                DesktopEditModeController = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>();
+                if (DesktopEditModeController == null)
+                {
+                    throw new InvalidOperationException("Failed to initialize DesktopEditModeController.");
+                }
 
-            EditorStateMachine = DesktopEditModeController.EditModeStateMachine;
-            CubeModelingStateMachine = EditorStateMachine.cubeModelingStateMachine;
-            EditorWorldObjectCreation = DesktopEditModeController.editorWorldObjectCreation;
+                EditorStateMachine = DesktopEditModeController.EditModeStateMachine;
+                CubeModelingStateMachine = EditorStateMachine.cubeModelingStateMachine;
+                EditorWorldObjectCreation = DesktopEditModeController.editorWorldObjectCreation;
+            }
         }
     }
 }

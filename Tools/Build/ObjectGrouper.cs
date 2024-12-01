@@ -18,11 +18,13 @@ internal class ObjectGrouper : MonoBehaviour
 
     private void Update()
     {
-        if (editModeStateMachine.lockState)
+        if (editModeStateMachine != null)
         {
-            grouper.Execute(editModeStateMachine);
+            if (editModeStateMachine.lockState)
+            {
+                grouper.Execute(editModeStateMachine);
+            }
         }
-
     }
 
     [HarmonyPatch(typeof(MVWorldObjectClientManagerNetwork), "SetOwnerInHierarchy")]
