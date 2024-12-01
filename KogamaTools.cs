@@ -30,22 +30,22 @@ public class KogamaTools : BasePlugin
 
         AddComponent<GameInitChecker>();
 
-        GameInitChecker.OnGameInitialized += ObjectGrouper.OnGameInitialized;
-        GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
-        GameInitChecker.OnGameInitialized += ModelExporter.Init;
         GameInitChecker.OnGameInitialized += RuntimeReferences.LoadReferences;
         GameInitChecker.OnGameInitialized += MouseColorPick.SubscribeHotkeys;
+        GameInitChecker.OnGameInitialized += ModelExporter.Init;
+        GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
 
         GameInitChecker.OnGameInitialized += () =>
         {
-            AddComponent<ModelImporter>();
-            AddComponent<HotkeySubscriber>();
             AddComponent<UnityMainThreadDispatcher>();
+            AddComponent<HotkeySubscriber>();
+            AddComponent<GameMetricsUpdater>();
+            AddComponent<ModelImporter>();
             AddComponent<FOVModifier.FocusBehaviour>();
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();
-            AddComponent<GameMetricsUpdater>();
+
 
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);

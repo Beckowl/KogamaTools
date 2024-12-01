@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
 using MV.WorldObject;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ internal class GroupEdit
     {
         if (wo.id == MVGameControllerBase.WOCM.RootGroup.Id) return;
 
-        EditorStateMachine esm = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
+        EditorStateMachine esm = RuntimeReferences.EditorStateMachine;
 
         wo.OnEnterObject(esm);
     }
@@ -51,7 +52,7 @@ internal class GroupEdit
 
     private static void ExitAllGroups()
     {
-        EditorStateMachine esm = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
+        EditorStateMachine esm = RuntimeReferences.EditorStateMachine;
 
         while (GroupStack.TryPop(out MVGroup? group))
         {

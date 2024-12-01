@@ -7,36 +7,22 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal class ObjectGrouper : MonoBehaviour
 {
-    private static EditorStateMachine editModeStateMachine = null!;
+    private static EditorStateMachine editModeStateMachine = RuntimeReferences.EditorStateMachine;
     private static ESWaitForGroup grouper = new();
-
-
-    internal static void OnGameInitialized()
-    {
-        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
-        {
-            editModeStateMachine = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine;
-        }
-    }
 
     internal static void GroupSelectedObjects()
     {
         grouper = new();
-        if (editModeStateMachine != null)
-        {
-            grouper.Enter(editModeStateMachine);
-        }
+        grouper.Enter(editModeStateMachine);
     }
 
     private void Update()
     {
-        if (editModeStateMachine != null)
+        if (editModeStateMachine.lockState)
         {
-            if (editModeStateMachine.lockState)
-            {
-                grouper.Execute(editModeStateMachine);
-            }
+            grouper.Execute(editModeStateMachine);
         }
+
     }
 
     [HarmonyPatch(typeof(MVWorldObjectClientManagerNetwork), "SetOwnerInHierarchy")]

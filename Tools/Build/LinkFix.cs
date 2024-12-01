@@ -31,7 +31,7 @@ internal class LinkFix : MonoBehaviour
 
             if (pickedLink != null)
             {
-                MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().contextMenuController.ShowContextMenuLink(pickedLink.linkID, pickedLink.isObjectLink, voxelHit.point);
+                RuntimeReferences.DesktopEditModeController.contextMenuController.ShowContextMenuLink(pickedLink.linkID, pickedLink.isObjectLink, voxelHit.point);
             }
         }
     }

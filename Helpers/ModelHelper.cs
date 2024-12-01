@@ -11,7 +11,7 @@ internal static class ModelHelper
 
     internal static MVCubeModelBase GetTargetModel()
     {
-        return MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().EditModeStateMachine.cubeModelingStateMachine.TargetCubeModel;
+        return RuntimeReferences.CubeModelingStateMachine.TargetCubeModel;
     }
     internal static bool TryGetModelFromWO(MVWorldObjectClient wo, out MVCubeModelBase modelBase)
     {
@@ -155,7 +155,7 @@ internal static class ModelHelper
 
     internal static void RequestCubeModel(float scale)
     {
-        MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().editorWorldObjectCreation.OnAddNewPrototype(string.Empty, scale);
+        RuntimeReferences.EditorWorldObjectCreation.OnAddNewPrototype(string.Empty, scale);
     }
 
     private static Cube CubeFromBytes(byte[] byteCorners, byte[] faceMaterials)

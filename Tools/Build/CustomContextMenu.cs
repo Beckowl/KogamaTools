@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,7 +19,7 @@ internal class CustomContextMenu : MonoBehaviour
     [HarmonyPrefix]
     private static bool AddButton(string buttonText, UnityAction onClickCallback, ContextMenu __instance)
     {
-        MVWorldObjectClient wo = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>().contextMenuController.selectedWorldObject;
+        MVWorldObjectClient wo = RuntimeReferences.DesktopEditModeController.contextMenuController.selectedWorldObject;
 
         if (buttonText != TM._("Info")) return true;
 
