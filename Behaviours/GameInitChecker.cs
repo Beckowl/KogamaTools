@@ -3,18 +3,18 @@
 namespace KogamaTools.Behaviours;
 internal class GameInitChecker : MonoBehaviour
 {
-    internal static OnGameInitializedDelegate OnGameInitialized = delegate { KogamaTools.mls.LogInfo("Game is initialized."); };
+    internal static OnGameInitializedDelegate OnGameInitialized = delegate { };
     internal delegate void OnGameInitializedDelegate();
 
-    private static bool initialized = false;
+    internal static bool IsInitialized = false;
+
     void Update()
     {
-        if (MVGameControllerBase.IsInitialized && !initialized)
+        if (MVGameControllerBase.IsInitialized && !IsInitialized)
         {
             OnGameInitialized.Invoke();
-            initialized = true;
+            IsInitialized = true;
+            Destroy(this);
         }
     }
-
-
 }
