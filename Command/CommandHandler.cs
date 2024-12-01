@@ -36,7 +36,7 @@ internal static class CommandHandler
             case CommandResult.Ok:
                 return true;
             case CommandResult.InvalidArgs:
-                NotificationHelper.WarnUser($"[{string.Join(", ", components.Skip(1))}] is not a valid combination of arguments for {commandName}. Type \"{command.Names.First()} ?\" for detailed info.");
+                NotificationHelper.WarnUser($"[{string.Join(", ", components.Skip(1))}] is not a valid combination of arguments for {commandName}. Type \"{commandName} ?\" for detailed info.");
                 return true;
             case CommandResult.BuildModeOnly:
                 NotificationHelper.WarnUser($"{commandName} can only be used in edit mode.");
