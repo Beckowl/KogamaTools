@@ -9,24 +9,38 @@ internal static class BuildMenu
     private static void ShowInteractionFlags()
     {
         InteractionFlags[] interactionFlags = (InteractionFlags[])Enum.GetValues(typeof(InteractionFlags));
+        int flagCount = interactionFlags.Length;
+        int midPoint = (flagCount + 1) / 2;
 
-        ImGui.Separator();
-        ImGui.Columns(2);
-        for (int i = 0; i < interactionFlags.Length; i++)
+        if (ImGui.BeginTable("InteractionFlagsTable", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Resizable))
         {
-            bool flagSet = ForceFlags.AreFlagsSet(interactionFlags[i]); // dummy
+            for (int i = 0; i < midPoint; i++)
+            {
+                ImGui.TableNextColumn();
 
-            if (ImGui.Checkbox(interactionFlags[i].ToString(), ref flagSet))
-            {
-                ForceFlags.ToggleFlags(interactionFlags[i]);
+                RenderToggleFlag(interactionFlags[i]);
+
+                ImGui.TableNextColumn();
+
+                if (i + midPoint < flagCount)
+                {
+                    RenderToggleFlag(interactionFlags[i + midPoint]);
+                }
+
+                ImGui.TableNextRow();
             }
-            if (i == interactionFlags.Length / 2)
-            {
-                ImGui.NextColumn();
-            }
+
+            ImGui.EndTable();
         }
-        ImGui.Columns(1);
-        ImGui.Separator();
+    }
+
+    private static void RenderToggleFlag(InteractionFlags flag)
+    {
+        bool flagSet = ForceFlags.AreFlagsSet(flag);
+        if (ImGui.Checkbox(flag.ToString(), ref flagSet))
+        {
+            ForceFlags.ToggleFlags(flag);
+        }
     }
 
     internal static void Render()
@@ -37,7 +51,6 @@ internal static class BuildMenu
         if (!ImGui.BeginTabItem("Build"))
             return;
 
-        ImGui.PushItemWidth(100);
         ImGui.Checkbox("No build limit", ref NoLimit.Enabled);
 
         ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
@@ -46,7 +59,7 @@ internal static class BuildMenu
         ImGui.Checkbox("Speed multiplier", ref EditModeSpeed.MultiplierEnabled);
         if (EditModeSpeed.MultiplierEnabled)
         {
-            ImGui.InputFloat("Multiplier", ref EditModeSpeed.Multiplier);
+            GUIUtils.InputFloat("Multiplier", ref EditModeSpeed.Multiplier);
         }
 
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
@@ -57,29 +70,29 @@ internal static class BuildMenu
 
             if (CustomModelScale.Enabled)
             {
-                ImGui.InputFloat("Scale", ref CustomModelScale.CustomScale);
+                GUIUtils.InputFloat("Scale", ref CustomModelScale.CustomScale);
             }
 
             ImGui.Checkbox("Custom rotation step", ref RotationStep.Enabled);
 
             if (RotationStep.Enabled)
             {
-                ImGui.InputFloat("Rotation step", ref RotationStep.Step);
+                GUIUtils.InputFloat("Rotation step", ref RotationStep.Step);
             }
 
             ImGui.Checkbox("Custom grid size", ref CustomGrid.Enabled);
 
             if (CustomGrid.Enabled)
             {
-                ImGui.InputFloat("Grid size", ref CustomGrid.GridSize);
+                GUIUtils.InputFloat("Grid size", ref CustomGrid.GridSize);
             }
 
             ImGui.Checkbox("Unlimited config", ref UnlimitedConfig.Enabled);
 
             if (UnlimitedConfig.Enabled)
             {
-                ImGui.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
-                ImGui.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
+                GUIUtils.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
+                GUIUtils.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
             }
 
             ImGui.Checkbox("Multi select", ref MultiSelect.ForceSelection);
@@ -105,7 +118,6 @@ internal static class BuildMenu
             }
         }
 
-        ImGui.PopItemWidth();
         ImGui.EndTabItem();
     }
 }

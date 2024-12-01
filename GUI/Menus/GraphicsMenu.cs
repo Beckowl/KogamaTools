@@ -39,12 +39,12 @@ internal class GraphicsMenu
             ResolutionModifier.ApplyResolution();
         }
 
-        if (ImGui.InputFloat("Shadow distance", ref ShadowDistModifier.ShadowDistance))
+        if (GUIUtils.InputFloat("Shadow distance", ref ShadowDistModifier.ShadowDistance))
         {
             ShadowDistModifier.ApplyShadowDistance();
         }
 
-        if (ImGui.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
+        if (GUIUtils.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
         {
             ClipPlaneModifier.ApplyClipPlane();
         }

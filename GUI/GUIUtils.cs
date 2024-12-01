@@ -8,6 +8,23 @@ internal static class GUIUtils
 {
     private const int maxStringLength = 512;
 
+    internal static Vector2 CalcButtonSize(string label)
+    {
+        return ImGui.CalcTextSize(label) + ImGui.GetStyle().FramePadding * 2;
+    }
+
+    internal static bool InputFloat(string label, ref float value)
+    {
+        ImGui.PushID(label);
+        ImGui.Text(label);
+        ImGui.SameLine();
+        ImGui.SetNextItemWidth(-ImGui.GetStyle().ItemSpacing.X);
+        bool result = ImGui.InputFloat(string.Empty, ref value);
+        ImGui.PopID();
+        return result;
+    }
+
+
     internal static bool RenderControlForObject(string label, ref object value)
     {
         bool result = value switch

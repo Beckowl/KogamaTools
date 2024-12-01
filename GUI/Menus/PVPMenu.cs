@@ -20,7 +20,6 @@ internal static class PVPMenu
         if (!ImGui.BeginTabItem("PvP"))
             return;
 
-        ImGui.PushItemWidth(100);
 
         ImGui.Checkbox("Fast respawn", ref FastRespawn.Enabled);
 
@@ -40,20 +39,17 @@ internal static class PVPMenu
             ImGui.SameLine();
             ImGui.Checkbox("Override rail gun zoom", ref FOVModifier.FocusSettings.OverrideRailGunZoom);
 
-            ImGui.InputFloat("FOV multiplier", ref FOVModifier.FocusSettings.FOVMultiplier);
-            ImGui.InputFloat("Sensitivity multiplier", ref FOVModifier.FocusSettings.SensitivityMultiplier);
-            ImGui.InputFloat("Zoom speed", ref FOVModifier.FocusSettings.FocusSpeed);
+            GUIUtils.InputFloat("FOV multiplier", ref FOVModifier.FocusSettings.FOVMultiplier);
+            GUIUtils.InputFloat("Sensitivity multiplier", ref FOVModifier.FocusSettings.SensitivityMultiplier);
+            GUIUtils.InputFloat("Zoom speed", ref FOVModifier.FocusSettings.FocusSpeed);
         }
 
         ImGui.Checkbox("Custom FOV", ref FOVModifier.CustomFOVEnabled);
 
         if (FOVModifier.CustomFOVEnabled)
         {
-            ImGui.InputFloat("FOV", ref FOVModifier.CustomFOV);
+            GUIUtils.InputFloat("FOV", ref FOVModifier.CustomFOV);
         }
-
-        ImGui.PopItemWidth();
-        ImGui.PushItemWidth(160);
 
         ImGui.Checkbox("Custom crosshair color", ref CustomCrossHairColor.Enabled);
 
@@ -65,8 +61,10 @@ internal static class PVPMenu
                 CustomCrossHairColor.SetCrossHairColorFromVec4(crosshaircolor);
             }
         }
+        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Load") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + ImGui.GetStyle().ItemSpacing*2 + ImGui.GetStyle().ItemInnerSpacing).X);
 
         ImGui.InputText("Custom crosshair", customCrosshairPath, (uint)customCrosshairPath.Length);
+
 
         ImGui.SameLine();
 
@@ -84,7 +82,6 @@ internal static class PVPMenu
             customCrosshairPath = new byte[1024];
         }
 
-        ImGui.PopItemWidth();
         ImGui.EndTabItem();
     }
 }
