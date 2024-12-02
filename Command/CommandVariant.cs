@@ -22,9 +22,8 @@ internal class CommandVariant
         parsedArgs = new object[args.Length];
 
         if (args.Length != ArgumentTypes.Count)
-        {
             return false;
-        }
+        
 
         for (int i = 0; i < args.Length; i++)
         {
@@ -37,6 +36,7 @@ internal class CommandVariant
                 return false;
             }
         }
+
         return true;
     }
 

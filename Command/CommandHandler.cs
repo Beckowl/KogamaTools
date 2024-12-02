@@ -1,22 +1,28 @@
 ﻿using System.Reflection;
-using System.Text.RegularExpressions;
 using KogamaTools.Helpers;
+using SoftCircuits.Parsing.Helper;
 
 namespace KogamaTools.Command;
 
 internal static class CommandHandler
 {
+
+    private static List<ICommand> commands = new List<ICommand>();
     static CommandHandler()
     {
         LoadCommands();
     }
 
-    private static List<ICommand> commands = new List<ICommand>();
+    internal static void ListCommands()
+    {
+        foreach (BaseCommand command in commands)
+        {
+            command.Describe();
+        }
+    }
 
     internal static bool TryExecuteCommand(string commandLine)
     {
-        commandLine = commandLine.Trim(); // i thought the command handler already had this
-
         List<string> components = ParseArgs(commandLine);
         string commandName = components[0];
 
@@ -31,6 +37,32 @@ internal static class CommandHandler
 
         CommandResult errorCode = command.TryExecute(components.Skip(1).ToArray());
 
+        return HandleCommandResult(errorCode, commandName, components);
+    }
+
+    private static List<string> ParseArgs(string commandLine)
+    {
+        List<string> components = new();
+        ParsingHelper helper = new(commandLine);
+
+        while (!helper.EndOfText)
+        {
+            helper.SkipWhiteSpace();
+            if (helper.Peek() == '"' || helper.Peek() == '\'')
+            {
+                components.Add(helper.ParseQuotedText());
+            }
+            else
+            {
+                components.Add(helper.ParseWhile(c => !char.IsWhiteSpace(c)));
+            }
+        }
+
+        return components;
+    }
+
+    private static bool HandleCommandResult(CommandResult errorCode, string commandName, List<string> components)
+    {
         switch (errorCode)
         {
             case CommandResult.Ok:
@@ -41,38 +73,10 @@ internal static class CommandHandler
             case CommandResult.BuildModeOnly:
                 NotificationHelper.WarnUser($"{commandName} can only be used in edit mode.");
                 return true;
-        }
-
-        return false;
-    }
-
-    internal static void ListCommands()
-    {
-        foreach (BaseCommand command in commands)
-        {
-            command.Describe();
+            default:
+                return false;
         }
     }
-
-    private static List<string> ParseArgs(string args)
-    {
-        List<string> result = new List<string>();
-        string pattern = @"([""'])(.*?)\1|(\S+)";
-
-        foreach (Match match in Regex.Matches(args, pattern))
-        {
-            if (match.Groups[2].Success)
-            {
-                result.Add(match.Groups[2].Value);
-            }
-            else if (match.Groups[3].Success)
-            {
-                result.Add(match.Groups[3].Value);
-            }
-        }
-        return result;
-    }
-
     private static void LoadCommands()
     {
         KogamaTools.mls.LogInfo("Loading chat commands...");
@@ -89,7 +93,6 @@ internal static class CommandHandler
             }
         }
     }
-
 }
 
 

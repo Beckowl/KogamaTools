@@ -92,9 +92,7 @@ internal abstract class BaseCommand : ICommand
         }
 
         if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play && BuildModeOnly)
-        {
             return CommandResult.BuildModeOnly;
-        }
 
         foreach (CommandVariant variant in Variants)
         {
