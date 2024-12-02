@@ -49,19 +49,12 @@ internal class ObjectGrouper : MonoBehaviour
         for (int i = __instance.lockList.Count - 1; i >= 0; i--)
         {
             int id = __instance.lockList[i];
+            MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(id);
 
-            if (MVGameControllerBase.WOCM.IsType(id, MV.WorldObject.WorldObjectType.CubeModel))
+            if (IsObjectProhibited(wo.type))
             {
+                NotificationHelper.WarnUser($"Grouping {wo.type.ToString()}s is currently unsupported. World object with ID {id} will not be grouped.");
                 __instance.lockList.RemoveAt(i);
-                MVGameControllerBase.OperationRequests.LockHierarchy(id, false);
-                NotificationHelper.WarnUser($"Grouping models is currently not supported. World object with ID {id} will not be grouped.");
-                continue;
-            }
-            else if (MVGameControllerBase.WOCM.IsType(id, MV.WorldObject.WorldObjectType.WorldObjectSpawnerVehicle))
-            {
-                __instance.lockList.RemoveAt(i);
-                MVGameControllerBase.OperationRequests.LockHierarchy(id, false);
-                NotificationHelper.WarnUser($"Grouping vehicles is currently not supported. World object with ID {id} will not be grouped.");
                 continue;
             }
         }
@@ -76,6 +69,17 @@ internal class ObjectGrouper : MonoBehaviour
         }
         NotificationHelper.NotifyUser($"Grouping ({__instance.lockCount}) objects...");
     }
+
+    private static bool IsObjectProhibited(MV.WorldObject.WorldObjectType type)
+    {
+        return type == MV.WorldObject.WorldObjectType.WorldObjectSpawnerVehicle ||
+               type == MV.WorldObject.WorldObjectType.JetPack ||
+               type == MV.WorldObject.WorldObjectType.Teleporter ||
+               type == MV.WorldObject.WorldObjectType.CollectTheItemCollectable ||
+               type == MV.WorldObject.WorldObjectType.CollectTheItemDropOff ||
+               type == MV.WorldObject.WorldObjectType.CubeModel;          
+    }
+
 
     [HarmonyPatch(typeof(ESWaitForGroup), "WOCM_OnTransferWosResponse")]
     [HarmonyPrefix]
