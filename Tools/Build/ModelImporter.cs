@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
-using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
 using static System.Environment;

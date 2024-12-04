@@ -13,48 +13,120 @@ internal class GraphicsMenu
 
         if (ImGui.Checkbox("Fog enabled", ref FogModifier.FogEnabled))
         {
-            UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fog = FogModifier.FogEnabled; });
+            UnityMainThreadDispatcher.Instance.Enqueue(() =>
+              FogModifier.ApplyChanges());
         }
-        /*
+
         if (FogModifier.FogEnabled)
         {
-            if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0, 1)) 
+            if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.005f, 0.05f))
             {
-                UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fogDensity = FogModifier.FogDensity; });
+                UnityMainThreadDispatcher.Instance.Enqueue(() =>
+                  FogModifier.ApplyChanges());
             }
-            ImGui.SameLine();
-
-            if (ImGui.InputFloat("", ref FogModifier.FogDensity))
-            {
-                UnityMainThreadDispatcher.Instance.Enqueue(() => { RenderSettings.fogDensity = FogModifier.FogDensity; });
-            }    
         }
-        */
 
-        ImGui.InputInt2("Resolution", ref ResolutionModifier.resolution[0]);
-        ImGui.Checkbox("Fullscreen", ref ResolutionModifier.fullscreen);
+        // spaghetti ass code
+        // why are input fields so damn long???
+        ImGui.Text("Resolution");
+
+        ImGui.SameLine();
+        ImGui.SetNextItemWidth(ImGui.CalcItemWidth() / 2);
+        ImGui.PushID("WindowWidth");
+        ImGui.InputInt(string.Empty, ref WindowModifier.Width);
+        ImGui.PopID();
+
+        ImGui.SameLine();
+        ImGui.Text("x");
+
+        ImGui.SetNextItemWidth(ImGui.CalcItemWidth() / 2);
+        ImGui.SameLine();
+        ImGui.PushID("WindowHeight");
+        ImGui.InputInt(string.Empty, ref WindowModifier.Height);
+        ImGui.PopID();
+
+        ImGui.Text("Window mode");
+
+        ImGui.SameLine();
+        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Apply") + ImGui.GetStyle().ItemSpacing + ImGui.GetStyle().ItemInnerSpacing).X);
+        ImGui.PushID("WindowMode");
+        if (ImGui.BeginCombo(string.Empty, ((FullScreenMode)WindowModifier.SelectedFullScreenMode).ToString()))
+        {
+            for (int i = 0; i < WindowModifier.FullScreenModes.Count(); i++)
+            {
+                bool selected = WindowModifier.SelectedFullScreenMode == i;
+                if (ImGui.Selectable(WindowModifier.FullScreenModes[i], ref selected))
+                {
+                    WindowModifier.SelectedFullScreenMode = i;
+                }
+
+                if (selected)
+                {
+                    ImGui.SetItemDefaultFocus();
+                }
+            }
+            ImGui.EndCombo();
+        }
+
+        ImGui.PopID();
+
         ImGui.SameLine();
         if (ImGui.Button("Apply"))
         {
-            ResolutionModifier.ApplyResolution();
+            WindowModifier.ApplyResolution();
         }
 
         if (GUIUtils.InputFloat("Shadow distance", ref ShadowDistModifier.ShadowDistance))
         {
-            ShadowDistModifier.ApplyShadowDistance();
+            ShadowDistModifier.ApplyChanges();
         }
 
         if (GUIUtils.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
         {
-            ClipPlaneModifier.ApplyClipPlane();
+            ClipPlaneModifier.ApplyChanges();
         }
 
         if (ImGui.Checkbox("Themes enabled", ref ThemeModifier.ThemesEnabled))
         {
             UnityMainThreadDispatcher.Instance.Enqueue(() =>
+              ThemeModifier.ApplyToggleThemes());
+        }
+
+        if (ThemeModifier.ThemesEnabled)
+        {
+
+            ImGui.SetNextItemWidth(-(ImGui.CalcTextSize("Theme preview") + GUIUtils.CalcButtonSize("Create") + GUIUtils.CalcButtonSize("Destroy") + (ImGui.GetStyle().ItemSpacing + ImGui.GetStyle().ItemInnerSpacing) * 2).X);
+            if (ImGui.BeginCombo("Theme preview", ThemeModifier.ThemeIDs[ThemeModifier.SelectedThemePreview]))
             {
-                ThemeModifier.UpdateThemesEnabled();
-            });
+                for (int i = 0; i < ThemeModifier.ThemeIDs.Length; i++)
+                {
+                    bool selected = ThemeModifier.SelectedThemePreview == i;
+                    if (ImGui.Selectable(ThemeModifier.ThemeIDs[i]))
+                    {
+                        ThemeModifier.SelectedThemePreview = i;
+                    }
+
+                    if (selected)
+                    {
+                        ImGui.SetItemDefaultFocus();
+                    }
+                }
+                ImGui.EndCombo();
+            }
+
+            ImGui.SameLine();
+            if (ImGui.Button("Create"))
+            {
+                UnityMainThreadDispatcher.Instance.Enqueue(() =>
+                  ThemeModifier.CreateThemePreview());
+            }
+
+            ImGui.SameLine();
+            if (ImGui.Button("Destroy"))
+            {
+                UnityMainThreadDispatcher.Instance.Enqueue(() =>
+                  ThemeModifier.DestroyThemePreview());
+            }
         }
 
         ImGui.EndTabItem();

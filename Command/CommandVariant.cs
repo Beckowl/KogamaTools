@@ -23,7 +23,7 @@ internal class CommandVariant
 
         if (args.Length != ArgumentTypes.Count)
             return false;
-        
+
 
         for (int i = 0; i < args.Length; i++)
         {

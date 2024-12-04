@@ -1,23 +1,48 @@
 ﻿namespace KogamaTools.Tools.Graphics;
-internal static class ThemeModifier
+internal class ThemeModifier
 {
-
-    // TODO: add options to create/modify theme previews
-
-    internal static bool ThemesEnabled = GetCurrentTheme() != null;
+    internal static bool ThemesEnabled = !MVGameControllerBase.SkyboxManager.enabled;
+    internal static string[] ThemeIDs = { "RoundSquare", "Normal", "Christmas", "Puzzle", "Scary", "BoxPumpkin", "RoundCircleSkull", "Cartoon", "Triangles", "Pumpkin", "Animals", "Heart", "SquareSkull", "BoxHalloween", "RoundSkull", "BoxSkull", "Candy", "Square", "RoundBoxSkull", "RoundSquareSkull", "Cloudy" };
+    internal static int SelectedThemePreview = 0;
+    internal static Theme? Preview = null;
     internal static Theme GetCurrentTheme()
     {
         Theme theme = MVGameControllerBase.GameMode == MV.Common.MVGameMode.CharacterEditor ? AvatarEditModeBodyController.Theme : ThemeRepository.Instance.CurrentThemeVisualization;
         return theme;
     }
 
-    internal static void UpdateThemesEnabled()
+    internal static void ApplyToggleThemes()
     {
-        Theme theme = GetCurrentTheme();
+        ToggleAllThemes(ThemesEnabled);
+    }
 
-        if (theme != null)
+    internal static void CreateThemePreview()
+    {
+        DestroyThemePreview();
+
+        Preview = ThemeRepository.Instance.CreateTemporaryThemeVisualization(ThemeIDs[SelectedThemePreview]);
+    }
+
+    internal static void DestroyThemePreview()
+    {
+        if (Preview != null)
         {
-            if (ThemesEnabled)
+            ThemeRepository.Instance.DestroyTemporary(Preview);
+            Preview = null;
+        }
+    }
+
+    private static void ToggleAllThemes(bool enable)
+    {
+        if (!enable)
+            DestroyThemePreview();
+
+
+        Theme[] themes = UnityEngine.Object.FindObjectsOfType<Theme>();
+
+        foreach (Theme theme in themes)
+        {
+            if (enable)
             {
                 theme.Activate();
             }
@@ -26,15 +51,5 @@ internal static class ThemeModifier
                 theme.Deactivate();
             }
         }
-    }
-
-    internal static Theme CreateThemePreview(string identifier)
-    {
-        Theme theme = GetCurrentTheme();
-        if (theme != null)
-        {
-            ThemeRepository.Instance.DestroyTemporary(theme);
-        }
-        return ThemeRepository.Instance.CreateTemporaryThemeVisualization(identifier);
     }
 }

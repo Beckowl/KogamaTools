@@ -18,7 +18,7 @@ internal static class GUIUtils
         ImGui.PushID(label);
         ImGui.Text(label);
         ImGui.SameLine();
-        ImGui.SetNextItemWidth(-ImGui.GetStyle().ItemSpacing.X);
+        ImGui.SetNextItemWidth(-ImGui.GetStyle().ItemInnerSpacing.X);
         bool result = ImGui.InputFloat(string.Empty, ref value);
         ImGui.PopID();
         return result;
@@ -101,7 +101,7 @@ internal static class GUIUtils
         return false;
     }
 
-    private static bool RenderEnum(string label, ref object value)
+    internal static bool RenderEnum(string label, ref object value)
     {
         int index = (int)value;
         string[] names = Enum.GetNames(value.GetType()).ToArray();

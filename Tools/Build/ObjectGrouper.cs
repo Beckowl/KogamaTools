@@ -77,7 +77,7 @@ internal class ObjectGrouper : MonoBehaviour
                type == MV.WorldObject.WorldObjectType.Teleporter ||
                type == MV.WorldObject.WorldObjectType.CollectTheItemCollectable ||
                type == MV.WorldObject.WorldObjectType.CollectTheItemDropOff ||
-               type == MV.WorldObject.WorldObjectType.CubeModel;          
+               type == MV.WorldObject.WorldObjectType.CubeModel;
     }
 
 

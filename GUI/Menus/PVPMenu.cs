@@ -61,7 +61,7 @@ internal static class PVPMenu
                 CustomCrossHairColor.SetCrossHairColorFromVec4(crosshaircolor);
             }
         }
-        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Load") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + ImGui.GetStyle().ItemSpacing*2 + ImGui.GetStyle().ItemInnerSpacing).X);
+        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Load") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + ImGui.GetStyle().ItemSpacing * 2 + ImGui.GetStyle().ItemInnerSpacing).X);
 
         ImGui.InputText("Custom crosshair", customCrosshairPath, (uint)customCrosshairPath.Length);
 
