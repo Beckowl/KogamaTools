@@ -14,18 +14,31 @@ internal class InfoMenu
         ImGui.TableSetupColumn("Count");
         ImGui.TableHeadersRow();
 
-        AddTableRow("World objects", GameMetrics.WorldObjectCount);
-        AddTableRow("Logic objects", GameMetrics.LogicObjectCount);
-        AddTableRow("Links", GameMetrics.LinkCount);
-        AddTableRow("Object links", GameMetrics.ObjectLinkCount);
-        AddTableRow("Models (unique)", GameMetrics.UniquePrototypeCount);
-        AddTableRow("Models (all)", GameMetrics.PrototypeCount);
+        AddTableRow("World objects", GameInfo.WorldObjectCount);
+        AddTableRow("Logic objects", GameInfo.LogicObjectCount);
+        AddTableRow("Links", GameInfo.LinkCount);
+        AddTableRow("Object links", GameInfo.ObjectLinkCount);
+        AddTableRow("Models (unique)", GameInfo.UniquePrototypeCount);
+        AddTableRow("Models (all)", GameInfo.PrototypeCount);
 
         ImGui.EndTable();
 
         ImGui.Text("\n");
-        ImGui.Text($"Ping:\t{GameMetrics.Ping}ms");
-        ImGui.Text($"FPS:\t{GameMetrics.Fps}");
+        ImGui.Columns(2, "InfoTextColumn", false);
+        ImGui.SetColumnOffset(1, ImGui.CalcTextSize("KoGaMa version:\t").X);
+
+        ImGui.Text("Ping:");
+        ImGui.Text("FPS:");
+        ImGui.Text("KoGaMa version:");
+
+        ImGui.NextColumn();
+
+        ImGui.Text($"{GameInfo.Ping}ms");
+        ImGui.Text($"{GameInfo.Fps}");
+        ImGui.Text($"{GameInfo.GameVersion}");
+
+        ImGui.Columns(1);
+
         ImGui.Text("\nMade by Becko.");
         ImGui.Text("\nSpecial thanks to MauryDev & Eveldee");
 

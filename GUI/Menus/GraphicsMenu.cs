@@ -11,18 +11,20 @@ internal class GraphicsMenu
         if (!ImGui.BeginTabItem("Graphics"))
             return;
 
+        if (ImGui.Checkbox("Display game UI", ref ToggleUI.UIVisible))
+        {
+            UnityMainThreadDispatcher.Instance.Enqueue(() => ToggleUI.UpdateUIVisibility());
+        }
         if (ImGui.Checkbox("Fog enabled", ref FogModifier.FogEnabled))
         {
-            UnityMainThreadDispatcher.Instance.Enqueue(() =>
-              FogModifier.ApplyChanges());
+            UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
         }
 
         if (FogModifier.FogEnabled)
         {
             if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.005f, 0.05f))
             {
-                UnityMainThreadDispatcher.Instance.Enqueue(() =>
-                  FogModifier.ApplyChanges());
+                UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
             }
         }
 
@@ -84,6 +86,19 @@ internal class GraphicsMenu
         if (GUIUtils.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
         {
             ClipPlaneModifier.ApplyChanges();
+        }
+
+        if (ImGui.Checkbox("Ortographic camera", ref OrtographicCamera.Enabled))
+        {
+            OrtographicCamera.ApplyChanges();
+        }
+
+        if (OrtographicCamera.Enabled)
+        {
+            if (GUIUtils.InputFloat("Ortographic camera size", ref OrtographicCamera.Size))
+            {
+                OrtographicCamera.ApplyChanges();
+            }
         }
 
         if (ImGui.Checkbox("Themes enabled", ref ThemeModifier.ThemesEnabled))

@@ -2,6 +2,7 @@
 {
     internal static class RuntimeReferences
     {
+        internal static DesktopPlayModeController DesktopPlayModeController { get; set; } = null!;
         internal static DesktopEditModeController DesktopEditModeController { get; private set; } = null!;
         internal static EditorStateMachine EditorStateMachine { get; private set; } = null!;
         internal static CubeModelingStateMachine CubeModelingStateMachine { get; private set; } = null!;
@@ -12,14 +13,12 @@
             if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
             {
                 DesktopEditModeController = MVGameControllerBase.EditModeUI.Cast<DesktopEditModeController>();
-                if (DesktopEditModeController == null)
-                {
-                    throw new InvalidOperationException("Failed to initialize DesktopEditModeController.");
-                }
 
                 EditorStateMachine = DesktopEditModeController.EditModeStateMachine;
                 CubeModelingStateMachine = EditorStateMachine.cubeModelingStateMachine;
                 EditorWorldObjectCreation = DesktopEditModeController.editorWorldObjectCreation;
+
+                DesktopPlayModeController = MVGameControllerBase.PlayModeUI.Cast<DesktopPlayModeController>();
             }
         }
     }

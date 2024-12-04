@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace KogamaTools.Tools.Misc;
-internal static class GameMetrics
+internal static class GameInfo
 {
     internal static int WorldObjectCount;
     internal static int LogicObjectCount;
@@ -11,6 +11,7 @@ internal static class GameMetrics
     internal static int PrototypeCount;
     internal static int Ping;
     internal static float Fps;
+    internal static string GameVersion = MVGameControllerBase.KoGaMaSettings.VersionString;
 
     internal static void UpdateMetrics()
     {
@@ -44,6 +45,6 @@ internal class GameMetricsUpdater : MonoBehaviour
 {
     private void Update()
     {
-        GameMetrics.UpdateMetrics();
+        GameInfo.UpdateMetrics();
     }
 }
