@@ -60,7 +60,9 @@ internal class CopyPasteModel : MonoBehaviour
     private static IEnumerator BeginBuildModel(MVCubeModelBase model)
     {
         yield return instance.StartCoroutine(BuildModel(model, copiedData).WrapToIl2Cpp());
-        NotificationHelper.NotifySuccess("Model imported successfully.");
+
+        targetModelID = -1;
+        NotificationHelper.NotifySuccess("Model pasted successfully.");
     }
 
 
