@@ -138,6 +138,7 @@ internal static class ModelHelper
     internal static IEnumerator BuildModel(MVCubeModelBase target, ModelData data)
     {
         NotificationHelper.NotifyUser("The model build process has started. You can delete the target model at any time to abort it.");
+        int PlacedCubes = 0;
         foreach (KeyValuePair<IntVector, Cube> kvp in data.Cubes)
         {
             IntVector cubePos = kvp.Key;
@@ -150,7 +151,12 @@ internal static class ModelHelper
             }
 
             AddCubeToModel(cubePos, cube, target);
-            yield return new WaitForSeconds(Math.Max(0, 1f / 60f - Time.deltaTime));
+            PlacedCubes++;
+
+            if (PlacedCubes % 500 == 0)
+            {
+                yield return new WaitForSeconds(1f / 60f * 305);
+            }    
         }
     }
 
