@@ -53,7 +53,13 @@ internal class CopyPasteModel : MonoBehaviour
 
     internal static void PasteModel(MVCubeModelBase model)
     {
-        targetModelID = model.id;
+            if (copiedData == null)
+            {
+                NotificationHelper.WarnUser("No data to copy");
+                return;
+            }
+
+            targetModelID = model.id;
         instance.StartCoroutine(BeginBuildModel(model).WrapToIl2Cpp());
     }
 
