@@ -22,9 +22,15 @@ internal class GraphicsMenu
 
         if (FogModifier.FogEnabled)
         {
-            if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.005f, 0.05f))
+            ImGui.SameLine();
+            ImGui.Checkbox("Custom fog density", ref FogModifier.UseCustomFogDensity);
+
+            if (FogModifier.UseCustomFogDensity)
             {
-                UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
+                if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.005f, 0.05f))
+                {
+                    UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
+                }
             }
         }
 

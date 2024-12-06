@@ -7,12 +7,15 @@ namespace KogamaTools.Tools.Graphics;
 internal static class FogModifier
 {
     internal static bool FogEnabled = HasFog();
+    internal static bool UseCustomFogDensity = false;
     internal static float FogDensity = MVGameControllerBase.SkyboxManager.currentFogDensity;
 
     internal static void ApplyChanges()
     {
         RenderSettings.fog = FogEnabled;
-        RenderSettings.fogDensity = FogDensity;
+
+        if (UseCustomFogDensity)
+            RenderSettings.fogDensity = FogDensity;
     }
 
     private static bool HasFog()
@@ -40,6 +43,7 @@ internal static class FogModifier
     [HarmonyPrefix]
     private static void FogDensityPrefix(ref float value)
     {
-        value = FogDensity;
+        if (UseCustomFogDensity)
+            value = FogDensity;
     }
 }
