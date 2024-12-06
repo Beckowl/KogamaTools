@@ -18,7 +18,7 @@ public class KogamaTools : BasePlugin
     public const string
     ModGUID = "KogamaTools",
     ModName = "KogamaTools",
-    ModVersion = "0.3.3"; // TODO: automate this
+    ModVersion = "0.5.0"; // TODO: automate this
 
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
@@ -34,6 +34,7 @@ public class KogamaTools : BasePlugin
         GameInitChecker.OnGameInitialized += MouseColorPick.SubscribeHotkeys;
         GameInitChecker.OnGameInitialized += ModelExporter.Init;
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
+        GameInitChecker.OnGameInitialized += ConsoleToggle.SubscribeHotkeys;
 
         GameInitChecker.OnGameInitialized += () =>
         {
@@ -45,7 +46,6 @@ public class KogamaTools : BasePlugin
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();
-
 
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);

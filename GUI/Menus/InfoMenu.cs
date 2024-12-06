@@ -23,7 +23,11 @@ internal class InfoMenu
 
         ImGui.EndTable();
 
-        ImGui.Text("\n");
+        if (ImGui.Button("Toggle Console"))
+        {
+            ConsoleToggle.ToggleConsole();
+        }
+
         ImGui.Columns(2, "InfoTextColumn", false);
         ImGui.SetColumnOffset(1, ImGui.CalcTextSize("KoGaMa version:\t").X);
 
