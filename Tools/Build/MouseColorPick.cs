@@ -19,7 +19,19 @@ internal static class MouseColorPick
 
         if (EditModeObjectPicker.GetPickingInfo(e.TargetCubeModel, ref pickingInfo))
         {
-            e.CurrentMaterialId = pickingInfo.cube.faceMaterials[(int)pickingInfo.pickedFace];
+            byte pickedMaterial = pickingInfo.cube.faceMaterials[(int)pickingInfo.pickedFace];
+
+#if DEBUG
+            KogamaTools.mls.LogInfo($"Mouse-picked {pickedMaterial}");
+#endif
+            if (MVMaterialRepository.instance.IsMaterialUnlocked(pickedMaterial))
+            {
+                e.CurrentMaterialId = pickedMaterial;
+            }
+            else
+            {
+                ModelCursor.ShowUnlockMaterialNotification();
+            }
         }
     }
 }

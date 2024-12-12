@@ -19,6 +19,9 @@
 	  <Reference Include="Assembly-CSharp">
 	    <HintPath>Lib\Assembly-CSharp.dll</HintPath>
 	  </Reference>
+	  <Reference Include="Assembly-CSharp-firstpass">
+	    <HintPath>Lib\Assembly-CSharp-firstpass.dll</HintPath>
+	  </Reference>
 	  <Reference Include="BepInEx.Core">
 	    <HintPath>Lib\BepInEx.Core.dll</HintPath>
 	  </Reference>

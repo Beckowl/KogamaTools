@@ -18,7 +18,7 @@ public class KogamaTools : BasePlugin
     public const string
     ModGUID = "KogamaTools",
     ModName = "KogamaTools",
-    ModVersion = "0.5.5"; // TODO: automate this
+    ModVersion = "0.6.0"; // TODO: automate this
 
     private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
@@ -46,7 +46,8 @@ public class KogamaTools : BasePlugin
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();
-
+            
+            
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);
         };

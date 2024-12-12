@@ -8,7 +8,7 @@ internal static class EditModeSpeed
 {
     internal static float Multiplier = 2;
     internal static bool MultiplierEnabled = false;
-    internal static bool MovementConstraintEnabled = true;
+    internal static bool MovementConstrained = true;
 
     [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode), "MoveCharacter")]
     [HarmonyPrefix]
@@ -21,6 +21,6 @@ internal static class EditModeSpeed
             moveDelta.z *= Multiplier;
         }
 
-        __instance.MovementConstrained = __instance.MovementConstrained && MovementConstraintEnabled;
+        __instance.MovementConstrained = __instance.MovementConstrained && MovementConstrained;
     }
 }

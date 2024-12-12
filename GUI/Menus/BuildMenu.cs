@@ -54,15 +54,18 @@ internal static class BuildMenu
         ImGui.Checkbox("No build limit", ref NoLimit.Enabled);
 
         ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
-        ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeSpeed.MovementConstraintEnabled);
+
+        ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
+
+        ImGui.Checkbox("Force destructibles selection", ref DestructiblesUnlock.DestructiblesUnlocked);
+
+        ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeSpeed.MovementConstrained);
 
         ImGui.Checkbox("Speed multiplier", ref EditModeSpeed.MultiplierEnabled);
         if (EditModeSpeed.MultiplierEnabled)
         {
             GUIUtils.InputFloat("Multiplier", ref EditModeSpeed.Multiplier);
         }
-
-        ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
 
         if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)
         {

@@ -27,15 +27,19 @@ internal class GraphicsMenu
 
             if (FogModifier.UseCustomFogDensity)
             {
-                if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.005f, 0.05f))
+                if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.0f, 0.05f))
                 {
                     UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
                 }
             }
         }
 
-        // spaghetti ass code
-        // why are input fields so damn long???
+        if (ImGui.Checkbox("Reflective water", ref WaterReflectionModifier.UseReflectiveWater))
+        {
+            WaterReflectionModifier.ApplyChanges();
+        }
+
+
         ImGui.Text("Resolution");
 
         ImGui.SameLine();
@@ -84,10 +88,12 @@ internal class GraphicsMenu
             WindowModifier.ApplyResolution();
         }
 
+
         if (GUIUtils.InputFloat("Shadow distance", ref ShadowDistModifier.ShadowDistance))
         {
             ShadowDistModifier.ApplyChanges();
         }
+
 
         if (GUIUtils.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
         {

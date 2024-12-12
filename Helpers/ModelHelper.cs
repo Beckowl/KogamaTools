@@ -155,7 +155,7 @@ internal static class ModelHelper
 
             if (PlacedCubes % 500 == 0)
             {
-                yield return new WaitForSeconds(1f / 60f * 315);
+                yield return new WaitForSecondsRealtime(1f / 60f * 315);
             }    
         }
     }
