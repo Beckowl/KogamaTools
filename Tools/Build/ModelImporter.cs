@@ -109,6 +109,8 @@ internal class ModelImporter : MonoBehaviour
 
         yield return instance.StartCoroutine(BuildModel(model, data).WrapToIl2Cpp());
 
+        ResetState();
+
         NotifySuccess("Model imported successfully.");
     }
 
@@ -119,6 +121,7 @@ internal class ModelImporter : MonoBehaviour
         if (state == ModelImporterState.ImportInProgress && id == targetModelID)
         {
             instance.StopAllCoroutines();
+            ResetState();
             NotifySuccess("Model import was aborted.");
         }
     }
