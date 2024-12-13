@@ -6,6 +6,7 @@ using KogamaTools.Behaviours;
 using KogamaTools.GUI;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Build;
+using KogamaTools.Tools.Graphics;
 using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
 using UnityEngine;
@@ -35,6 +36,7 @@ public class KogamaTools : BasePlugin
         GameInitChecker.OnGameInitialized += ModelExporter.Init;
         GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
         GameInitChecker.OnGameInitialized += ConsoleToggle.SubscribeHotkeys;
+        GameInitChecker.OnGameInitialized += ScreenshotUtil.SubscribeHotkeys;
 
         GameInitChecker.OnGameInitialized += () =>
         {

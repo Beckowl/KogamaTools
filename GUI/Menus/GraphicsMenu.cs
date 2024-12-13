@@ -13,11 +13,11 @@ internal class GraphicsMenu
 
         if (ImGui.Checkbox("Display game UI", ref ToggleUI.UIVisible))
         {
-            UnityMainThreadDispatcher.Instance.Enqueue(() => ToggleUI.UpdateUIVisibility());
+            UnityMainThreadDispatcher.Instance.Enqueue(ToggleUI.UpdateUIVisibility);
         }
         if (ImGui.Checkbox("Fog enabled", ref FogModifier.FogEnabled))
         {
-            UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
+            UnityMainThreadDispatcher.Instance.Enqueue(FogModifier.ApplyChanges);
         }
 
         if (FogModifier.FogEnabled)
@@ -29,7 +29,7 @@ internal class GraphicsMenu
             {
                 if (ImGui.SliderFloat("Fog density", ref FogModifier.FogDensity, 0.0f, 0.05f))
                 {
-                    UnityMainThreadDispatcher.Instance.Enqueue(() => FogModifier.ApplyChanges());
+                    UnityMainThreadDispatcher.Instance.Enqueue(FogModifier.ApplyChanges);
                 }
             }
         }
@@ -115,8 +115,7 @@ internal class GraphicsMenu
 
         if (ImGui.Checkbox("Themes enabled", ref ThemeModifier.ThemesEnabled))
         {
-            UnityMainThreadDispatcher.Instance.Enqueue(() =>
-              ThemeModifier.ApplyToggleThemes());
+            UnityMainThreadDispatcher.Instance.Enqueue(ThemeModifier.ApplyToggleThemes);
         }
 
         if (ThemeModifier.ThemesEnabled)
@@ -144,17 +143,23 @@ internal class GraphicsMenu
             ImGui.SameLine();
             if (ImGui.Button("Create"))
             {
-                UnityMainThreadDispatcher.Instance.Enqueue(() =>
-                  ThemeModifier.CreateThemePreview());
+                UnityMainThreadDispatcher.Instance.Enqueue(ThemeModifier.CreateThemePreview);
             }
 
             ImGui.SameLine();
             if (ImGui.Button("Destroy"))
             {
-                UnityMainThreadDispatcher.Instance.Enqueue(() =>
-                  ThemeModifier.DestroyThemePreview());
+                UnityMainThreadDispatcher.Instance.Enqueue(ThemeModifier.DestroyThemePreview);
             }
         }
+        if (ImGui.Button("Capture screenshot"))
+        {
+            UnityMainThreadDispatcher.Instance.Enqueue(ScreenshotUtil.CaptureScreenshot);
+
+        }
+
+        ImGui.SameLine();
+        GUIUtils.InputFloat("Super size", ref ScreenshotUtil.SuperSize);
 
         ImGui.EndTabItem();
     }
