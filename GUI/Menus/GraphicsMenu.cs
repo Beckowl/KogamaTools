@@ -23,7 +23,11 @@ internal class GraphicsMenu
         if (FogModifier.FogEnabled)
         {
             ImGui.SameLine();
-            ImGui.Checkbox("Custom fog density", ref FogModifier.UseCustomFogDensity);
+
+            if (ImGui.Checkbox("Custom fog density", ref FogModifier.UseCustomFogDensity))
+            {
+                UnityMainThreadDispatcher.Instance.Enqueue(FogModifier.ApplyChanges);
+            }
 
             if (FogModifier.UseCustomFogDensity)
             {
@@ -155,7 +159,6 @@ internal class GraphicsMenu
         if (ImGui.Button("Capture screenshot"))
         {
             UnityMainThreadDispatcher.Instance.Enqueue(ScreenshotUtil.CaptureScreenshot);
-
         }
 
         ImGui.SameLine();

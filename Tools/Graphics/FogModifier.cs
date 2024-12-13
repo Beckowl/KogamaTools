@@ -15,7 +15,14 @@ internal static class FogModifier
         RenderSettings.fog = FogEnabled;
 
         if (UseCustomFogDensity)
+        {
             RenderSettings.fogDensity = FogDensity;
+        }
+        else
+        {
+            SkyboxManager skyboxManager = MVGameControllerBase.SkyboxManager;
+            skyboxManager.SetColor(skyboxManager.currentColor, skyboxManager.currentSunAngle, skyboxManager.currentFogDensity);
+        }
     }
 
     private static bool HasFog()
