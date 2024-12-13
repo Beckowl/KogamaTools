@@ -9,7 +9,7 @@ internal static class SingleSidePainting
 
     [HarmonyPatch(typeof(PaintCubes), "Execute")]
     [HarmonyPrefix]
-    static bool ReplaceCube(PaintCubes __instance, ref CubeModelingStateMachine e)
+    private static bool ReplaceCube(PaintCubes __instance, ref CubeModelingStateMachine e)
     {
         if (!Enabled) return true;
 

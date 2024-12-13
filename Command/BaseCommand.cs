@@ -25,13 +25,51 @@ internal abstract class BaseCommand : ICommand
 {
     public List<string> Names { get; private set; } = new List<string>();
     public string Description { get; private set; } = String.Empty;
-
     public bool BuildModeOnly { get; private set; }
     public List<CommandVariant> Variants { get; } = new List<CommandVariant>();
 
     protected BaseCommand()
     {
         LoadMetadata();
+    }
+
+    public CommandResult TryExecute(string[] args)
+    {
+        if (args.Length > 0 && (args[0] == "?" || args[0].Equals("help", StringComparison.OrdinalIgnoreCase)))
+        {
+            DisplayHelp();
+            return CommandResult.Ok;
+        }
+
+        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play && BuildModeOnly)
+            return CommandResult.BuildModeOnly;
+
+        foreach (CommandVariant variant in Variants)
+        {
+            if (variant.TryParseArgs(args, out object[] parsedArgs))
+            {
+                variant.Execute(parsedArgs);
+                return CommandResult.Ok;
+            }
+        }
+
+        return CommandResult.InvalidArgs;
+    }
+
+    public void Describe()
+    {
+        NotificationHelper.NotifyUser($"{string.Join(", ", Names)}: {Description}\n");
+    }
+
+    public void DisplayHelp()
+    {
+        Describe();
+        NotificationHelper.NotifyUser("Usage:");
+
+        foreach (CommandVariant variant in Variants)
+        {
+            NotificationHelper.NotifyUser($"{Names[0]} {variant.Usage}");
+        }
     }
 
     private void LoadNames(Type type)
@@ -81,44 +119,5 @@ internal abstract class BaseCommand : ICommand
         LoadVariants(type);
 
         BuildModeOnly = type.GetCustomAttributes(typeof(BuildModeOnlyAttribute)).Any();
-    }
-
-    public CommandResult TryExecute(string[] args)
-    {
-        if (args.Length > 0 && (args[0] == "?" || args[0].Equals("help", StringComparison.OrdinalIgnoreCase)))
-        {
-            DisplayHelp();
-            return CommandResult.Ok;
-        }
-
-        if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play && BuildModeOnly)
-            return CommandResult.BuildModeOnly;
-
-        foreach (CommandVariant variant in Variants)
-        {
-            if (variant.TryParseArgs(args, out object[] parsedArgs))
-            {
-                variant.Execute(parsedArgs);
-                return CommandResult.Ok;
-            }
-        }
-
-        return CommandResult.InvalidArgs;
-    }
-
-    public void Describe()
-    {
-        NotificationHelper.NotifyUser($"{string.Join(", ", Names)}: {Description}\n");
-    }
-
-    public void DisplayHelp()
-    {
-        Describe();
-        NotificationHelper.NotifyUser("Usage:");
-
-        foreach (CommandVariant variant in Variants)
-        {
-            NotificationHelper.NotifyUser($"{Names[0]} {variant.Usage}");
-        }
     }
 }

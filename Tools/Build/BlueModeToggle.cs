@@ -3,7 +3,7 @@
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
-internal static class BlueModeController
+internal static class BlueModeToggle
 {
     internal static bool BlueModeEnabled = true;
 

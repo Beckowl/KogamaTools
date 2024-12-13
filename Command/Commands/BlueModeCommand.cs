@@ -11,7 +11,7 @@ internal class BlueModeCommand : BaseCommand
     [CommandVariant]
     private void Toggle()
     {
-        BlueModeController.BlueModeEnabled = !BlueModeController.BlueModeEnabled;
-        NotificationHelper.NotifySuccess($"Blue mode {(BlueModeController.BlueModeEnabled ? "enabled" : "disabled")}.");
+        BlueModeToggle.BlueModeEnabled = !BlueModeToggle.BlueModeEnabled;
+        NotificationHelper.NotifySuccess($"Blue mode {(BlueModeToggle.BlueModeEnabled ? "enabled" : "disabled")}.");
     }
 }

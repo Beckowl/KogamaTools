@@ -6,43 +6,6 @@ namespace KogamaTools.GUI.Menus;
 
 internal static class BuildMenu
 {
-    private static void ShowInteractionFlags()
-    {
-        InteractionFlags[] interactionFlags = (InteractionFlags[])Enum.GetValues(typeof(InteractionFlags));
-        int flagCount = interactionFlags.Length;
-        int midPoint = (flagCount + 1) / 2;
-
-        if (ImGui.BeginTable("InteractionFlagsTable", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Resizable))
-        {
-            for (int i = 0; i < midPoint; i++)
-            {
-                ImGui.TableNextColumn();
-
-                RenderToggleFlag(interactionFlags[i]);
-
-                ImGui.TableNextColumn();
-
-                if (i + midPoint < flagCount)
-                {
-                    RenderToggleFlag(interactionFlags[i + midPoint]);
-                }
-
-                ImGui.TableNextRow();
-            }
-
-            ImGui.EndTable();
-        }
-    }
-
-    private static void RenderToggleFlag(InteractionFlags flag)
-    {
-        bool flagSet = ForceFlags.AreFlagsSet(flag);
-        if (ImGui.Checkbox(flag.ToString(), ref flagSet))
-        {
-            ForceFlags.ToggleFlags(flag);
-        }
-    }
-
     internal static void Render()
     {
         if (!(MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit || MVGameControllerBase.GameMode == MV.Common.MVGameMode.CharacterEditor))
@@ -53,7 +16,7 @@ internal static class BuildMenu
 
         ImGui.Checkbox("No build limit", ref NoLimit.Enabled);
 
-        ImGui.Checkbox("Blue mode enabled", ref BlueModeController.BlueModeEnabled);
+        ImGui.Checkbox("Blue mode enabled", ref BlueModeToggle.BlueModeEnabled);
 
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
 
@@ -122,5 +85,42 @@ internal static class BuildMenu
         }
 
         ImGui.EndTabItem();
+    }
+
+    private static void ShowInteractionFlags()
+    {
+        InteractionFlags[] interactionFlags = (InteractionFlags[])Enum.GetValues(typeof(InteractionFlags));
+        int flagCount = interactionFlags.Length;
+        int midPoint = (flagCount + 1) / 2;
+
+        if (ImGui.BeginTable("InteractionFlagsTable", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Resizable))
+        {
+            for (int i = 0; i < midPoint; i++)
+            {
+                ImGui.TableNextColumn();
+
+                RenderToggleFlag(interactionFlags[i]);
+
+                ImGui.TableNextColumn();
+
+                if (i + midPoint < flagCount)
+                {
+                    RenderToggleFlag(interactionFlags[i + midPoint]);
+                }
+
+                ImGui.TableNextRow();
+            }
+
+            ImGui.EndTable();
+        }
+    }
+
+    private static void RenderToggleFlag(InteractionFlags flag)
+    {
+        bool flagSet = ForceFlags.AreFlagsSet(flag);
+        if (ImGui.Checkbox(flag.ToString(), ref flagSet))
+        {
+            ForceFlags.ToggleFlags(flag);
+        }
     }
 }

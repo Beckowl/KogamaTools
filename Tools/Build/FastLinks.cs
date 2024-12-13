@@ -12,7 +12,7 @@ internal static class FastLinks
     [HarmonyPatch(typeof(LogicObjectManager), "ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool) },
                 new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref })]
     [HarmonyPrefix]
-    public static bool ValidateLink(ref bool loopDetected)
+    private static bool ValidateLink(ref bool loopDetected)
     {
         if (Enabled)
         {
@@ -25,7 +25,7 @@ internal static class FastLinks
     [HarmonyPatch(typeof(LogicObjectManager), "ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool), typeof(ReportSeverity) },
         new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out })]
     [HarmonyPrefix]
-    public static bool ValidateLink(ref ValidateLinkStatus __result, ref ReportSeverity reportSeverity)
+    private static bool ValidateLink(ref ValidateLinkStatus __result, ref ReportSeverity reportSeverity)
     {
         if (Enabled)
         {

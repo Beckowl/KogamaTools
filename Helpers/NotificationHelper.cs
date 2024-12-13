@@ -2,7 +2,7 @@
 
 internal static class NotificationHelper
 {
-    public static void NotifyUser(string msg)
+    internal static void NotifyUser(string msg)
     {
         if (string.IsNullOrEmpty(msg))
             throw new ArgumentNullException(nameof(msg));
@@ -10,7 +10,7 @@ internal static class NotificationHelper
         TextCommand.NotifyUser(msg);
     }
 
-    public static void NotifySuccess(string msg)
+    internal static void NotifySuccess(string msg)
     {
         if (string.IsNullOrEmpty(msg))
             throw new ArgumentNullException(nameof(msg));
@@ -18,7 +18,7 @@ internal static class NotificationHelper
         TextCommand.NotifyUser($"<color=cyan>{msg}</color>");
     }
 
-    public static void WarnUser(string msg)
+    internal static void WarnUser(string msg)
     {
         if (string.IsNullOrEmpty(msg))
             throw new ArgumentNullException(nameof(msg));
@@ -26,7 +26,7 @@ internal static class NotificationHelper
         TextCommand.NotifyUser($"<color=yellow>{msg}</color>");
     }
 
-    public static void NotifyError(string msg)
+    internal static void NotifyError(string msg)
     {
         if (string.IsNullOrEmpty(msg))
             throw new ArgumentNullException(nameof(msg));

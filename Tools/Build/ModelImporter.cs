@@ -24,18 +24,6 @@ internal class ModelImporter : MonoBehaviour
     private static ModelData data = null!;
     private static ModelImporterState state = ModelImporterState.None;
     private static int targetModelID;
-    private void Awake()
-    {
-        instance ??= this;
-        WOReciever.OnWORecieved += OnWORecieved;
-    }
-
-    private static void ResetState()
-    {
-        state = ModelImporterState.None;
-        data = null!;
-        targetModelID = -1;
-    }
 
     internal static void ImportModel(string path)
     {
@@ -66,6 +54,19 @@ internal class ModelImporter : MonoBehaviour
 
         state = ModelImporterState.WaitingForModel;
         RequestCubeModel(data.Scale);
+    }
+
+    private void Awake()
+    {
+        instance ??= this;
+        WOReciever.OnWORecieved += OnWORecieved;
+    }
+
+    private static void ResetState()
+    {
+        state = ModelImporterState.None;
+        data = null!;
+        targetModelID = -1;
     }
 
     private static byte[] LoadModelData(string path)

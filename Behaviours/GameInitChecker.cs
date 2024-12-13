@@ -8,7 +8,7 @@ internal class GameInitChecker : MonoBehaviour
 
     internal static bool IsInitialized = false;
 
-    void Update()
+    private void Update()
     {
         if (MVGameControllerBase.IsInitialized && !IsInitialized)
         {

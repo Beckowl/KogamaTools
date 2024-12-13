@@ -13,7 +13,7 @@ internal static class UnlimitedConfig
 
     [HarmonyPatch(typeof(SettingsSlider), "Initialize", new Type[] { typeof(string), typeof(float), typeof(float), typeof(float) })]
     [HarmonyPrefix]
-    static void Initialize(ref float value, ref float minValue, ref float maxValue)
+    private static void Initialize(ref float value, ref float minValue, ref float maxValue)
     {
         if (Enabled)
         {
@@ -25,7 +25,7 @@ internal static class UnlimitedConfig
 
     [HarmonyPatch(typeof(SettingsSlider), "Initialize", new Type[] { typeof(string), typeof(int), typeof(int), typeof(int) })]
     [HarmonyPrefix]
-    static void Initialize(ref int value, ref int minValue, ref int maxValue)
+    private static void Initialize(ref int value, ref int minValue, ref int maxValue)
     {
         if (Enabled)
         {
@@ -34,5 +34,4 @@ internal static class UnlimitedConfig
             value = (int)Mathf.Clamp(value, MinValue, MaxValue);
         }
     }
-
 }

@@ -17,7 +17,9 @@
                 EditorStateMachine = DesktopEditModeController.EditModeStateMachine;
                 CubeModelingStateMachine = EditorStateMachine.cubeModelingStateMachine;
                 EditorWorldObjectCreation = DesktopEditModeController.editorWorldObjectCreation;
-
+            }
+            else if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Play)
+            {
                 DesktopPlayModeController = MVGameControllerBase.PlayModeUI.Cast<DesktopPlayModeController>();
             }
         }

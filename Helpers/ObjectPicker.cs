@@ -3,7 +3,6 @@
 namespace KogamaTools.Helpers;
 internal static class ObjectPicker
 {
-
     internal static LinkObjectBase PickLink(ref VoxelHit hit)
     {
         if (MVGameControllerBase.MainCameraManager.IsLogicRendered)

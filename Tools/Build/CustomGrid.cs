@@ -8,10 +8,9 @@ internal static class CustomGrid
     internal static bool Enabled = false;
     internal static float GridSize = 1;
 
-
     [HarmonyPatch(typeof(ESTranslate), "Execute")]
     [HarmonyPrefix]
-    static void Execute(ESTranslate __instance)
+    private static void Execute(ESTranslate __instance)
     {
         if (Enabled)
         {
@@ -21,7 +20,7 @@ internal static class CustomGrid
 
     [HarmonyPatch(typeof(MVWorldObjectClient), "GetClosestGridPoint")]
     [HarmonyPrefix]
-    static void GetClosestGridPoint(ref float gridSize)
+    private static void GetClosestGridPoint(ref float gridSize)
     {
         if (Enabled)
         {

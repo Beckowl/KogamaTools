@@ -18,7 +18,7 @@ internal static class NoLimit
     [HarmonyPatch(typeof(ModelingBoxCountConstraint), "CanAddCubeAt")]
     [HarmonyPatch(typeof(ModelingBoxCountConstraint), "CanRemoveCubeAt")]
     [HarmonyPostfix]
-    static void NoLimitPatches(ref bool __result)
+    private static void NoLimitPatches(ref bool __result)
     {
         __result |= Enabled;
     }
