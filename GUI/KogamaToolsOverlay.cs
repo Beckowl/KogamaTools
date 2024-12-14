@@ -12,7 +12,7 @@ internal class KogamaToolsOverlay : Overlay
 {
     internal static bool ShouldRenderOverlay = true;
     private const int DefaultWidth = 345;
-    private const int DefaultHeight = 375;
+    private const int DefaultHeight = 400;
     private static readonly System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(DefaultWidth, DefaultHeight);
     KogamaControls control = KogamaControls.Respawn;
 
@@ -42,6 +42,7 @@ internal class KogamaToolsOverlay : Overlay
         }
 
         ImGui.Begin($"{KogamaTools.ModName} v{KogamaTools.ModVersion}");
+       
         ImGui.SetWindowSize(WindowSize, ImGuiCond.FirstUseEver);
 
         if (ImGui.BeginTabBar("TabBar"))
