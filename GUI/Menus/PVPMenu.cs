@@ -2,7 +2,9 @@
 using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
+using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
+using UnityEngine;
 
 namespace KogamaTools.GUI.Menus;
 
@@ -82,6 +84,38 @@ internal static class PVPMenu
             customCrosshairPath = new byte[1024];
         }
 
+        ImGui.Text("Keybinds");
+
+        if (!ImGui.BeginTable("Table", 2, ImGuiTableFlags.Borders)) return;
+
+        ImGui.TableSetupColumn("Control");
+        ImGui.TableSetupColumn("Key");
+        ImGui.TableHeadersRow();
+
+        RenderControls();
+
+        ImGui.EndTable();
         ImGui.EndTabItem();
+    }
+
+    private static void RenderControls()
+    {
+        foreach (PlayControls control in Enum.GetValues(typeof(PlayControls)))
+        {
+            string controlStr = control.ToString();
+            KogamaControls kogamaControl = (KogamaControls)Enum.Parse(typeof(KogamaControls), controlStr);
+            KeyCode key = KeyRemapper.GetKeyCodeForControl<DesktopPlayMode>(kogamaControl);
+
+            ImGui.TableNextRow();
+            ImGui.TableSetColumnIndex(0);
+            ImGui.Text(controlStr);
+            ImGui.TableSetColumnIndex(1);
+
+            if (GUIUtils.RenderEnum("##" + controlStr, ref key))
+            {
+                KogamaTools.mls.LogInfo(key.ToString());
+                KeyRemapper.RemapControl<DesktopPlayMode>(kogamaControl, key);
+            }
+        }
     }
 }
