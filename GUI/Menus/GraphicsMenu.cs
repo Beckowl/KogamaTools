@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Tools.Graphics;
-using UnityEngine;
 
 namespace KogamaTools.GUI.Menus;
 internal class GraphicsMenu
@@ -43,48 +42,27 @@ internal class GraphicsMenu
             WaterReflectionModifier.ApplyChanges();
         }
 
-
         ImGui.Text("Resolution");
 
         ImGui.SameLine();
-        ImGui.SetNextItemWidth(ImGui.CalcItemWidth() / 2);
-        ImGui.PushID("WindowWidth");
-        ImGui.InputInt(string.Empty, ref WindowModifier.Width);
-        ImGui.PopID();
+
+        float inputWidth = (ImGui.GetContentRegionAvail()/2 - ImGui.CalcTextSize("x") - ImGui.GetStyle().FramePadding).X - 2;
+
+        ImGui.SetNextItemWidth(inputWidth);
+        ImGui.InputInt("##windowWidth", ref WindowModifier.Width);
 
         ImGui.SameLine();
         ImGui.Text("x");
 
-        ImGui.SetNextItemWidth(ImGui.CalcItemWidth() / 2);
         ImGui.SameLine();
-        ImGui.PushID("WindowHeight");
-        ImGui.InputInt(string.Empty, ref WindowModifier.Height);
-        ImGui.PopID();
+        ImGui.SetNextItemWidth(inputWidth);
+        ImGui.InputInt("##windowHeight", ref WindowModifier.Height);
 
         ImGui.Text("Window mode");
 
         ImGui.SameLine();
-        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Apply") + ImGui.GetStyle().ItemSpacing + ImGui.GetStyle().ItemInnerSpacing).X);
-        ImGui.PushID("WindowMode");
-        if (ImGui.BeginCombo(string.Empty, ((FullScreenMode)WindowModifier.SelectedFullScreenMode).ToString()))
-        {
-            for (int i = 0; i < WindowModifier.FullScreenModes.Count(); i++)
-            {
-                bool selected = WindowModifier.SelectedFullScreenMode == i;
-                if (ImGui.Selectable(WindowModifier.FullScreenModes[i], ref selected))
-                {
-                    WindowModifier.SelectedFullScreenMode = i;
-                }
-
-                if (selected)
-                {
-                    ImGui.SetItemDefaultFocus();
-                }
-            }
-            ImGui.EndCombo();
-        }
-
-        ImGui.PopID();
+        ImGui.SetNextItemWidth((ImGui.GetContentRegionAvail() - GUIUtils.CalcButtonSize("Apply") - ImGui.GetStyle().ItemSpacing - ImGui.GetStyle().FramePadding).X);
+        GUIUtils.RenderEnum("##windowMode", ref WindowModifier.screenMode);
 
         ImGui.SameLine();
         if (ImGui.Button("Apply"))
@@ -92,12 +70,10 @@ internal class GraphicsMenu
             WindowModifier.ApplyResolution();
         }
 
-
         if (GUIUtils.InputFloat("Shadow distance", ref ShadowDistModifier.ShadowDistance))
         {
             ShadowDistModifier.ApplyChanges();
         }
-
 
         if (GUIUtils.InputFloat("Draw Distance", ref ClipPlaneModifier.FarClipPlane))
         {
@@ -124,25 +100,8 @@ internal class GraphicsMenu
 
         if (ThemeModifier.ThemesEnabled)
         {
-
-            ImGui.SetNextItemWidth(-(ImGui.CalcTextSize("Theme preview") + GUIUtils.CalcButtonSize("Create") + GUIUtils.CalcButtonSize("Destroy") + (ImGui.GetStyle().ItemSpacing + ImGui.GetStyle().ItemInnerSpacing) * 2).X);
-            if (ImGui.BeginCombo("Theme preview", ThemeModifier.ThemeIDs[ThemeModifier.SelectedThemePreview]))
-            {
-                for (int i = 0; i < ThemeModifier.ThemeIDs.Length; i++)
-                {
-                    bool selected = ThemeModifier.SelectedThemePreview == i;
-                    if (ImGui.Selectable(ThemeModifier.ThemeIDs[i]))
-                    {
-                        ThemeModifier.SelectedThemePreview = i;
-                    }
-
-                    if (selected)
-                    {
-                        ImGui.SetItemDefaultFocus();
-                    }
-                }
-                ImGui.EndCombo();
-            }
+            ImGui.SetNextItemWidth(-(GUIUtils.CalcTextSize("Theme preview") + GUIUtils.CalcButtonSize("Create") + GUIUtils.CalcButtonSize("Destroy") + GUIUtils.CalcSpacing(2) + ImGui.GetStyle().FramePadding).X);
+            GUIUtils.RenderEnum("Theme preview", ref ThemeModifier.SelectedTheme);
 
             ImGui.SameLine();
             if (ImGui.Button("Create"))

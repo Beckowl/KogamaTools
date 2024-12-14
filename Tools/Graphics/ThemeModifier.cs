@@ -1,9 +1,33 @@
 ﻿namespace KogamaTools.Tools.Graphics;
+internal enum ThemeIdentifier
+{
+    Animals,
+    BoxHalloween,
+    BoxPumpkin,
+    BoxSkull,
+    Candy,
+    Cartoon,
+    Christmas,
+    Cloudy,
+    Heart,
+    Normal,
+    Pumpkin,
+    Puzzle,
+    RoundBoxSkull,
+    RoundCircleSkull,
+    RoundSkull,
+    RoundSquare,
+    RoundSquareSkull,
+    Scary,
+    Square,
+    SquareSkull,
+    Triangles
+}
+
 internal class ThemeModifier
 {
     internal static bool ThemesEnabled = !MVGameControllerBase.SkyboxManager.enabled;
-    internal static string[] ThemeIDs = { "RoundSquare", "Normal", "Christmas", "Puzzle", "Scary", "BoxPumpkin", "RoundCircleSkull", "Cartoon", "Triangles", "Pumpkin", "Animals", "Heart", "SquareSkull", "BoxHalloween", "RoundSkull", "BoxSkull", "Candy", "Square", "RoundBoxSkull", "RoundSquareSkull", "Cloudy" };
-    internal static int SelectedThemePreview = 0;
+    internal static ThemeIdentifier SelectedTheme = (ThemeIdentifier)Enum.Parse(typeof(ThemeIdentifier), ThemeRepository.Instance.CurrentThemeIdentifier);
     internal static Theme? Preview = null;
     internal static Theme GetCurrentTheme()
     {
@@ -20,7 +44,7 @@ internal class ThemeModifier
     {
         DestroyThemePreview();
 
-        Preview = ThemeRepository.Instance.CreateTemporaryThemeVisualization(ThemeIDs[SelectedThemePreview]);
+        Preview = ThemeRepository.Instance.CreateTemporaryThemeVisualization(SelectedTheme.ToString());
     }
 
     internal static void DestroyThemePreview()

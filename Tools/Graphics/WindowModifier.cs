@@ -3,13 +3,12 @@
 namespace KogamaTools.Tools.Graphics;
 internal static class WindowModifier
 {
-    internal static int Width = UnityEngine.Screen.width;
-    internal static int Height = UnityEngine.Screen.height;
-    internal static string[] FullScreenModes = Enum.GetNames(typeof(FullScreenMode));
-    internal static int SelectedFullScreenMode = (int)FullScreenMode.Windowed;
+    internal static int Width = Screen.width;
+    internal static int Height = Screen.height;
+    internal static FullScreenMode screenMode = FullScreenMode.Windowed;
 
     internal static void ApplyResolution()
     {
-        UnityEngine.Screen.SetResolution(Width, Height, (FullScreenMode)SelectedFullScreenMode);
+        Screen.SetResolution(Width, Height, screenMode);
     }
 }
