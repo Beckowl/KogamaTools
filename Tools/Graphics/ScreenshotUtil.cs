@@ -1,7 +1,7 @@
-﻿using static System.Environment;
-using KogamaTools.Behaviours;
-using UnityEngine;
+﻿using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
+using UnityEngine;
+using static System.Environment;
 
 namespace KogamaTools.Tools.Graphics;
 internal static class ScreenshotUtil

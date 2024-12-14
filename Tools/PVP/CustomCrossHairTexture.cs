@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KogamaTools.Helpers;
+﻿using KogamaTools.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 

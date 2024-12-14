@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
-using KogamaTools.Helpers;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace KogamaTools.Tools.PVP;
 

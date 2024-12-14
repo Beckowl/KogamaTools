@@ -3,7 +3,6 @@ using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
-using static System.Environment;
 using static System.IO.Path;
 using static KogamaTools.Helpers.ModelHelper;
 using static KogamaTools.Helpers.NotificationHelper;

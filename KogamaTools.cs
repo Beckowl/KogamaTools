@@ -48,8 +48,8 @@ public class KogamaTools : BasePlugin
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();
-            
-            
+
+
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);
         };

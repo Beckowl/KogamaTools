@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using ImGuiNET;
-using KogamaTools.Helpers;
 
 namespace KogamaTools.GUI;
 
@@ -28,7 +27,7 @@ internal static class GUIUtils
     internal static Vector2 CalcSpacing(int numItems)
     {
         var style = ImGui.GetStyle();
-        return (style.ItemSpacing*2) + style.ItemInnerSpacing * (numItems-1);
+        return (style.ItemSpacing * 2) + style.ItemInnerSpacing * (numItems - 1);
     }
 
     internal static bool InputFloat(string label, ref float value)

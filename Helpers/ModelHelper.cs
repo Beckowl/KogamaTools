@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using static System.Environment;
 using MV.WorldObject;
 using UnityEngine;
+using static System.Environment;
 
 namespace KogamaTools.Helpers;
 internal static class ModelHelper
@@ -159,7 +159,7 @@ internal static class ModelHelper
             if (PlacedCubes % 500 == 0)
             {
                 yield return new WaitForSecondsRealtime(1f / 60f * 315);
-            }    
+            }
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using KogamaTools.Helpers;
-using static System.Environment;
 using static System.IO.Path;
 using static KogamaTools.Helpers.ModelHelper;
 

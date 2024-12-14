@@ -46,7 +46,7 @@ internal class GraphicsMenu
 
         ImGui.SameLine();
 
-        float inputWidth = (ImGui.GetContentRegionAvail()/2 - ImGui.CalcTextSize("x") - ImGui.GetStyle().FramePadding).X - 2;
+        float inputWidth = (ImGui.GetContentRegionAvail() / 2 - ImGui.CalcTextSize("x") - ImGui.GetStyle().FramePadding).X - 2;
 
         ImGui.SetNextItemWidth(inputWidth);
         ImGui.InputInt("##windowWidth", ref WindowModifier.Width);
