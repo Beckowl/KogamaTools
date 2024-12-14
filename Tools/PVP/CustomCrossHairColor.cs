@@ -9,7 +9,7 @@ namespace KogamaTools.Tools.PVP;
 internal class CustomCrossHairColor
 {
     internal static bool Enabled = false;
-    internal static Color Color = new(0, 1, 0, 0);
+    internal static Color Color = new(0, 1, 0, 1);
 
     internal static void SetCrossHairColorFromVec4(System.Numerics.Vector4 color)
     {
