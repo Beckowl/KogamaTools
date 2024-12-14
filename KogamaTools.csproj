@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="ClickableTransparentOverlay" Version="6.2.1" />
+    <PackageReference Include="NativeFileDialogSharp" Version="0.5.0" />
     <PackageReference Include="SoftCircuits.Parsing.Helper" Version="5.1.0" />
   </ItemGroup>
 	<ItemGroup>

@@ -14,7 +14,6 @@ internal class KogamaToolsOverlay : Overlay
     private const int DefaultWidth = 345;
     private const int DefaultHeight = 400;
     private static readonly System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(DefaultWidth, DefaultHeight);
-    KogamaControls control = KogamaControls.Respawn;
 
     private readonly string _windowName;
 

@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using static System.Environment;
 using MV.WorldObject;
 using UnityEngine;
 
 namespace KogamaTools.Helpers;
 internal static class ModelHelper
 {
+    internal static readonly string ModelsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models");
     private static readonly byte[] defaultMaterials = { 21, 21, 21, 21, 21, 21 };
     private static readonly string signature = "KTMODEL";
+
 
     internal static MVCubeModelBase GetTargetModel()
     {

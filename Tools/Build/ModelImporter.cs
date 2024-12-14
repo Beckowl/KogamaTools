@@ -73,7 +73,7 @@ internal class ModelImporter : MonoBehaviour
     {
         if (!IsPathFullyQualified(path))
         {
-            path = Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models", path);
+            path = Combine(ModelsPath, path);
         }
 
         if (!File.Exists(path))

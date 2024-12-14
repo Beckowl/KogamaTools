@@ -9,7 +9,7 @@ internal static class TextureHelper
     {
         Texture2D tex = null!;
 
-        if (File.Exists(filePath)) // does not work if path has special characters
+        if (File.Exists(filePath))
         {
             byte[] fileData = File.ReadAllBytes(filePath);
             tex = new Texture2D(1, 1);

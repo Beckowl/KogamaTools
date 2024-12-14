@@ -19,27 +19,6 @@ internal class CustomCrossHairColor
         Color.a = color.W;
     }
 
-    internal static void SetCrossHairTexture(string filePath)
-    {
-        Texture2D tex = TextureHelper.LoadPNG(filePath);
-
-        if (tex == null)
-        {
-            NotificationHelper.NotifyError($"Invalid file path {filePath}.");
-            return;
-        }
-
-        CrossHair crosshair = MVGameControllerBase.PlayModeUI.GetCrossHair().Cast<CrossHair>();
-
-        Image image = crosshair.crossHair;
-        Sprite sprite = image.sprite;
-        Vector2 pivot = sprite.pivot;
-        Rect rect = sprite.rect;
-
-        Sprite newsprite = Sprite.Create(tex, rect, pivot);
-        image.sprite = newsprite;
-    }
-
     [HarmonyPatch(typeof(CrossHair), "UpdateCrossHair")]
     [HarmonyPostfix]
     private static void UpdateCrossHair(CrossHair __instance, ref PickupItem pickupItem)

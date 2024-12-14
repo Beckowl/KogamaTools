@@ -25,14 +25,14 @@ internal static class ModelExporter
         byte[] serializedData = SerializeModelData(data);
 
         WriteDataToDisk(serializedData, model.id.ToString());
-        NotificationHelper.NotifySuccess($"Use /importmodel <model name> to import a model into the game.");
+        NotificationHelper.NotifySuccess($"Use /importmodel to import a model into the game.");
     }
 
     private static void WriteDataToDisk(byte[] modelData, string filename)
     {
         try
         {
-            string modelPath = Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models", $"{filename}.ktm");
+            string modelPath = Combine(ModelsPath, $"{filename}.ktm");
             string directoryPath = GetDirectoryName(modelPath)!;
 
             if (!Directory.Exists(directoryPath))

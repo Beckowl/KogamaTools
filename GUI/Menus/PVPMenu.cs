@@ -10,8 +10,6 @@ namespace KogamaTools.GUI.Menus;
 
 internal static class PVPMenu
 {
-    private static byte[] customCrosshairPath = new byte[1024];
-
     private static bool antiAFKEnabled = false;
     internal static void Render()
     {
@@ -63,25 +61,29 @@ internal static class PVPMenu
                 CustomCrossHairColor.SetCrossHairColorFromVec4(crosshaircolor);
             }
         }
-        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Load") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + GUIUtils.CalcSpacing(2) + ImGui.GetStyle().FramePadding).X);
+        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Browse") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + GUIUtils.CalcSpacing(1) + ImGui.GetStyle().FramePadding).X);
 
-        ImGui.InputText("Custom crosshair", customCrosshairPath, (uint)customCrosshairPath.Length);
+        ImGui.InputText("Custom crosshair", ref CustomCrossHairTexture.TexturePath, 260);
 
+        ImGui.SameLine();
+
+        if (ImGui.Button("Browse"))
+        {
+            FileDialog.OpenFile("psd,tiff,jpg,tga,png,gif,bmp,iff,pict", null, (result) =>
+            {
+                if (result.IsOk)
+                {
+                    CustomCrossHairTexture.TexturePath = result.Path;
+                    UnityMainThreadDispatcher.Instance.Enqueue(() => CustomCrossHairTexture.SetTexture());
+                }
+            });
+        }
 
         ImGui.SameLine();
 
         if (ImGui.Button("Load"))
         {
-            string path = Encoding.UTF8.GetString(customCrosshairPath).TrimEnd('\0');
-            UnityMainThreadDispatcher.Instance.Enqueue(() => CustomCrossHairColor.SetCrossHairTexture(path));
-
-        }
-
-        ImGui.SameLine();
-
-        if (ImGui.Button("Clear"))
-        {
-            customCrosshairPath = new byte[1024];
+            UnityMainThreadDispatcher.Instance.Enqueue(() => CustomCrossHairTexture.SetTexture());
         }
 
         ImGui.Text("Keybinds");
