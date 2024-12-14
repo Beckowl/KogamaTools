@@ -4,6 +4,7 @@ using static KogamaTools.Helpers.ModelHelper;
 namespace KogamaTools.Command.Commands;
 
 [CommandName("/pastemodel")]
+[CommandDescription("Pastes copied model data into the target cube model")]
 [BuildModeOnly]
 internal class PasteModelCommand : BaseCommand
 {

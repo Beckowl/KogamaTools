@@ -25,6 +25,7 @@ internal static class ModelExporter
         byte[] serializedData = SerializeModelData(data);
 
         WriteDataToDisk(serializedData, model.id.ToString());
+        NotificationHelper.NotifySuccess($"Use /importmodel <model name> to import a model into the game.");
     }
 
     private static void WriteDataToDisk(byte[] modelData, string filename)

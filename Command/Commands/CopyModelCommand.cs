@@ -4,6 +4,7 @@ using static KogamaTools.Helpers.ModelHelper;
 
 namespace KogamaTools.Command.Commands;
 [CommandName("/copymodel")]
+[CommandDescription("Copies data from the target model so it can be pasted into other models.")]
 [BuildModeOnly]
 internal class CopyModelCommand : BaseCommand
 {

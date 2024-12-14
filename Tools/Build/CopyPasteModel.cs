@@ -34,7 +34,7 @@ internal class CopyPasteModel : MonoBehaviour
     internal static void CopyModel(MVCubeModelBase model)
     {
         copiedData = GetModelData(model);
-        NotificationHelper.NotifySuccess("Model copied successfully.");
+        NotificationHelper.NotifySuccess("Model copied successfully.\nUse the context menu or /pastemodel while editing a model to paste it somewhere else.");
     }
 
     internal static void PasteModel(MVWorldObjectClient wo)
