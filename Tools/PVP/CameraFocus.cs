@@ -16,8 +16,8 @@ internal class CameraFocus : MonoBehaviour
     internal static float SensitivityMultiplier = 0.2f;
     internal static float ZoomSpeed = 5f;
     internal static bool OverrideRailGun = false;
+    internal static bool isFocusing = false;
 
-    private static bool isFocusing = false;
     private static float zoomVelocity;
 
     private void Update()
@@ -72,15 +72,25 @@ internal class CameraFocus : MonoBehaviour
     [HarmonyPrefix]
     private static bool Update(PickupItemRailGun __instance)
     {
-        if (!__instance.isCharging)
+        if (__instance.isCharging)
+        {
+            __instance.DoChargingAnimation();
+            if (!__instance.chargeAudioSource.isPlaying)
+            {
+                __instance.chargeAudioSource.Play();
+            }
+            if (!__instance.chargeParticles.isPlaying)
+            {
+                __instance.chargeParticles.Play();
+            }
+        }
+        else
         {
             if (__instance.chargeParticles.isPlaying)
             {
                 __instance.chargeParticles.Stop();
             }
-            return false;
         }
-
-        return true;
+        return false;
     }
 }
