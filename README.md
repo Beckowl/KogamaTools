@@ -2,8 +2,7 @@
 A plugin that adds quality of life features to KoGaMa.
 
 <div style="display: flex; justify-content: space-around;">
-  <img src="https://cdn.discordapp.com/attachments/1304111895531356180/1317953283209564271/vpaQcj3.png?ex=67608f25&is=675f3da5&hm=740a401ccd5c648c6c1c00b4ba9b6c3ddf7b5df1b07e2e5ae5d90b75f3be43ae&" alt="Resized model of santa's cabin" style="max-width: 33%;">
-  <img src="https://cdn.discordapp.com/attachments/1304111895531356180/1317953282894729248/sMPbfP0.png?ex=67608f25&is=675f3da5&hm=11c3d3c0a92c663b1286868310ab7a94e35c32807c96ded5c8a2527eea3308c4&" alt="Demonstration of destructibles unlock and single side painting being used" style="max-width: 33%;">
+  <img src="https://cdn.discordapp.com/attachments/1304111895531356180/1317955280276951070/Q7QPDyi.png?ex=67609101&is=675f3f81&hm=8b66e1cd134ffb653e3d136f8c9a2a3422fef4b21c2573f4b6135d350e381f7f&" alt="Left: Demonstration of destructibles unlock and single side painting being used. Right: Resized model of santa's cabin">
 </div>
 
 # **Features**
