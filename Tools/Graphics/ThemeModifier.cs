@@ -27,8 +27,10 @@ internal enum ThemeIdentifier
 internal class ThemeModifier
 {
     internal static bool ThemesEnabled = !MVGameControllerBase.SkyboxManager.enabled;
-    internal static ThemeIdentifier SelectedTheme = (ThemeIdentifier)Enum.Parse(typeof(ThemeIdentifier), ThemeRepository.Instance.CurrentThemeIdentifier);
+    internal static ThemeIdentifier SelectedTheme = GetCurrentThemeIdentifier();
     internal static Theme? Preview = null;
+
+
     internal static Theme GetCurrentTheme()
     {
         Theme theme = MVGameControllerBase.GameMode == MV.Common.MVGameMode.CharacterEditor ? AvatarEditModeBodyController.Theme : ThemeRepository.Instance.CurrentThemeVisualization;
@@ -54,6 +56,16 @@ internal class ThemeModifier
             ThemeRepository.Instance.DestroyTemporary(Preview);
             Preview = null;
         }
+    }
+
+    private static ThemeIdentifier GetCurrentThemeIdentifier()
+    {
+        if (GetCurrentTheme() != null)
+        {
+            return (ThemeIdentifier)Enum.Parse(typeof(ThemeIdentifier), GetCurrentTheme().Identifier);
+        }
+
+        return ThemeIdentifier.Normal;
     }
 
     private static void ToggleAllThemes(bool enable)
