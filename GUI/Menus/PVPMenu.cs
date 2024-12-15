@@ -22,16 +22,16 @@ internal static class PVPMenu
 
         ImGui.Checkbox("Anti AFK", ref AntiAFK.Enabled);
 
-        ImGui.Checkbox("Camera Focus", ref FOVModifier.FocusSettings.CameraFocusEnabled);
+        ImGui.Checkbox("Camera Focus", ref CameraFocus.Enabled);
 
-        if (FOVModifier.FocusSettings.CameraFocusEnabled)
+        if (CameraFocus.Enabled)
         {
             ImGui.SameLine();
-            ImGui.Checkbox("Override rail gun zoom", ref FOVModifier.FocusSettings.OverrideRailGunZoom);
+            ImGui.Checkbox("Override rail gun zoom", ref CameraFocus.OverrideRailGun);
 
-            GUIUtils.InputFloat("FOV multiplier", ref FOVModifier.FocusSettings.FOVMultiplier);
-            GUIUtils.InputFloat("Sensitivity multiplier", ref FOVModifier.FocusSettings.SensitivityMultiplier);
-            GUIUtils.InputFloat("Zoom speed", ref FOVModifier.FocusSettings.FocusSpeed);
+            GUIUtils.InputFloat("FOV multiplier", ref CameraFocus.FOVMultiplier);
+            GUIUtils.InputFloat("Sensitivity multiplier", ref CameraFocus.SensitivityMultiplier);
+            GUIUtils.InputFloat("Zoom speed", ref CameraFocus.ZoomSpeed);
         }
 
         ImGui.Checkbox("Custom FOV", ref FOVModifier.CustomFOVEnabled);

@@ -44,7 +44,8 @@ public class KogamaTools : BasePlugin
             AddComponent<HotkeySubscriber>();
             AddComponent<GameMetricsUpdater>();
             AddComponent<ModelImporter>();
-            AddComponent<FOVModifier.FocusBehaviour>();
+            AddComponent<CameraFocus>();
+            //AddComponent<FOVModifier.FocusBehaviour>();
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();

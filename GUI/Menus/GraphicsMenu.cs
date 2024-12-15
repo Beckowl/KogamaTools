@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Tools.Graphics;
+using KogamaTools.Tools.PVP;
 
 namespace KogamaTools.GUI.Menus;
 internal class GraphicsMenu
@@ -85,6 +86,13 @@ internal class GraphicsMenu
             CameraDistanceModifier.SetCameraDistance();
         }
 
+        ImGui.Checkbox("Apply custom FOV globally", ref FOVModifier.ApplyGlobally);
+
+        if (FOVModifier.ApplyGlobally)
+        {
+            GUIUtils.InputFloat("FOV", ref FOVModifier.CustomFOV);
+        }
+
         if (ImGui.Checkbox("Ortographic camera", ref OrtographicCamera.Enabled))
         {
             OrtographicCamera.ApplyChanges();
@@ -120,6 +128,7 @@ internal class GraphicsMenu
                 UnityMainThreadDispatcher.Instance.Enqueue(ThemeModifier.DestroyThemePreview);
             }
         }
+
         if (ImGui.Button("Capture screenshot"))
         {
             UnityMainThreadDispatcher.Instance.Enqueue(ScreenshotUtil.CaptureScreenshot);
