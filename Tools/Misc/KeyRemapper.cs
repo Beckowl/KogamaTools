@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static GlobalSoundEmitterSettings.Keys;
 
 namespace KogamaTools.Tools.Misc;
 internal enum PlayControls
@@ -22,6 +23,16 @@ internal static class KeyRemapper
         if (keymapping.keyMapping.ContainsKey(control))
         {
             keymapping.keyMapping[control] = new KeyCode[] { key };
+        }
+    }
+
+    internal static void ResetToDefaults<T>(KogamaControls control) where T : DesktopDefaultKeyboardMapping
+    {
+        T keymapping = MVInputWrapper.inputMap.Cast<T>();
+        if (keymapping.keyMapping.ContainsKey(control))
+        {
+            T defaultKeymap = Activator.CreateInstance<T>();
+            keymapping.keyMapping[control] = defaultKeymap.keyMapping[control];
         }
     }
 

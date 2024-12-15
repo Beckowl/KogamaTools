@@ -105,8 +105,13 @@ internal static class PVPMenu
 
             if (GUIUtils.RenderEnum("##" + controlStr, ref key))
             {
-                KogamaTools.mls.LogInfo(key.ToString());
                 KeyRemapper.RemapControl<DesktopPlayMode>(kogamaControl, key);
+            }
+
+            ImGui.SameLine();
+            if (ImGui.SmallButton("Reset##" + controlStr))
+            {
+                KeyRemapper.ResetToDefaults<DesktopPlayMode>(kogamaControl);
             }
         }
     }
