@@ -9,7 +9,6 @@ namespace KogamaTools.GUI.Menus;
 
 internal static class PVPMenu
 {
-    private static bool antiAFKEnabled = false;
     internal static void Render()
     {
 
@@ -19,17 +18,9 @@ internal static class PVPMenu
         if (!ImGui.BeginTabItem("PvP"))
             return;
 
-
         ImGui.Checkbox("Fast respawn", ref FastRespawn.Enabled);
 
-        if (ImGui.Checkbox("Anti AFK", ref antiAFKEnabled))
-        {
-            UnityMainThreadDispatcher.Instance.Enqueue(() =>
-            {
-                AwayMonitor.instance.idleKickEnabled = antiAFKEnabled;
-                AwayMonitor.IdleKickEnabled = antiAFKEnabled;
-            });
-        }
+        ImGui.Checkbox("Anti AFK", ref AntiAFK.Enabled);
 
         ImGui.Checkbox("Camera Focus", ref FOVModifier.FocusSettings.CameraFocusEnabled);
 
