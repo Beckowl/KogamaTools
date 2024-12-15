@@ -80,6 +80,11 @@ internal class GraphicsMenu
             ClipPlaneModifier.ApplyChanges();
         }
 
+        if (GUIUtils.InputFloat("Camera distance to avatar", ref CameraDistanceModifier.distance))
+        {
+            CameraDistanceModifier.SetCameraDistance();
+        }
+
         if (ImGui.Checkbox("Ortographic camera", ref OrtographicCamera.Enabled))
         {
             OrtographicCamera.ApplyChanges();
