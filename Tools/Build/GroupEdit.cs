@@ -25,7 +25,7 @@ internal class GroupEdit
         if (wo.id == MVGameControllerBase.WOCM.RootGroup.Id) return;
 
         EditorStateMachine esm = RuntimeReferences.EditorStateMachine;
-
+        
         wo.OnEnterObject(esm);
     }
 

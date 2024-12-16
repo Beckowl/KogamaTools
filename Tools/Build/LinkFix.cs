@@ -10,6 +10,7 @@ namespace KogamaTools.Tools.Build;
 internal class LinkFix : MonoBehaviour
 {
     internal static bool Enabled = true;
+
     private static Link tempLink = new();
     private static int connectorCounter = 0;
 

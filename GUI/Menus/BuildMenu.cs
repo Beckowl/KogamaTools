@@ -20,7 +20,7 @@ internal static class BuildMenu
 
         ImGui.Checkbox("Single side painting", ref SingleSidePainting.Enabled);
 
-        ImGui.Checkbox("Force destructibles selection", ref DestructiblesUnlock.DestructiblesUnlocked);
+        ImGui.Checkbox("Force destructibles selection", ref DestructiblesUnlock.Unlocked);
 
         ImGui.Checkbox("Avatar editor constraint enabled", ref EditModeSpeed.MovementConstrained);
 
@@ -36,7 +36,7 @@ internal static class BuildMenu
 
             if (CustomModelScale.Enabled)
             {
-                GUIUtils.InputFloat("Scale", ref CustomModelScale.CustomScale);
+                GUIUtils.InputFloat("Scale", ref CustomModelScale.Scale);
             }
 
             ImGui.Checkbox("Custom rotation step", ref RotationStep.Enabled);

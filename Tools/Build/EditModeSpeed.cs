@@ -6,8 +6,8 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class EditModeSpeed
 {
-    internal static float Multiplier = 2;
     internal static bool MultiplierEnabled = false;
+    internal static float Multiplier = 2;
     internal static bool MovementConstrained = true;
 
     [HarmonyPatch(typeof(MVBuildModeAvatarLocal.EditMode), "MoveCharacter")]

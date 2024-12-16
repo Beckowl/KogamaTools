@@ -23,7 +23,7 @@ internal class ModelScaleCommand : BaseCommand
             NotificationHelper.WarnUser("Model scale cannot be 0!");
             return;
         }
-        CustomModelScale.CustomScale = scale;
+        CustomModelScale.Scale = scale;
         NotificationHelper.NotifySuccess($"Model scale set to {scale}.");
         CustomModelScale.Enabled = true;
     }

@@ -5,8 +5,8 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal static class CustomModelScale
 {
-    internal static float CustomScale = 4;
     internal static bool Enabled = false;
+    internal static float Scale = 4;
 
     [HarmonyPatch(typeof(EditorWorldObjectCreation), "OnAddNewPrototype")]
     [HarmonyPrefix]
@@ -14,7 +14,7 @@ internal static class CustomModelScale
     {
         if (Enabled)
         {
-            scale = CustomScale;
+            scale = Scale;
         }
     }
 }
