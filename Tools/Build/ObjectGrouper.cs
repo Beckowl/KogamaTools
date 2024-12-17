@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
 using UnityEngine;
 
@@ -10,8 +11,15 @@ internal class ObjectGrouper : MonoBehaviour
     private static EditorStateMachine editModeStateMachine = RuntimeReferences.EditorStateMachine;
     private static ESWaitForGroup grouper = new();
 
+    private void Awake()
+    {
+        HotkeySubscriber.Subscribe(KeyCode.G, OnGroupKeyPressed);
+    }
+
     internal static void GroupSelectedObjects()
     {
+        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit) return;
+
         grouper = new();
         grouper.Enter(editModeStateMachine);
     }
@@ -24,6 +32,14 @@ internal class ObjectGrouper : MonoBehaviour
             {
                 grouper.Execute(editModeStateMachine);
             }
+        }
+    }
+
+    private void OnGroupKeyPressed()
+    {
+        if (MVInputWrapper.DebugGetKey(KeyCode.LeftControl)) // cursed way to do shortcuts, too lazy to add shortcut functionality rn
+        {
+            GroupSelectedObjects();
         }
     }
 
@@ -63,8 +79,10 @@ internal class ObjectGrouper : MonoBehaviour
         {
             NotificationHelper.WarnUser("Cannot group less than 2 objects.");
             __instance.abort = true;
+
             MultiSelect.ForceSelection = false;
-            editModeStateMachine.DeSelectAll();
+            MultiSelect.DeSelectAll();
+
             return;
         }
         NotificationHelper.NotifyUser($"Grouping ({__instance.lockCount}) objects...");
@@ -89,7 +107,7 @@ internal class ObjectGrouper : MonoBehaviour
         {
             NotificationHelper.NotifySuccess("Objects grouped successfully.");
             MultiSelect.ForceSelection = false;
-            editModeStateMachine.DeSelectAll();
+            MultiSelect.DeSelectAll();
         }
         else
         {
