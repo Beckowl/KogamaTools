@@ -11,10 +11,18 @@ internal class GraphicsMenu
         if (!ImGui.BeginTabItem("Graphics"))
             return;
 
-        if (ImGui.Checkbox("Display game UI", ref ToggleUI.UIVisible))
+        if (ImGui.Checkbox("Show game UI", ref UIToggle.UIVisible))
         {
-            UnityMainThreadDispatcher.Instance.Enqueue(ToggleUI.UpdateUIVisibility);
+            UnityMainThreadDispatcher.Instance.Enqueue(UIToggle.UpdateUIVisibility);
         }
+
+        if (ImGui.Checkbox("Show chat", ref ChatToggle.ChatVisible))
+        {
+            UnityMainThreadDispatcher.Instance.Enqueue(ChatToggle.UpdateChatVisibility);
+        }
+
+        ImGui.Checkbox("Show notifications", ref NotificationToggle.ShowNotifications);
+
         if (ImGui.Checkbox("Fog enabled", ref FogModifier.FogEnabled))
         {
             UnityMainThreadDispatcher.Instance.Enqueue(FogModifier.ApplyChanges);

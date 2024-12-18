@@ -13,6 +13,11 @@ internal class MultiSelect : MonoBehaviour
 
     private void Awake()
     {
+        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit)
+        {
+            Destroy(this);
+        }
+
         KeyRemapper.RemapControl<DesktopPlayMode>(KogamaControls.EditMoveDown, KeyCode.C);
     }
 

@@ -1,7 +1,7 @@
 ﻿using KogamaTools.Helpers;
 
 namespace KogamaTools.Tools.Graphics;
-internal static class ToggleUI
+internal static class UIToggle
 {
     internal static bool UIVisible = true;
 
