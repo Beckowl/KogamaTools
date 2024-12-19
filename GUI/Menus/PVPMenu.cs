@@ -22,6 +22,8 @@ internal static class PVPMenu
 
         ImGui.Checkbox("Anti AFK", ref AntiAFK.Enabled);
 
+        ImGui.Checkbox("Force third person in gun mode", ref ForceThirdPerson.Enabled);
+
         ImGui.Checkbox("Camera Focus", ref CameraFocus.Enabled);
 
         if (CameraFocus.Enabled)
