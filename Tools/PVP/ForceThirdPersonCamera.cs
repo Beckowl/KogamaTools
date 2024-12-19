@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
+using MV.Common;
 
 namespace KogamaTools.Tools.PVP;
 
@@ -23,6 +25,7 @@ internal static class ForceThirdPersonCamera
     [HarmonyPostfix]
     private static void OnEquip()
     {
+        if (MVGameControllerBase.SpawnRoleDataMediatorLocal.SpawnRoleModeTypeWrapper.IsInMode(SpawnRoleModeType.Playing))
         enabledInternal = Enabled;
     }
 }

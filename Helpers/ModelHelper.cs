@@ -138,6 +138,13 @@ internal static class ModelHelper
         }
     }
 
+    /*
+     * posição (chunk) - 2 bytes (sobra 1 bit)
+     * face materials -  1 - 6 bytes (sobram 1 - 6 bits)
+     * byte corners - 1 - 8 bytes (255 = identity byte corners) (sobram 1 - 8 bits)
+     */
+
+
     internal static IEnumerator BuildModel(MVCubeModelBase target, ModelData data)
     {
         NotificationHelper.NotifyUser("The model build process has started. You can delete the target model at any time to abort it.");
