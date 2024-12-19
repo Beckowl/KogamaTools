@@ -17,12 +17,12 @@ namespace KogamaTools;
 public class KogamaTools : BasePlugin
 {
     public const string
-    ModGUID = "KogamaTools",
+    ModGUID = "Becko.KogamaTools",
     ModName = "KogamaTools",
     ModVersion = "0.11.1"; // TODO: automate this
 
     private readonly Harmony harmony = new Harmony(ModGUID);
-    internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModGUID);
+    internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModName);
     internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay(ModName);
 
     public override void Load()
