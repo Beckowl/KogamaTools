@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Tools.Graphics;
-using KogamaTools.Tools.PVP;
 
 namespace KogamaTools.GUI.Menus;
 internal class GraphicsMenu
@@ -91,7 +90,7 @@ internal class GraphicsMenu
 
         if (GUIUtils.InputFloat("Camera distance to avatar", ref CameraDistanceModifier.distance))
         {
-            CameraDistanceModifier.SetCameraDistance();
+            CameraDistanceModifier.ApplyChanges();
         }
 
         ImGui.Checkbox("Apply custom FOV globally", ref FOVModifier.ApplyGlobally);

@@ -7,10 +7,31 @@ namespace KogamaTools.Tools.PVP;
 internal class FastRespawn
 {
     internal static bool Enabled = false;
+    internal static bool RespawnAtSafeSpot = false;
     private static void RespawnPlayer()
     {
         MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.SetToSpawnPoint();
+
+        if (RespawnAtSafeSpot)
+        {
+            SetToSafeSpot();
+        }
+
         MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.EnterPlayingState();
+    }
+
+    private static void SetToSafeSpot()
+    {
+        MVAvatarLocal avatarLocal = MVGameControllerBase.Game.LocalPlayer.AvatarLocal;
+
+        if (avatarLocal.interactableLocal.LastDamageSource == null || avatarLocal.interactableLocal.LastDamageSource.Outdated)
+        {
+            ReviveState reviveState = MVGameControllerBase.SpawnRoleDataMediatorLocal.reviveState;
+            if (reviveState.CanSafelySpawn)
+            {
+                MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.MoveBodyToSafeSpot(reviveState.safePositions.Count - 1);
+            }
+        }
     }
 
     [HarmonyPatch(typeof(MVAvatarLocal), "Suicide")]
@@ -50,7 +71,7 @@ internal class FastRespawn
 
     [HarmonyPatch(typeof(DeathUIController), "StartDeathBriefing")]
     [HarmonyPrefix]
-    private static bool OnSetToDeadMode()
+    private static bool StartDeathBriefing()
     {
         return !Enabled;
     }

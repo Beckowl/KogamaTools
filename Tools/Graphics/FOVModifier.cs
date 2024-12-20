@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace KogamaTools.Tools.PVP;
+namespace KogamaTools.Tools.Graphics;
 
 [HarmonyPatch]
 internal static class FOVModifier

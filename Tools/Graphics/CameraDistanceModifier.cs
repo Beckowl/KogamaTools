@@ -6,7 +6,7 @@ namespace KogamaTools.Tools.Graphics;
 internal static class CameraDistanceModifier
 {
     internal static float distance = 10f;
-    internal static void SetCameraDistance()
+    internal static void ApplyChanges()
     {
         ThirdPersonCamera[] cameras = UnityEngine.Object.FindObjectsOfType<ThirdPersonCamera>();
 

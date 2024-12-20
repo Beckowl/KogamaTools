@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
+using KogamaTools.Tools.Graphics;
 using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
 using UnityEngine;
@@ -19,6 +20,12 @@ internal static class PVPMenu
             return;
 
         ImGui.Checkbox("Fast respawn", ref FastRespawn.Enabled);
+
+        if (FastRespawn.Enabled)
+        {
+            ImGui.SameLine();
+            ImGui.Checkbox("Respawn at safe spot", ref FastRespawn.RespawnAtSafeSpot);
+        }
 
         ImGui.Checkbox("Anti AFK", ref AntiAFK.Enabled);
 
@@ -53,6 +60,7 @@ internal static class PVPMenu
                 CustomCrossHairColor.SetCrossHairColorFromVec4(crosshaircolor);
             }
         }
+
         ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Browse") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + GUIUtils.CalcSpacing(1) + ImGui.GetStyle().FramePadding).X);
 
         ImGui.InputText("Custom crosshair", ref CustomCrossHairTexture.TexturePath, 260);
@@ -77,6 +85,13 @@ internal static class PVPMenu
         {
             UnityMainThreadDispatcher.Instance.Enqueue(() => CustomCrossHairTexture.SetTexture());
         }
+
+        if (GUIUtils.InputFloat("Camera distance to avatar", ref CameraDistanceModifier.distance))
+        {
+            CameraDistanceModifier.ApplyChanges();
+        }
+
+        ImGui.Separator();
 
         ImGui.Text("Keybinds");
 
