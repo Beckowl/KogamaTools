@@ -20,8 +20,7 @@ internal static class FogModifier
         }
         else
         {
-            SkyboxManager skyboxManager = MVGameControllerBase.SkyboxManager;
-            skyboxManager.SetColor(skyboxManager.currentColor, skyboxManager.currentSunAngle, skyboxManager.currentFogDensity);
+            ResetFog();
         }
     }
 
@@ -36,6 +35,19 @@ internal static class FogModifier
         }
 
         return true;
+    }
+
+    private static void ResetFog()
+    {
+        if (MVGameControllerBase.SkyboxManager.enabled)
+        {
+            SkyboxManager skyboxManager = MVGameControllerBase.SkyboxManager;
+            skyboxManager.SetColor(skyboxManager.currentColor, skyboxManager.currentSunAngle, skyboxManager.currentFogDensity);
+        }
+        else
+        {
+            ThemeModifier.GetCurrentTheme().Cast<CloudyThemeBase>().skybox.ApplyRenderSettings();
+        }
     }
 
     [HarmonyPatch(typeof(RenderSettings), nameof(RenderSettings.fog), MethodType.Setter)]

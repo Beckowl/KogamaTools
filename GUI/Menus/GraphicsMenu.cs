@@ -136,7 +136,7 @@ internal class GraphicsMenu
             }
         }
 
-        if (ImGui.Button("Capture screenshot"))
+        if (ImGui.Button("Capture screenshot (F2)"))
         {
             UnityMainThreadDispatcher.Instance.Enqueue(ScreenshotUtil.CaptureScreenshot);
         }
