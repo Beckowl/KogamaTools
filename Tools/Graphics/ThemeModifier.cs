@@ -40,6 +40,11 @@ internal class ThemeModifier
     internal static void ApplyToggleThemes()
     {
         ToggleAllThemes(ThemesEnabled);
+
+        if (ThemesEnabled && GetCurrentTheme() == null && Preview == null)
+        {
+            CreateThemePreview();
+        }
     }
 
     internal static void CreateThemePreview()
