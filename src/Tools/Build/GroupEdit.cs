@@ -27,7 +27,7 @@ internal class GroupEdit
         NotificationHelper.NotifyUser("You are currently editing a group. Press P to exit group edit mode.");
 
         EditorStateMachine esm = RuntimeReferences.EditorStateMachine;
-        
+
         wo.OnEnterObject(esm);
     }
 

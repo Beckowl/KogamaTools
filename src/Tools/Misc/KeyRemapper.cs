@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static GlobalSoundEmitterSettings.Keys;
 
 namespace KogamaTools.Tools.Misc;
 internal enum PlayControls

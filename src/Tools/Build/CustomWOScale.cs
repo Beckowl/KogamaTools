@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using HarmonyLib;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
-using HarmonyLib;
+using UnityEngine;
 
 namespace KogamaTools.Tools.Build;
 
@@ -105,7 +105,7 @@ internal static class CustomWOScale
                 var enumerator = group.children.GetEnumerator();
                 if (enumerator.MoveNext())
                 {
-                    woID = enumerator.Current.value.id;       
+                    woID = enumerator.Current.value.id;
                 }
             }
         }

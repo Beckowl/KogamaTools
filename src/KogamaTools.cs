@@ -45,7 +45,7 @@ public class KogamaTools : BasePlugin
             AddComponent<GameMetricsUpdater>();
             AddComponent<CameraFocus>();
 
-            
+
             AddComponent<ModelImporter>();
             AddComponent<MultiSelect>();
             AddComponent<LinkFix>();
