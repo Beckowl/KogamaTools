@@ -1,7 +1,7 @@
 ﻿# KogamaTools
 
 A plugin that adds quality of life features to KoGaMa.
-![Preview](resources/demo-sreenshots.png)
+![Preview](resources/demo-screenshots.png)
 
 # Contents
 1. [Introduction](#kogamatools)
