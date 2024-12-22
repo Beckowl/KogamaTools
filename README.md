@@ -1,9 +1,15 @@
 ﻿# KogamaTools
-A plugin that adds quality of life features to KoGaMa.
 
-<div style="display: flex; justify-content: space-around;">
-  <img src="https://cdn.discordapp.com/attachments/1304111895531356180/1317955280276951070/Q7QPDyi.png?ex=67609101&is=675f3f81&hm=8b66e1cd134ffb653e3d136f8c9a2a3422fef4b21c2573f4b6135d350e381f7f&" alt="Left: Demonstration of destructibles unlock and single side painting being used. Right: Resized model of santa's cabin">
-</div>
+A plugin that adds quality of life features to KoGaMa.
+![Preview](resources/demo-sreenshots.png)
+
+# Contents
+1. [Introduction](#kogamatools)
+2. [Features](#features)
+3. [Requirements](#requirements)
+4. [Installation](#installation)
+5. [Used libraries](#used-libraries)
+6. [Help](#need-help)
 
 # **Features**
 
@@ -38,6 +44,7 @@ A plugin that adds quality of life features to KoGaMa.
 - Camera focus (scoping)
 - Custom FOV
 - Keybind modifiers
+- Camera distance modifier
 - Custom crosshair:
   - Color
   - Texture
@@ -52,7 +59,7 @@ A plugin that adds quality of life features to KoGaMa.
 - Window mode settings (fullscreen, borderless, etc.)
 - Shadow distance
 - Draw distance
-- Camera distance
+- Camera distance modifier
 - Ortographic camera
 - Theme toggle
 - Theme preview creator
@@ -74,7 +81,7 @@ A plugin that adds quality of life features to KoGaMa.
 ## 🌀 **Other**
 - Anti ban
 - Cheat engine support
-- Older versions support (should work with any version since the transparency logic update)
+- Older versions support (though it might not work 100%)
 
 ---
 
