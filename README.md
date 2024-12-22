@@ -130,11 +130,11 @@ TODO
 ---
 
 ## **Used libraries**
-- [BepInEx](https://github.com/BepInEx/BepInEx) - *Licensed under the LGPL-2.1 license*
-- [ClickableTransparentOverlay](https://github.com/zaafar/ClickableTransparentOverlay) - *licensed under the Apache-2.0 License*
-- [ImGui](https://github.com/ocornut/imgui) - *Licensed under the MIT license*
-- [NativeFileDialogSharp](https://github.com/milleniumbug/NativeFileDialogSharp) - *licensed under the Zlib license*
-- [ParsingHelper](https://github.com/SoftCircuits/ParsingHelper) - *Licensed under the MIT license*
+- [BepInEx](https://github.com/BepInEx/BepInEx) - *Licensed under the [LGPL-2.1 license](https://opensource.org/licenses/LGPL-2.1)*
+- [ClickableTransparentOverlay](https://github.com/zaafar/ClickableTransparentOverlay) - *Licensed under the [Apache-2.0 License](https://opensource.org/licenses/Apache-2.0)*
+- [ImGui](https://github.com/ocornut/imgui) - *Licensed under the [MIT license](https://opensource.org/licenses/MIT)*
+- [NativeFileDialogSharp](https://github.com/milleniumbug/NativeFileDialogSharp) - *Licensed under the [Zlib license](https://opensource.org/licenses/Zlib)*
+- [ParsingHelper](https://github.com/SoftCircuits/ParsingHelper) - *Licensed under the [MIT license](https://opensource.org/licenses/MIT)*
 
 ### **Need Help?**  
 Join our [Discord Server](https://discord.gg/zgQxurzcEB) for support & discussions.
