@@ -43,8 +43,8 @@ internal static class CustomWOScale
             Vector3.zero,
             Quaternion.identity,
             Scale,
-            true,
-            false
+            false,
+            true
             );
 
         waitingForGroup = true;
