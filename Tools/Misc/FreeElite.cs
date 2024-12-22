@@ -2,7 +2,7 @@
 
 namespace KogamaTools.Tools.Misc;
 [HarmonyPatch]
-internal class FreeElite
+internal static class FreeElite
 {
     [HarmonyPatch(typeof(MVClientSettings), nameof(MVClientSettings.IsSubscriber), MethodType.Getter)]
     [HarmonyPostfix]

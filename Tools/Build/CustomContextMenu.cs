@@ -1,12 +1,11 @@
 ﻿using HarmonyLib;
 using KogamaTools.Helpers;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
-internal class CustomContextMenu : MonoBehaviour
+internal static class CustomContextMenu
 {
     private static readonly List<ContextMenuItem> menuItems = new List<ContextMenuItem>();
 
@@ -36,7 +35,7 @@ internal class CustomContextMenu : MonoBehaviour
 
     private static void AddCustomButton(string buttonText, Action onClickCallback, ContextMenu __instance)
     {
-        ContextMenuButton contextMenuButton = Instantiate(__instance.contextMenuButtonPrefab);
+        ContextMenuButton contextMenuButton = UnityEngine.Object.Instantiate(__instance.contextMenuButtonPrefab);
         contextMenuButton.Initialize(buttonText, onClickCallback + __instance.Pop);
         contextMenuButton.transform.SetParent(__instance.transform, false);
     }

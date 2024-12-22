@@ -1,5 +1,5 @@
 ﻿namespace KogamaTools.Tools.Graphics;
-internal class ClipPlaneModifier
+internal static class ClipPlaneModifier
 {
     internal static float NearClipPlane = UnityEngine.Camera.main.nearClipPlane;
     internal static float FarClipPlane = UnityEngine.Camera.main.farClipPlane;

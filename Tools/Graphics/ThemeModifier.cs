@@ -24,7 +24,7 @@ internal enum ThemeIdentifier
     Triangles
 }
 
-internal class ThemeModifier
+internal static class ThemeModifier
 {
     internal static bool ThemesEnabled = !MVGameControllerBase.SkyboxManager.enabled;
     internal static ThemeIdentifier SelectedTheme = GetCurrentThemeIdentifier();

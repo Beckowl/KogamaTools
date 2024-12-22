@@ -3,7 +3,7 @@
 namespace KogamaTools.Tools.Graphics;
 
 [HarmonyPatch]
-internal class NotificationToggle
+internal static class NotificationToggle
 {
     internal static bool ShowNotifications = true;
 
