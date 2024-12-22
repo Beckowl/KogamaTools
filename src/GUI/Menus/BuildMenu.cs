@@ -1,4 +1,5 @@
-﻿using ImGuiNET;
+﻿using System.Numerics;
+using ImGuiNET;
 using KogamaTools.Behaviours;
 using KogamaTools.Tools.Build;
 
@@ -36,7 +37,7 @@ internal static class BuildMenu
 
             if (CustomModelScale.Enabled)
             {
-                GUIUtils.InputFloat("Scale", ref CustomModelScale.Scale);
+                GUIUtils.InputFloat("Scale##ModelScaleField", ref CustomModelScale.Scale);
             }
 
             ImGui.Checkbox("Custom rotation step", ref RotationStep.Enabled);
@@ -59,6 +60,28 @@ internal static class BuildMenu
             {
                 GUIUtils.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
                 GUIUtils.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
+            }
+
+            if (ImGui.Checkbox("Custom world object scale", ref CustomWOScale.Enabled))
+            {
+                CustomWOScale.RequestNewGroupIfNecessary();
+            }
+
+            if (CustomWOScale.Enabled)
+            {
+                Vector3 scale = new Vector3(CustomWOScale.Scale.x, CustomWOScale.Scale.y, CustomWOScale.Scale.z);
+
+                ImGui.Text("Scale");
+                ImGui.SameLine();
+                ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+                if (ImGui.InputFloat3("##WOScaleField", ref scale))
+                {
+                    CustomWOScale.Scale.x = scale.X;
+                    CustomWOScale.Scale.y = scale.Y;
+                    CustomWOScale.Scale.z = scale.Z;
+
+                    CustomWOScale.RequestNewGroupIfNecessary();
+                }
             }
 
             ImGui.Checkbox("Multi select", ref MultiSelect.ForceSelection);
