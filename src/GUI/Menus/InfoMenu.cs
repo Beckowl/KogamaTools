@@ -44,7 +44,7 @@ internal class InfoMenu
         ImGui.Columns(1);
 
         ImGui.Text("\nMade by Becko.");
-        ImGui.Text("\nSpecial thanks to MauryDev & Eveldee");
+        ImGui.Text("\nSpecial thanks to MauryDev, Eveldee & Wowizowi.");
 
         ImGui.EndTabItem();
     }
