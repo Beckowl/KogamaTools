@@ -120,6 +120,7 @@ internal static class PVPMenu
             ImGui.Text(controlStr);
             ImGui.TableSetColumnIndex(1);
 
+            ImGui.SetNextItemWidth(-GUIUtils.CalcReservedButtonSpaceLabel(string.Empty, "Reset"));
             if (GUIUtils.RenderEnum("##" + controlStr, ref key))
             {
                 KeyRemapper.RemapControl<DesktopPlayMode>(kogamaControl, key);
