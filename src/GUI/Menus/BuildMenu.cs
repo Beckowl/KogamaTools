@@ -37,7 +37,7 @@ internal static class BuildMenu
 
             if (CustomModelScale.Enabled)
             {
-                GUIUtils.InputFloat("Scale##ModelScaleField", ref CustomModelScale.Scale);
+                GUIUtils.InputFloat("Scale", ref CustomModelScale.Scale);
             }
 
             ImGui.Checkbox("Custom rotation step", ref RotationStep.Enabled);
