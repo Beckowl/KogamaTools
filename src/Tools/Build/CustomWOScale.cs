@@ -67,6 +67,17 @@ internal static class CustomWOScale
         }
     }
 
+    private static bool IsScaledGroup(int woID)
+    {
+        if (MVGameControllerBase.WOCM.IsType(woID, MV.WorldObject.WorldObjectType.Group))
+        {
+            MVGroup group = MVGameControllerBase.WOCM.GetWorldObjectClient(woID).Cast<MVGroup>();
+
+            return group.children.Count == 1;
+        }
+        return false;
+    }
+
     [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), "AddItemToWorld")]
     [HarmonyPrefix]
     private static void AddItemToWorld(ref int groupId)
@@ -95,19 +106,28 @@ internal static class CustomWOScale
     [HarmonyPrefix]
     private static void ShowContextMenu(ref int woID)
     {
-        if (MVGameControllerBase.WOCM.IsType(woID, MV.WorldObject.WorldObjectType.Group))
+        if (IsScaledGroup(woID))
         {
             MVGroup group = MVGameControllerBase.WOCM.GetWorldObjectClient(woID).Cast<MVGroup>();
 
-            if (group.children.Count == 1)
+            // can't use linq
+            var enumerator = group.children.GetEnumerator();
+            if (enumerator.MoveNext())
             {
-                // can't use linq
-                var enumerator = group.children.GetEnumerator();
-                if (enumerator.MoveNext())
-                {
-                    woID = enumerator.Current.value.id;
-                }
+                woID = enumerator.Current.value.id;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(ContextMenuController), "Clone")]
+    [HarmonyPrefix]
+    private static void Clone(ref ContextMenuController __instance)
+    {
+        MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(__instance.woID);
+
+        if (IsScaledGroup(wo.GroupId))
+        {
+            __instance.woID = wo.GroupId;
         }
     }
 }
