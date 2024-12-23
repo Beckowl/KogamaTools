@@ -54,22 +54,19 @@ internal class GraphicsMenu
 
         ImGui.SameLine();
 
-        float inputWidth = (ImGui.GetContentRegionAvail() / 2 - ImGui.CalcTextSize("x") - ImGui.GetStyle().FramePadding).X - 2;
+        ImGui.PushItemWidth(GUIUtils.CalcSharedItemSpace(2));
 
-        ImGui.SetNextItemWidth(inputWidth);
         ImGui.InputInt("##windowWidth", ref WindowModifier.Width);
 
         ImGui.SameLine();
-        ImGui.Text("x");
-
-        ImGui.SameLine();
-        ImGui.SetNextItemWidth(inputWidth);
         ImGui.InputInt("##windowHeight", ref WindowModifier.Height);
+
+        ImGui.PopItemWidth();
 
         ImGui.Text("Window mode");
 
         ImGui.SameLine();
-        ImGui.SetNextItemWidth((ImGui.GetContentRegionAvail() - GUIUtils.CalcButtonSize("Apply") - ImGui.GetStyle().ItemSpacing - ImGui.GetStyle().FramePadding).X);
+        ImGui.SetNextItemWidth(-GUIUtils.CalcReservedButtonSpace("Apply"));
         GUIUtils.RenderEnum("##windowMode", ref WindowModifier.screenMode);
 
         ImGui.SameLine();
@@ -120,7 +117,7 @@ internal class GraphicsMenu
 
         if (ThemeModifier.ThemesEnabled)
         {
-            ImGui.SetNextItemWidth(-(GUIUtils.CalcTextSize("Theme preview") + GUIUtils.CalcButtonSize("Create") + GUIUtils.CalcButtonSize("Destroy") + GUIUtils.CalcSpacing(2) + ImGui.GetStyle().FramePadding).X);
+            ImGui.SetNextItemWidth(-GUIUtils.CalcReservedButtonSpaceLabel("Theme preview", "Create", "Destroy"));
             GUIUtils.RenderEnum("Theme preview", ref ThemeModifier.SelectedTheme);
 
             ImGui.SameLine();
@@ -146,5 +143,4 @@ internal class GraphicsMenu
 
         ImGui.EndTabItem();
     }
-
 }

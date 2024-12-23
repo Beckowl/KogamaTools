@@ -72,14 +72,19 @@ internal static class BuildMenu
                 Vector3 scale = new Vector3(CustomWOScale.Scale.x, CustomWOScale.Scale.y, CustomWOScale.Scale.z);
 
                 ImGui.Text("Scale");
+
                 ImGui.SameLine();
-                ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+                ImGui.SetNextItemWidth(-GUIUtils.CalcReservedButtonSpace("Apply"));
                 if (ImGui.InputFloat3("##WOScaleField", ref scale))
                 {
                     CustomWOScale.Scale.x = scale.X;
                     CustomWOScale.Scale.y = scale.Y;
                     CustomWOScale.Scale.z = scale.Z;
+                }
 
+                ImGui.SameLine();
+                if (ImGui.Button("Apply"))
+                {
                     CustomWOScale.RequestNewGroupIfNecessary();
                 }
             }

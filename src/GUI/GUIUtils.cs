@@ -5,29 +5,50 @@ namespace KogamaTools.GUI;
 
 internal static class GUIUtils
 {
-    private const int maxStringLength = 512;
-
-    internal static Vector2 CalcButtonSize(string label)
+    internal static float CalcButtonWidth(string label)
     {
-        return ImGui.CalcTextSize(label) + ImGui.GetStyle().FramePadding * 2;
+        return (ImGui.CalcTextSize(label) + ImGui.GetStyle().FramePadding * 2).X;
     }
 
-    internal static Vector2 CalcTextSize(params string[] text)
+    internal static float CalcLabelWidth(string label)
     {
-        Vector2 result = new();
+        return ImGui.CalcTextSize(label).X + ImGui.GetStyle().FramePadding.X;
+    }
 
-        foreach (string s in text)
+    internal static float CalcReservedButtonSpace(params string[] labels)
+    {
+        float itemSpacing = ImGui.GetStyle().ItemSpacing.X;
+        float totalButtonWidth = 0f;
+
+        foreach (string label in labels)
         {
-            result += ImGui.CalcTextSize(s);
+            totalButtonWidth += CalcButtonWidth(label);
         }
 
-        return result;
+        if (labels.Length > 0)
+        {
+            totalButtonWidth += itemSpacing * (labels.Length);
+        }
+
+        return totalButtonWidth;
     }
 
-    internal static Vector2 CalcSpacing(int numItems)
+    internal static float CalcReservedButtonSpaceLabel(string currentLabel, params string[] labels)
     {
-        var style = ImGui.GetStyle();
-        return (style.ItemSpacing * 2) + style.ItemInnerSpacing * (numItems - 1);
+        return CalcReservedButtonSpace(labels) + CalcLabelWidth(currentLabel);
+    }
+
+    internal static float CalcSharedItemSpace(int numItems, float reservedSpace = 0)
+    {
+        if (numItems <= 0)
+        {
+            return 0f;
+        }
+
+        float contentWidth = ImGui.GetContentRegionAvail().X - reservedSpace;
+        float itemSpacing = ImGui.GetStyle().ItemSpacing.X;
+
+        return (contentWidth - itemSpacing * (numItems - 1)) / numItems;
     }
 
     internal static bool InputFloat(string label, ref float value)
@@ -35,23 +56,12 @@ internal static class GUIUtils
         ImGui.PushID(label);
         ImGui.Text(label);
         ImGui.SameLine();
-        ImGui.SetNextItemWidth((ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding).X);
+        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X); // floats like cutting their fields/labels off for some reason
         bool result = ImGui.InputFloat(string.Empty, ref value);
         ImGui.PopID();
         return result;
     }
-    /*
-    private static bool RenderColor(string label, ref object value)
-    {
-        Vector4 temp = ColorHelper.ToVector4((UnityEngine.Color)value);
-        if (ImGui.ColorEdit4(label, ref temp))
-        {
-            value = ColorHelper.ToUnityColor(temp);
-            return true;
-        }
-        return false;
-    }
-    */
+
     internal static bool RenderEnum<T>(string label, ref T value) where T : Enum
     {
         string[] names = Enum.GetNames(typeof(T)).ToArray();

@@ -61,7 +61,7 @@ internal static class PVPMenu
             }
         }
 
-        ImGui.SetNextItemWidth(-(GUIUtils.CalcButtonSize("Browse") + GUIUtils.CalcButtonSize("Clear") + ImGui.CalcTextSize("Custom crosshair") + GUIUtils.CalcSpacing(1) + ImGui.GetStyle().FramePadding).X);
+        ImGui.SetNextItemWidth(-GUIUtils.CalcReservedButtonSpaceLabel("Custom crosshair", "Browse", "Load"));
 
         ImGui.InputText("Custom crosshair", ref CustomCrossHairTexture.TexturePath, 260);
 
