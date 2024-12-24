@@ -75,4 +75,11 @@ internal class FastRespawn
     {
         return !Enabled;
     }
+
+    [HarmonyPatch(typeof(MVLocalPlayer), nameof(MVLocalPlayer.RespawnDuration), MethodType.Getter)]
+    [HarmonyPostfix]
+    private static void RespawnDurationGetter(ref float __result)
+    {
+        if (Enabled) __result = 0;
+    }
 }
