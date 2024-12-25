@@ -6,7 +6,7 @@ namespace KogamaTools.Command.Commands;
 
 [CommandName("/hotkeys")]
 [CommandDescription("Lists the hotkeys/shortcuts available.")]
-internal class HotheysCommand : BaseCommand
+internal class HotkeysCommand : BaseCommand
 {
     [CommandVariant]
     private void ShowHotkeys()
