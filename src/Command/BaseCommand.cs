@@ -58,7 +58,7 @@ internal abstract class BaseCommand : ICommand
 
     public void Describe()
     {
-        NotificationHelper.NotifyUser($"{string.Join(", ", Names)}: {Description}\n");
+        NotificationHelper.NotifyUser($"• <b>{string.Join(", ", Names)}</b>: {Description}");
     }
 
     public void DisplayHelp()
