@@ -12,7 +12,7 @@ internal class KogamaToolsOverlay : Overlay
 {
     internal static bool ShouldRenderOverlay = true;
     private const int DefaultWidth = 345;
-    private const int DefaultHeight = 400;
+    private const int DefaultHeight = 422;
     private static readonly System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(DefaultWidth, DefaultHeight);
 
     private readonly string _windowName;
