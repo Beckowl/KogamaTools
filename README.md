@@ -150,5 +150,5 @@ A plugin that adds quality of life features to KoGaMa.
 - [ParsingHelper](https://github.com/SoftCircuits/ParsingHelper) - *Licensed under the [MIT license](https://opensource.org/licenses/MIT)*
 
 ### **Need Help?**  
-Join our [Discord Server](https://discord.gg/zgQxurzcEB) for support & discussions.
+Join our [Discord Server](https://discord.gg/aP2JYAzZg8) for support & discussions.
 
