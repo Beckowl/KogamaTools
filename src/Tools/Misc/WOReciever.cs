@@ -18,7 +18,7 @@ internal static class WOReciever
         if (MVGameControllerBase.IsInitialized)
         {
 #if DEBUG
-            KogamaTools.mls.LogInfo($"CreateQueryEvent: {root.DocumentationType},\t{instigatorActorNumber}");
+            KogamaTools.mls.LogInfo($"CreateQueryEvent: {root.ToString()},\t{instigatorActorNumber}");
 #endif
             OnWORecieved.Invoke(root, instigatorActorNumber);
         }

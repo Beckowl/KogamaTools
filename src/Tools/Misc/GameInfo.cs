@@ -16,7 +16,7 @@ internal static class GameInfo
     internal static void UpdateMetrics()
     {
         WorldObjectCount = MVGameControllerBase.WOCM.worldObjects.Count;
-        LogicObjectCount = MVGameControllerBase.Game.LogicObjectManager.logicWorldObjects.Count;
+        LogicObjectCount = GetLogicObjectCount();
         LinkCount = MVGameControllerBase.Game.worldNetwork.links.links.Count;
         ObjectLinkCount = MVGameControllerBase.Game.worldNetwork.objectLinks.objectLinks.Count;
         UniquePrototypeCount = MVGameControllerBase.Game.worldNetwork.worldInventory.runtimePrototypes.Count;
@@ -39,11 +39,33 @@ internal static class GameInfo
 
         return count;
     }
+
+    private static int GetLogicObjectCount()
+    {
+        int count = 0;
+
+        foreach (MVWorldObjectClient wo in MVGameControllerBase.WOCM.worldObjects.Values)
+        {
+            if (wo.HasInputConnector || wo.HasObjectConnector || wo.HasOutputConnector)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }
 
 internal class GameMetricsUpdater : MonoBehaviour
 {
-    private void Update()
+    const float updateInterval = 1f / 10f;
+
+    void Awake()
+    {
+        InvokeRepeating(nameof(UpdateMetrics), 0f, updateInterval);
+    }
+
+    private void UpdateMetrics()
     {
         GameInfo.UpdateMetrics();
     }
