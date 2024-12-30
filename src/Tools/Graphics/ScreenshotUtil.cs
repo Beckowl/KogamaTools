@@ -29,16 +29,21 @@ internal static class ScreenshotUtil
     private static Texture2D RenderScreenshot(int width, int height)
     {
         RenderTexture rt = new RenderTexture(width, height, 24);
-        MVGameControllerBase.MainCameraManager.mainCamera.targetTexture = rt;
+        MVGameControllerBase.MainCameraManager.MainCamera.targetTexture = rt;
+        MVGameControllerBase.MainCameraManager.SecondaryCamera.targetTexture = rt;
 
         Texture2D screenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
-        Camera.main.Render();
+
+        MVGameControllerBase.MainCameraManager.MainCamera.Render();
+        MVGameControllerBase.MainCameraManager.SecondaryCamera.Render();
 
         RenderTexture.active = rt;
         screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
         screenshot.Apply();
 
-        MVGameControllerBase.MainCameraManager.mainCamera.targetTexture = null;
+        MVGameControllerBase.MainCameraManager.MainCamera.targetTexture = null;
+        MVGameControllerBase.MainCameraManager.SecondaryCamera.targetTexture = null;
+
         RenderTexture.active = null;
         UnityEngine.Object.Destroy(rt);
 
