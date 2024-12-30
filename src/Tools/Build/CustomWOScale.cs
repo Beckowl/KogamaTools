@@ -78,6 +78,22 @@ internal static class CustomWOScale
         return false;
     }
 
+    [HarmonyPatch(typeof(EditorWorldObjectCreation), "OnAddItemFromInventory")]
+    [HarmonyPrefix]
+    private static void OnAddItemFromInventory(InventoryItem item)
+    {
+        if (!Enabled) return;
+
+        if (item.itemCategoryID == (int)InventoryCategoryType.CubeModels || item.itemCategoryID == (int)InventoryCategoryType.PremiumModels)
+        {
+            NotificationHelper.WarnUser("The custom world object scale is <b>NOT</b> intended for resizing models. To resize a model, copy and paste it into another model with a larger scale.");
+
+            Enabled = false;
+
+            NotificationHelper.NotifySuccess("Custom world object scale disabled");
+        }
+    }
+
     [HarmonyPatch(typeof(MVNetworkGame.OperationRequests), "AddItemToWorld")]
     [HarmonyPrefix]
     private static void AddItemToWorld(ref int groupId)
