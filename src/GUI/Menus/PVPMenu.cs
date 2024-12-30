@@ -91,9 +91,7 @@ internal static class PVPMenu
             CameraDistanceModifier.ApplyChanges();
         }
 
-        ImGui.Separator();
-
-        ImGui.Text("Keybinds");
+        ImGui.SeparatorText("Keybinds");
 
         if (!ImGui.BeginTable("Table", 2, ImGuiTableFlags.Borders)) return;
 
