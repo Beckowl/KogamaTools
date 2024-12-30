@@ -58,6 +58,9 @@ internal static class BuildMenu
 
             if (UnlimitedConfig.Enabled)
             {
+                ImGui.SameLine();
+                ImGui.Checkbox("Clamp values", ref UnlimitedConfig.ClampValues);
+
                 GUIUtils.InputFloat("Minimum value", ref UnlimitedConfig.MinValue);
                 GUIUtils.InputFloat("Maximum value", ref UnlimitedConfig.MaxValue);
             }

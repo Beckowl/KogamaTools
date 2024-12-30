@@ -7,6 +7,7 @@ namespace KogamaTools.Tools.Build;
 internal static class UnlimitedConfig
 {
     internal static bool Enabled = false;
+    internal static bool ClampValues = true;
     internal static float MinValue = 0;
     internal static float MaxValue = 1;
 
@@ -19,7 +20,9 @@ internal static class UnlimitedConfig
         {
             minValue = MinValue;
             maxValue = MaxValue;
-            value = Mathf.Clamp(value, MinValue, MaxValue);
+
+            if (ClampValues)
+                value = Mathf.Clamp(value, MinValue, MaxValue);
         }
     }
 
@@ -31,7 +34,9 @@ internal static class UnlimitedConfig
         {
             minValue = (int)MinValue;
             maxValue = (int)MaxValue;
-            value = (int)Mathf.Clamp(value, MinValue, MaxValue);
+
+            if (ClampValues)
+                value = (int)Mathf.Clamp(value, MinValue, MaxValue);
         }
     }
 }
