@@ -6,7 +6,12 @@ internal static class OrtographicCamera
 
     internal static void ApplyChanges()
     {
-        MVGameControllerBase.MainCameraManager.mainCamera.orthographic = Enabled;
-        MVGameControllerBase.MainCameraManager.mainCamera.orthographicSize = Size;
+        MVGameControllerBase.MainCameraManager.MainCamera.orthographic = Enabled;
+        MVGameControllerBase.MainCameraManager.SecondaryCamera.orthographic = Enabled;
+        MVGameControllerBase.MainCameraManager.TertiaryCamera.orthographic = Enabled;
+
+        MVGameControllerBase.MainCameraManager.MainCamera.orthographicSize = Size;
+        MVGameControllerBase.MainCameraManager.SecondaryCamera.orthographicSize = Size;
+        MVGameControllerBase.MainCameraManager.TertiaryCamera.orthographicSize = Size;
     }
 }
