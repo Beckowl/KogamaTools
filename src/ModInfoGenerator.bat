@@ -1,6 +1,6 @@
 setlocal
 
-for /f "delims=" %%v in ('git describe --tags --always 2^>nul') do set GIT_VERSION=%%v
+for /f "delims=-" %%v in ('git describe --tags --always 2^>nul') do set GIT_VERSION=%%v
 
 if not defined GIT_VERSION (
     echo Could not get git version.
