@@ -13,18 +13,17 @@ using UnityEngine;
 
 namespace KogamaTools;
 
-[BepInPlugin(ModGUID, ModName, ModVersion)]
+[BepInPlugin(ModInfo.ModGUID, ModInfo.ModName, ModInfo.ModVersion)]
 public class KogamaTools : BasePlugin
 {
-    public const string
-    ModGUID = "Becko.KogamaTools",
-    ModName = "KogamaTools",
-    ModVersion = "1.0.1"; // TODO: automate this
+    internal static readonly string ModGUID = ModInfo.ModGUID;
+    internal static readonly string ModName = ModInfo.ModName;
+    internal static readonly string ModVersion = ModInfo.ModVersion;
 
-    private readonly Harmony harmony = new Harmony(ModGUID);
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModName);
     internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay(ModName);
 
+    private readonly Harmony harmony = new Harmony(ModGUID);
     public override void Load()
     {
         harmony.PatchAll();

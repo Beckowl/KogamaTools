@@ -76,4 +76,7 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25localappdata%25\KogamaLauncher-WWW\Launcher\Standalone\BepInEx\plugins\&quot;&#xD;&#xA;xcopy /Y &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;%25localappdata%25\KogamaLauncher-WWW\Launcher\Standalone\BepInEx\plugins\&quot;" />
 	</Target>
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	  <Exec Command="call &quot;$(ProjectDir)ModInfoGenerator.bat&quot;&#xD;&#xA;" />
+	</Target>
 </Project>
