@@ -1,4 +1,4 @@
-internal static class ModInfo
+public static class ModInfo
 {
     internal const string
     ModGUID = "Becko.KogamaTools",

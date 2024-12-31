@@ -8,7 +8,7 @@ if not defined GIT_VERSION (
 )
 
 (
-echo internal static class ModInfo
+echo public static class ModInfo
 echo {
 echo     internal const string
 echo     ModGUID = "Becko.KogamaTools",
