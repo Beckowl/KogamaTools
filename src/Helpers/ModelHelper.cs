@@ -1,7 +1,10 @@
 ﻿using System.Collections;
+using Assets.Scripts.WorldObjectTypes.EditablePickupItem;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MV.WorldObject;
 using UnityEngine;
+using WorldObjectTypes.MVDoor;
+using WorldObjectTypes.VehicleEnergy;
 using static System.Environment;
 
 namespace KogamaTools.Helpers;
@@ -11,6 +14,83 @@ internal static class ModelHelper
     private static readonly byte[] defaultMaterials = { 21, 21, 21, 21, 21, 21 };
     private static readonly string signature = "KTMODEL";
 
+    internal static MVCubeModelBase GetModelFromWorldObject(MVWorldObjectClient mVWorldObjectClient)
+    {
+        // MauryDev
+
+        MVCubeModelBase result = null!;
+
+        var mVWorldObjectClient_type = mVWorldObjectClient.GetIl2CppType();
+        if (mVWorldObjectClient.Is<MVWorldObjectSpawnerVehicle>())
+        {
+            MVWorldObjectSpawnerVehicle spawnerVehicle = mVWorldObjectClient.Cast<MVWorldObjectSpawnerVehicle>();
+            MVWorldObjectClient spawnWorldObject = MVGameControllerBase.WOCM.GetWorldObjectClient(spawnerVehicle.SpawnWorldObjectID);
+            result = GetModelFromWorldObject(spawnWorldObject);
+        }
+        else if (mVWorldObjectClient.Is<MVSentryGunBlueprint>())
+        {
+            var sentryGunBlueprint = mVWorldObjectClient.Cast<MVSentryGunBlueprint>();
+            result = sentryGunBlueprint.EditableCubesWO;
+        }
+        else if (mVWorldObjectClient.Is<MVMovingPlatformGroup>())
+        {
+            var movingplatform = mVWorldObjectClient.Cast<MVMovingPlatformGroup>();
+            result = movingplatform.Platform.CubeModel;
+        }
+        else if (mVWorldObjectClient.Is<MVRotator>())
+        {
+            var rotator = mVWorldObjectClient.Cast<MVRotator>();
+
+            result = rotator.CubeModel;
+        }
+        else if (mVWorldObjectClient.Is<CollectTheItemCollectable>())
+        {
+            var collectTheItemCollectable = mVWorldObjectClient.Cast<CollectTheItemCollectable>();
+            result = collectTheItemCollectable.editableCubeModelWrapper.CubeModel;
+        }
+        else if (mVWorldObjectClient.Is<CollectTheItemDropOff>())
+        {
+            var collectTheItemDropOff = mVWorldObjectClient.Cast<CollectTheItemDropOff>();
+            result = collectTheItemDropOff.editableCubeModelWrapper.CubeModel;
+        }
+        else if (mVWorldObjectClient.Is<MVAdvancedGhost>())
+        {
+            var advancedghost = mVWorldObjectClient.Cast<MVAdvancedGhost>();
+            result = advancedghost.editableCubeModelWrapper.CubeModel;
+        }
+        else if (mVWorldObjectClient.Is<MVJetPack>())
+        {
+            var jetpack = mVWorldObjectClient.Cast<MVJetPack>();
+            result = jetpack.editableCubeModelWrapper.CubeModel;
+        }
+        else if (mVWorldObjectClient.Is<MVHoverCraft>())
+        {
+            var hovercraft = mVWorldObjectClient.Cast<MVHoverCraft>();
+            result = hovercraft.editableCubeModelWrapper.CubeModel;
+        }
+        else if (typeof(MVEditablePickupItemBaseBlueprint).GetIl2Type().IsAssignableFrom(mVWorldObjectClient_type))
+        {
+            var value = mVWorldObjectClient.Cast<MVEditablePickupItemBaseBlueprint>();
+
+            result = value.editableCubeModel;
+        }
+        else if (mVWorldObjectClient.Is<MVWorldObjectSpawnerVehicleEnergy>())
+        {
+            var energy = mVWorldObjectClient.Cast<MVWorldObjectSpawnerVehicleEnergy>();
+            result = energy.vehicleEnergyChild.CubeModelInstance;
+        }
+        else if (mVWorldObjectClient.Is<MVDoorBlueprint>())
+        {
+            var door = mVWorldObjectClient.Cast<MVDoorBlueprint>();
+            result = door.DoorLogic.doorModelInstance;
+        }
+        else if (mVWorldObjectClient.Is<MVCubeModelInstance>())
+        {
+            result = mVWorldObjectClient.Cast<MVCubeModelBase>();
+        }
+
+        return result;
+    }
 
     internal static MVCubeModelBase GetTargetModel()
     {
@@ -18,35 +98,24 @@ internal static class ModelHelper
     }
     internal static bool TryGetModelFromWO(MVWorldObjectClient wo, out MVCubeModelBase modelBase)
     {
-        modelBase = null!;
-
-        if (IsModel(wo))
-        {
-            try
-            {
-                modelBase = wo.Cast<MVCubeModelBase>();
-                return modelBase != null;
-            }
-            catch (Exception e)
-            {
-                NotificationHelper.NotifyError(e.ToString());
-            }
-        }
-
-        return false;
+        modelBase = GetModelFromWorldObject(wo);
+        return modelBase != null;
     }
     internal static bool IsModelOwner(MVWorldObjectClient wo)
     {
         if (TryGetModelFromWO(wo, out MVCubeModelBase model))
         {
-            return model.prototypeCubeModel.AuthorProfileID == MVGameControllerBase.Game.LocalPlayer.ProfileID;
+            var authorID = model.PrototypeCubeModel.AuthorProfileID;
+            var profileID = MVGameControllerBase.LocalPlayer.ProfileID;
+
+            return authorID == -1 || authorID == MVGameControllerBase.LocalPlayer.ProfileID;
         }
         return false;
     }
 
     internal static bool IsModel(MVWorldObjectClient wo)
     {
-        return MVGameControllerBase.WOCM.IsType(wo.id, WorldObjectType.CubeModel);
+        return GetModelFromWorldObject(wo) != null;
     }
 
     internal static ModelData GetModelData(MVCubeModelBase model)
@@ -74,8 +143,8 @@ internal static class ModelHelper
 
     internal static byte[] SerializeModelData(ModelData data)
     {
-        using MemoryStream memoryStream = new MemoryStream();
-        using BinaryWriter writer = new BinaryWriter(memoryStream);
+        using MemoryStream memoryStream = new();
+        using BinaryWriter writer = new(memoryStream);
 
         writer.Write(signature);
 
@@ -137,13 +206,6 @@ internal static class ModelHelper
             throw;
         }
     }
-
-    /*
-     * posição (chunk) - 2 bytes (sobra 1 bit)
-     * face materials -  1 - 6 bytes (sobram 1 - 6 bits)
-     * byte corners - 1 - 8 bytes (255 = identity byte corners) (sobram 1 - 8 bits)
-     */
-
 
     internal static IEnumerator BuildModel(MVCubeModelBase target, ModelData data)
     {
