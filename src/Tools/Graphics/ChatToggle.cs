@@ -1,12 +1,17 @@
 ﻿using HarmonyLib;
 using Il2CppInterop.Runtime;
+using KogamaTools.Behaviours;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Graphics;
 
 [HarmonyPatch]
+[Section("Graphics")]
 internal static class ChatToggle
 {
-    internal static bool ChatVisible = true;
+    [Bind] internal static bool ChatVisible = true;
+
+    [InvokeOnInit]
     internal static void UpdateChatVisibility()
     {
         UnityEngine.Object[] chatControllers = UnityEngine.Object.FindObjectsOfType(Il2CppType.Of<ChatControllerUGUI>(), true);
