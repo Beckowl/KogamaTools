@@ -1,11 +1,16 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using MV.Common;
 
 namespace KogamaTools.Tools.Misc;
 
 [HarmonyPatch]
+[Section("Misc")]
 internal static class AntiBan
 {
+
+    [Bind] internal static bool Enabled = true;
+
     [HarmonyPatch(typeof(CheatHandling), "Init")]
     [HarmonyPatch(typeof(CheatHandling), "ExecuteBan")]
     [HarmonyPatch(typeof(CheatHandling), "MachineBanDetected")]
@@ -16,7 +21,7 @@ internal static class AntiBan
     [HarmonyPrefix]
     private static bool AntiBanPatches()
     {
-        return false;
+        return !Enabled;
     }
 }
 

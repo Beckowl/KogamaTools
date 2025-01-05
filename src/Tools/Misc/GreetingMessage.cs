@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿using KogamaTools.Behaviours;
 using KogamaTools.Helpers;
 
 namespace KogamaTools.Tools.Misc;
@@ -7,6 +7,7 @@ internal static class GreetingMessage
 {
     internal static bool ShowGreetingMessage = true;
 
+    [InvokeOnInit(priority: 2)]
     internal static void JoinNotification()
     {
         if (ShowGreetingMessage)

@@ -1,18 +1,26 @@
-﻿using KogamaTools.Helpers;
+﻿using BepInEx;
+using KogamaTools.Behaviours;
+using KogamaTools.Config;
+using KogamaTools.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace KogamaTools.Tools.PVP;
+[Section("PVP")]
 internal static class CustomCrossHairTexture
 {
-    internal static string TexturePath = string.Empty;
+    [Bind] internal static string TexturePath = string.Empty;
+
+    [InvokeOnInit]
     internal static void SetTexture()
     {
+        if (TexturePath.IsNullOrWhiteSpace()) return;
+
         Texture2D tex = TextureHelper.LoadPNG(TexturePath);
 
         if (tex == null)
         {
-            NotificationHelper.NotifyError($"Invalid file path {TexturePath}.");
+            NotificationHelper.NotifyError($"Could not load custom crosshair: Invalid file path {TexturePath}.");
             return;
         }
 

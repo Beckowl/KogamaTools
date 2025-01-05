@@ -1,13 +1,15 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using MV.WorldObject;
 using static LogicObjectManager;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class FastLinks
 {
-    internal static bool Enabled = false;
+    [Bind] internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(LogicObjectManager), "ValidateLink", new Type[] { typeof(int), typeof(int), typeof(IWorldObjectManager), typeof(bool) },
                 new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref })]

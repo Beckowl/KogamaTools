@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Graphics;
 
 [HarmonyPatch]
+[Section("Graphics")]
 internal static class NotificationToggle
 {
-    internal static bool ShowNotifications = true;
+    [Bind] internal static bool ShowNotifications = true;
 
     [HarmonyPatch(typeof(NotificationController), "OnNotificationReceived")]
     [HarmonyPatch(typeof(NotificationsManager), "InstantiateNotification")]

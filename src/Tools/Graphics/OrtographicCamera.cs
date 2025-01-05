@@ -1,9 +1,15 @@
-﻿namespace KogamaTools.Tools.Graphics;
+﻿using KogamaTools.Behaviours;
+using KogamaTools.Config;
+
+namespace KogamaTools.Tools.Graphics;
+
+[Section("Graphics")]
 internal static class OrtographicCamera
 {
-    internal static bool Enabled = false;
-    internal static float Size = 10f;
+    [Bind] internal static bool Enabled = false;
+    [Bind] internal static float Size = 10f;
 
+    [InvokeOnInit]
     internal static void ApplyChanges()
     {
         MVGameControllerBase.MainCameraManager.MainCamera.orthographic = Enabled;

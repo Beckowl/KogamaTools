@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
+[Section("PVP")]
 internal static class AntiAFK
 {
-    internal static bool Enabled = false;
+    [Bind] internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(AwayMonitor), "Update")]
     [HarmonyPrefix]

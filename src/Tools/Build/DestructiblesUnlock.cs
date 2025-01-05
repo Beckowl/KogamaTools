@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class DestructiblesUnlock
 {
-    internal static bool Unlocked = false;
+    [Bind] internal static bool Unlocked = false;
 
     [HarmonyPatch(typeof(MVMaterial), nameof(MVMaterial.IsAvailable), MethodType.Getter)]
     [HarmonyPostfix]

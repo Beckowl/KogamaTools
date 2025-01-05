@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
@@ -6,10 +7,11 @@ using UnityEngine;
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class CustomWOScale
 {
-    internal static bool Enabled = false;
-    internal static Vector3 Scale = Vector3.one;
+    [Bind] internal static bool Enabled = false;
+    [Bind] internal static Vector3 Scale = Vector3.one;
 
     private static MVGroup scaledGroup = null!;
     private static bool waitingForGroup = false;

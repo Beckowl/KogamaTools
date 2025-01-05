@@ -1,12 +1,14 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class ForceFlags
 {
-    internal static bool Enabled = false;
-    internal static bool Override = false;
+    [Bind] internal static bool Enabled = false;
+    [Bind] internal static bool Override = false;
     internal static InteractionFlags Flags;
 
     internal static void AddFlags(InteractionFlags flag)

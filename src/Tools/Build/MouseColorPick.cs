@@ -5,6 +5,8 @@ using UnityEngine;
 namespace KogamaTools.Tools.Build;
 internal static class MouseColorPick
 {
+
+    [InvokeOnInit]
     internal static void SubscribeHotkeys()
     {
         HotkeySubscriber.Subscribe(KeyCode.Mouse2, DoPicking);

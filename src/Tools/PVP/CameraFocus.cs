@@ -1,18 +1,21 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using KogamaTools.Tools.Graphics;
 using UnityEngine;
 
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
+[Section("PVP")]
 internal class CameraFocus : MonoBehaviour
 {
-    internal static bool Enabled = true;
-    internal static float FOVMultiplier = 0.6f;
-    internal static float SensitivityMultiplier = 0.2f;
-    internal static float ZoomSpeed = 5f;
-    internal static bool OverrideRailGun = false;
-    internal static bool isFocusing = false;
+    [Bind] internal static bool Enabled = true;
+    [Bind] internal static float FOVMultiplier = 0.6f;
+    [Bind] internal static float SensitivityMultiplier = 0.2f;
+    [Bind] internal static float ZoomSpeed = 5f;
+    [Bind] internal static bool OverrideRailGun = false;
+
+    private static bool isFocusing = false;
 
     private static float zoomVelocity;
 

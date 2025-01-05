@@ -1,4 +1,6 @@
-﻿namespace KogamaTools.Helpers;
+﻿using KogamaTools.Behaviours;
+
+namespace KogamaTools.Helpers;
 
 internal static class RuntimeReferences
 {
@@ -8,6 +10,7 @@ internal static class RuntimeReferences
     internal static CubeModelingStateMachine CubeModelingStateMachine { get; private set; } = null!;
     internal static EditorWorldObjectCreation EditorWorldObjectCreation { get; private set; } = null!;
 
+    [InvokeOnInit(priority: 1)]
     internal static void LoadReferences()
     {
         if (MVGameControllerBase.GameMode == MV.Common.MVGameMode.Edit)

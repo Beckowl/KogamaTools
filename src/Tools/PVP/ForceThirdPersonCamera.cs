@@ -1,13 +1,15 @@
 ﻿using HarmonyLib;
 using KogamaTools.Behaviours;
+using KogamaTools.Config;
 using MV.Common;
 
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
+[Section("PVP")]
 internal static class ForceThirdPersonCamera
 {
-    internal static bool Enabled = false;
+    [Bind] internal static bool Enabled = false;
     private static bool enabledInternal = Enabled;
 
     [HarmonyPatch(typeof(PickupItem), nameof(PickupItem.FirstPerson), MethodType.Getter)]

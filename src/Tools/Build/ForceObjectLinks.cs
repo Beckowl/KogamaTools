@@ -1,12 +1,14 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using WorldObjectTypes.MVObjectTransparency;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class ForceObjectLinks
 {
-    internal static bool Enabled = false;
+    [Bind] internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(MVObjectEnabler), "ValidateObjectLinkTarget")]
     [HarmonyPatch(typeof(MVObjectTransparency), "ValidateObjectLinkTarget")]

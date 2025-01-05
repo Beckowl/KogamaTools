@@ -1,12 +1,17 @@
 ﻿using KogamaTools.Behaviours;
+using KogamaTools.Config;
 using KogamaTools.Helpers;
 using UnityEngine;
 using static System.Environment;
 
 namespace KogamaTools.Tools.Graphics;
+
+[Section("Graphics")]
 internal static class ScreenshotUtil
 {
-    internal static float SuperSize = 2f;
+    [Bind] internal static float SuperSize = 2f;
+
+    [InvokeOnInit]
     internal static void SubscribeHotkeys()
     {
         HotkeySubscriber.Subscribe(KeyCode.F2, CaptureScreenshot);

@@ -1,10 +1,15 @@
-﻿using KogamaTools.Helpers;
+﻿using KogamaTools.Behaviours;
+using KogamaTools.Config;
+using KogamaTools.Helpers;
 
 namespace KogamaTools.Tools.Graphics;
+
+[Section("Graphics")]
 internal static class UIToggle
 {
-    internal static bool UIVisible = true;
+    [Bind] internal static bool UIVisible = true;
 
+    [InvokeOnInit]
     internal static void UpdateUIVisibility()
     {
         switch (MVGameControllerBase.GameMode)

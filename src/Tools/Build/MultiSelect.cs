@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using KogamaTools.Helpers;
 using KogamaTools.Tools.Misc;
 using UnityEngine;
@@ -6,9 +7,10 @@ using UnityEngine;
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal class MultiSelect : MonoBehaviour
 {
-    internal static bool ForceSelection = false;
+    [Bind] internal static bool ForceSelection = false;
     private static bool AddToSelection = false;
 
     private void Awake()
@@ -100,7 +102,7 @@ internal class MultiSelect : MonoBehaviour
     {
         if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit) return true;
 
-        if (ForceSelection)  return false;
+        if (ForceSelection) return false;
 
         return __instance.SelectedWOs.Count <= 1;
     }

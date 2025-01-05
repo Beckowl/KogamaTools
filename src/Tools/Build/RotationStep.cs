@@ -1,13 +1,15 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using UGUI.Desktop.Scripts.EditMode.Gizmo;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class RotationStep
 {
-    internal static bool Enabled = false;
-    internal static float Step = 15f;
+    [Bind] internal static bool Enabled = false;
+    [Bind] internal static float Step = 15f;
 
     [HarmonyPatch(typeof(RotationHelper), "RotateStep")]
     [HarmonyPrefix]

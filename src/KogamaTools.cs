@@ -1,12 +1,12 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using KogamaTools.Behaviours;
+using KogamaTools.Config;
 using KogamaTools.GUI;
-using KogamaTools.Helpers;
 using KogamaTools.Tools.Build;
-using KogamaTools.Tools.Graphics;
 using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
 using UnityEngine;
@@ -22,23 +22,25 @@ public class KogamaTools : BasePlugin
 
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModName);
     internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay(ModName);
+    internal static AutoConfigManager ConfigManager = null!;
+
+    private static ConfigFile configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, $"{ModName}.cfg"), true);
 
     private readonly Harmony harmony = new Harmony(ModGUID);
+
     public override void Load()
     {
         harmony.PatchAll();
 
         AddComponent<GameInitChecker>();
 
-        GameInitChecker.OnGameInitialized += RuntimeReferences.LoadReferences;
-        GameInitChecker.OnGameInitialized += MouseColorPick.SubscribeHotkeys;
-        GameInitChecker.OnGameInitialized += ModelExporter.Init;
-        GameInitChecker.OnGameInitialized += GreetingMessage.JoinNotification;
-        GameInitChecker.OnGameInitialized += ConsoleToggle.SubscribeHotkeys;
-        GameInitChecker.OnGameInitialized += ScreenshotUtil.SubscribeHotkeys;
-
         GameInitChecker.OnGameInitialized += () =>
         {
+            configFile.SaveOnConfigSet = true;
+
+            ConfigManager = new AutoConfigManager(configFile);
+            ConfigManager.LoadValuesToFields();
+
             AddComponent<UnityMainThreadDispatcher>();
             AddComponent<HotkeySubscriber>();
             AddComponent<GameMetricsUpdater>();
@@ -48,7 +50,6 @@ public class KogamaTools : BasePlugin
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();
-
 
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);

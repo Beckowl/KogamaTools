@@ -8,11 +8,16 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal class ObjectGrouper : MonoBehaviour
 {
-    private static EditorStateMachine editModeStateMachine = RuntimeReferences.EditorStateMachine;
     private static ESWaitForGroup grouper = new();
 
     private void Awake()
     {
+        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit)
+        {
+            Destroy(this);
+            return;
+        }
+
         HotkeySubscriber.Subscribe(KeyCode.G, OnGroupKeyPressed);
     }
 
@@ -21,18 +26,16 @@ internal class ObjectGrouper : MonoBehaviour
         if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit) return;
 
         grouper = new();
-        grouper.Enter(editModeStateMachine);
+        grouper.Enter(RuntimeReferences.EditorStateMachine);
     }
 
     private void Update()
     {
-        if (editModeStateMachine != null)
+        if (RuntimeReferences.EditorStateMachine.lockState)
         {
-            if (editModeStateMachine.lockState)
-            {
-                grouper.Execute(editModeStateMachine);
-            }
+            grouper.Execute(RuntimeReferences.EditorStateMachine);
         }
+
     }
 
     private void OnGroupKeyPressed()

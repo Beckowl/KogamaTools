@@ -1,13 +1,15 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Graphics;
 
 [HarmonyPatch]
+[Section("Graphics")]
 internal static class FOVModifier
 {
-    internal static bool CustomFOVEnabled = false;
-    internal static float CustomFOV = 60;
-    internal static bool ApplyGlobally = false;
+    [Bind] internal static bool CustomFOVEnabled = false;
+    [Bind] internal static float CustomFOV = 60;
+    [Bind] internal static bool ApplyGlobally = false;
 
     [HarmonyPatch(typeof(MainCameraManager), "UpdateCamera")]
     [HarmonyPostfix]

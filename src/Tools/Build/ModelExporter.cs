@@ -1,10 +1,12 @@
-﻿using KogamaTools.Helpers;
+﻿using KogamaTools.Behaviours;
+using KogamaTools.Helpers;
 using static System.IO.Path;
 using static KogamaTools.Helpers.ModelHelper;
 
 namespace KogamaTools.Tools.Build;
 internal static class ModelExporter
 {
+    [InvokeOnInit]
     internal static void Init()
     {
         CustomContextMenu.AddButton("Export Model", wo => IsModelOwner(wo), wo => ExportModel(wo));

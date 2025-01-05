@@ -1,14 +1,22 @@
 ﻿using Assets.Scripts.ProfileSettings;
 using HarmonyLib;
 using KogamaTools.Behaviours;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Graphics;
 
 [HarmonyPatch]
+[Section("Graphics")]
 internal static class WaterReflectionModifier
 {
-    internal static bool UseReflectiveWater = GetWaterMode();
+    [Bind] internal static bool UseReflectiveWater = GetWaterMode();
 
+    static WaterReflectionModifier()
+    {
+        ApplyChanges();
+    }
+
+    [InvokeOnInit]
     internal static void ApplyChanges()
     {
         Water.WaterMode mode = UseReflectiveWater ? Water.WaterMode.Reflective : Water.WaterMode.Simple;

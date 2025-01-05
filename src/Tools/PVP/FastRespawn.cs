@@ -1,13 +1,15 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using MV.Common;
 
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
+[Section("PVP")]
 internal class FastRespawn
 {
-    internal static bool Enabled = false;
-    internal static bool RespawnAtSafeSpot = false;
+    [Bind] internal static bool Enabled = false;
+    [Bind] internal static bool RespawnAtSafeSpot = false;
     private static void RespawnPlayer()
     {
         MVGameControllerBase.GameEventManager.AvatarCommandsPlayMode.SetToSpawnPoint();

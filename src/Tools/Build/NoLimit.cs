@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal static class NoLimit
 {
-    internal static bool Enabled = false;
+    [Bind] internal static bool Enabled = false;
 
     [HarmonyPatch(typeof(ConstraintVisualizer), "Init")]
     [HarmonyPrefix]

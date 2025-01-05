@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Config;
 using KogamaTools.Helpers;
 using MV.WorldObject;
 using UnityEngine;
@@ -7,9 +8,10 @@ using UnityEngine.EventSystems;
 namespace KogamaTools.Tools.Build;
 
 [HarmonyPatch]
+[Section("Build")]
 internal class LinkFix : MonoBehaviour
 {
-    internal static bool Enabled = true;
+    [Bind] internal static bool Enabled = true;
 
     private static Link tempLink = new();
     private static int connectorCounter = 0;
