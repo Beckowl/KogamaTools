@@ -3,7 +3,7 @@ using KogamaTools.Behaviours;
 using KogamaTools.Tools.Graphics;
 
 namespace KogamaTools.GUI.Menus;
-internal class GraphicsMenu
+internal static class GraphicsMenu
 {
     internal static void Render()
     {

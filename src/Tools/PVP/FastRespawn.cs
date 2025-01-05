@@ -6,7 +6,7 @@ namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
 [Section("PVP")]
-internal class FastRespawn
+internal static class FastRespawn
 {
     [Bind] internal static bool Enabled = false;
     [Bind] internal static bool RespawnAtSafeSpot = false;

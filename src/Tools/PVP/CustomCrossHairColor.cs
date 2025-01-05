@@ -4,7 +4,7 @@ using UnityEngine;
 namespace KogamaTools.Tools.PVP;
 
 [HarmonyPatch]
-internal class CustomCrossHairColor
+internal static class CustomCrossHairColor
 {
     internal static bool Enabled = false;
     internal static Color Color = new(0, 1, 0, 1);

@@ -2,7 +2,7 @@
 using KogamaTools.Tools.Misc;
 
 namespace KogamaTools.GUI.Menus;
-internal class InfoMenu
+internal static class InfoMenu
 {
     internal static void Render()
     {
