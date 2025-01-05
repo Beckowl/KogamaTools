@@ -114,4 +114,25 @@ internal class GroupEdit
 
         return false;
     }
+
+    [HarmonyPatch(typeof(ContextMenuController), "ShowContextMenu")]
+    [HarmonyPrefix]
+    private static void ShowContextMenu(ref int woID)
+    {
+        if (!MVGameControllerBase.WOCM.IsType(woID, WorldObjectType.Group)) return;
+
+        if (MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+        {
+            VoxelHit vhit = new();
+
+            if (ObjectPicker.Pick(ref vhit) && vhit.woId != -1)
+            {
+                MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(vhit.woId);
+                if (wo.HasInteractionFlag(InteractionFlags.Selectable))
+                {
+                    woID = vhit.woId; // show context menu of the object under the mouse cursor instead of the group one
+                }
+            }
+        }
+    }
 }
