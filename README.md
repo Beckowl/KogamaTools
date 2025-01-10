@@ -96,8 +96,8 @@ A plugin that adds quality of life features to KoGaMa.
 # **Installation**
 
 ## 🚀 **Easy Method (Installer)**
-  - Download the latest release of the mod installer [here](https://github.com/Beckowl/KogamaModInstaller/releases/tag/Latest)
-  - Download the latest release of KogamaTools [here](https://github.com/Beckowl/KogamaTools/releases/tag/Latest)
+  - Download the latest release of the mod installer [here](https://github.com/Beckowl/KogamaModInstaller/releases/latest)
+  - Download the latest release of KogamaTools [here](https://github.com/Beckowl/KogamaTools/releases/latest)
   - Open the installer, click on the "Browse" button next to the ``Mod Path`` field.
   - Locate ``KogamaTools.zip`` and select it. <mark>You do not need to extract the zip file.</mark>
   - Select the game server of your choice and click ``install``.
