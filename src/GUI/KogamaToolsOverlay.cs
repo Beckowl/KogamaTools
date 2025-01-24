@@ -1,23 +1,31 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Drawing;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using ClickableTransparentOverlay;
 using Il2CppInterop.Runtime;
 using ImGuiNET;
 using KogamaTools.Behaviours;
+using KogamaTools.Config;
 using KogamaTools.GUI.Menus;
-using UnityEngine;
 
 namespace KogamaTools.GUI;
 
+[Section("Misc")]
 internal class KogamaToolsOverlay : Overlay
 {
-    internal static bool ShouldRenderOverlay = true;
-    private const int DefaultWidth = 345;
-    private const int DefaultHeight = 422;
-    private static readonly System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(DefaultWidth, DefaultHeight);
+    [Bind] private static bool HideOverlay;
+    [Bind] private static bool useCompatibilityMode; // dummy field so i can bind a config
+
+    private static IntPtr handle;
+
+    private const int defaultWidth = 345;
+    private const int defaultHeight = 422;
+
+    private const ImGuiWindowFlags compatibilityFlags = ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize;
 
     private readonly string _windowName;
 
-    public KogamaToolsOverlay(string windowName) : base(windowName, true)
+    public KogamaToolsOverlay(string windowName) : base(windowName)
     {
         _windowName = windowName;
     }
@@ -26,27 +34,24 @@ internal class KogamaToolsOverlay : Overlay
     {
         IL2CPP.il2cpp_thread_attach(IL2CPP.il2cpp_domain_get());
 
-        HotkeySubscriber.Subscribe(KeyCode.F1, ToggleOverlay);
+        HotkeySubscriber.Subscribe(UnityEngine.KeyCode.F1, ToggleOverlay);
+        handle = FindWindow(null, _windowName);
 
         VSync = true;
-        Size = new System.Drawing.Size(DefaultWidth, DefaultHeight);
+        CompatibilityMode = useCompatibilityMode;
+
         return Task.CompletedTask;
     }
 
     protected override void Render()
     {
-        if (!(ShouldRenderOverlay && IsGameFocused()))
-        {
-            return;
-        }
+        if (HideOverlay || !IsGameFocused()) return;
 
-        ImGui.Begin($"{KogamaTools.ModName} v{KogamaTools.ModVersion}");
-
-        ImGui.SetWindowSize(WindowSize, ImGuiCond.FirstUseEver);
+        ImGui.Begin(_windowName, CompatibilityMode ? compatibilityFlags : ImGuiWindowFlags.None);
+        ImGui.SetWindowSize(new Vector2(defaultWidth, defaultHeight), ImGuiCond.FirstUseEver);
 
         if (ImGui.BeginTabBar("TabBar"))
         {
-
             BuildMenu.Render();
             PVPMenu.Render();
             GraphicsMenu.Render();
@@ -54,26 +59,44 @@ internal class KogamaToolsOverlay : Overlay
             InfoMenu.Render();
 
             ImGui.EndTabBar();
-
         }
+
+        if (CompatibilityMode)
+        {
+            if (ImGui.IsWindowAppearing())
+            {
+                Vector2 windowSize = ImGui.GetWindowSize();
+                Size = new((int)windowSize.X, (int)windowSize.Y);
+
+                ImGui.SetWindowPos(Vector2.Zero);
+            }
+            ImGui.SetWindowSize(new Vector2(Size.Width, Size.Height));
+        }
+
         ImGui.End();
     }
 
     private void ToggleOverlay()
     {
-        ShouldRenderOverlay = !ShouldRenderOverlay;
+        HideOverlay = !HideOverlay;
+        if (CompatibilityMode)
+        {
+            ShowWindow(handle, HideOverlay ? 0 : 4); // Hide & ShowNoActivate
+        }
     }
-
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetForegroundWindow();
-
-    [DllImport("user32.dll")]
-    private static extern IntPtr FindWindow(string? className, string windowName);
 
     private bool IsGameFocused()
     {
         IntPtr foregroundWindow = GetForegroundWindow();
-        return foregroundWindow == FindWindow(null, "KoGaMa") || foregroundWindow == FindWindow(null, _windowName);
+        return foregroundWindow == FindWindow(null, "KoGaMa") || foregroundWindow == handle;
     }
 
+    [DllImport("user32.dll", ExactSpelling = true)]
+    internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [DllImport("user32.dll")]
+    internal static extern IntPtr FindWindow(string? className, string windowName);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
 }
