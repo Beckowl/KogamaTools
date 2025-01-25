@@ -82,9 +82,9 @@ internal class MultiSelect : MonoBehaviour
 
     [HarmonyPatch(typeof(SelectionController), "Select", new Type[] { typeof(VoxelHit), typeof(bool), typeof(bool) })]
     [HarmonyPrefix]
-    private static void Select(SelectionController __instance, ref VoxelHit hit, ref bool addToSelection)
+    private static bool Select(SelectionController __instance, ref VoxelHit hit, ref bool addToSelection)
     {
-        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit) return;
+        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit) return true;
 
         addToSelection = ForceSelection || AddToSelection;
 
@@ -92,6 +92,16 @@ internal class MultiSelect : MonoBehaviour
         {
             DeSelectAllExcept(hit.woId);
         }
+
+        if (__instance.selectedIDs.Contains(hit.woId) && AddToSelection)
+        {
+            MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(hit.woId);
+            wo.DeSelect();
+            __instance.selectedIDs.Remove(hit.woId);
+            return false;
+        }
+
+        return true;
     }
 
     [HarmonyPatch(typeof(SelectionController), "DeSelectAllExcept")]
