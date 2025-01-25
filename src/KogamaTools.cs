@@ -21,10 +21,9 @@ public class KogamaTools : BasePlugin
     internal static readonly string ModVersion = ModInfo.ModVersion;
 
     internal static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(ModName);
-    internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay($"{KogamaTools.ModName} v{KogamaTools.ModVersion}");
-    internal static AutoConfigManager ConfigManager = null!;
-
+    internal static KogamaToolsOverlay Overlay = new KogamaToolsOverlay($"{ModName} v{ModVersion}");
     private static ConfigFile configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, $"{ModName}.cfg"), true);
+    internal static AutoConfigManager ConfigManager = null!;
 
     private readonly Harmony harmony = new Harmony(ModGUID);
 

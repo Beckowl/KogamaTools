@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
 using Il2CppInterop.Runtime;
 using KogamaTools.Helpers;
-using KogamaTools.Tools.Misc;
 using MV.WorldObject;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace KogamaTools.Tools.Build;
 
@@ -23,8 +23,7 @@ internal class GroupEdit
 
     private static void EnterGroupEdit(MVWorldObjectClient wo)
     {
-        NotificationHelper.NotifyUser("You are currently editing a group. Press P to exit group edit mode."); ;
-
+        NotificationHelper.NotifyUser("You are currently editing a group. Press P to exit group edit mode.");
         MVGroup group = wo.Cast<MVGroup>();
         RuntimeReferences.EditorStateMachine.selectionController.EnterGroup(group);
 
@@ -57,17 +56,27 @@ internal class GroupEdit
 
     [HarmonyPatch(typeof(SelectionController), "ExitGroup")]
     [HarmonyPatch(typeof(SelectionController), "ExitGroupToRoot")]
-    private static void ExitGroupPatches(SelectionController __instance)
+    private static void ExitAllGroups(SelectionController __instance)
     {
         if (!isEditingGroup) return;
 
-        foreach (MVGroup group in __instance.parentGroups) 
+        foreach (int groupId in __instance.parentGroups)
         {
-            if (group.id != MVGameControllerBase.WOCM.rootGroupId)
+            if (groupId != MVGameControllerBase.WOCM.rootGroupId)
             {
+                MVGroup group = MVGameControllerBase.WOCM.GetWorldObjectClient<MVGroup>(groupId);
                 HighlightObjects(group, false);
             }
         }
+    }
+
+    [HarmonyPatch(typeof(DesktopEditModeController), "EnterPlayMode")]
+    [HarmonyPrefix]
+    private static void EnterPlayMode()
+    {
+        if (!isEditingGroup) return;
+
+        ExitAllGroups(RuntimeReferences.EditorStateMachine.selectionController);
     }
 
     [HarmonyPatch(typeof(ContextMenuController), "ShowContextMenu")]
@@ -151,11 +160,7 @@ internal class GroupEdit
         {
             Debug.Log("Creating new wo");
 
-            IntPtr obj = IL2CPP.il2cpp_object_new(Il2CppClassPointerStore<EditorEvent>.NativeClassPtr);
-            byte* bytePointer = (byte*)obj.ToPointer();
-            bytePointer[8] = (byte)EditorEvent.ESWaitForSelect;
-
-            __instance.esm.Event = new Il2CppSystem.Object(obj);
+            __instance.esm.Event = EditorEvent.ESWaitForSelect.ToIl2Cpp();
 
             Quaternion identity = Quaternion.identity;
             MVGameControllerBase.OperationRequests.AddItemToWorld(item.itemID, __instance.esm.ParentGroupID, Vector3.up * 10f, identity, false, true, false);
