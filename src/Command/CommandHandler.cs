@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using BepInEx;
 using KogamaTools.Helpers;
 using SoftCircuits.Parsing.Helper;
 
@@ -54,7 +55,10 @@ internal static class CommandHandler
             }
             else
             {
-                components.Add(helper.ParseWhile(c => !char.IsWhiteSpace(c)));
+                string component = helper.ParseWhile(c => !char.IsWhiteSpace(c));
+
+                if (!component.IsNullOrWhiteSpace())
+                components.Add(component);
             }
         }
 
