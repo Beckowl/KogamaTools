@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using Il2CppInterop.Runtime;
 using KogamaTools.Helpers;
+using KogamaTools.Tools.Misc;
 using MV.WorldObject;
 using UnityEngine;
 
@@ -8,27 +10,28 @@ namespace KogamaTools.Tools.Build;
 [HarmonyPatch]
 internal class GroupEdit
 {
-    internal static Stack<MVGroup> GroupStack = new();
-    private static bool IsEditingGroup => GroupStack.Count > 0;
 
+    private static bool isEditingGroup => !RuntimeReferences.EditorStateMachine.ParentGroupIsRoot;
     static GroupEdit()
     {
         CustomContextMenu.AddButton(
             "Edit Group",
-            wo => MVGameControllerBase.WOCM.IsType(wo.id, WorldObjectType.Group) && !GroupStack.Contains(wo),
+            wo => MVGameControllerBase.WOCM.IsType(wo.id, WorldObjectType.Group),
             wo => EnterGroupEdit(wo)
         );
     }
 
     private static void EnterGroupEdit(MVWorldObjectClient wo)
     {
-        if (wo.id == MVGameControllerBase.WOCM.RootGroup.Id) return;
+        NotificationHelper.NotifyUser("You are currently editing a group. Press P to exit group edit mode."); ;
 
-        NotificationHelper.NotifyUser("You are currently editing a group. Press P to exit group edit mode.");
+        MVGroup group = wo.Cast<MVGroup>();
+        RuntimeReferences.EditorStateMachine.selectionController.EnterGroup(group);
 
-        EditorStateMachine esm = RuntimeReferences.EditorStateMachine;
+        MVGameControllerBase.MainCameraManager.BlueModeEnabled = true;
+        MVGameControllerBase.MainCameraManager.CurrentCamera.FocusOnObject(wo);
 
-        wo.OnEnterObject(esm);
+        HighlightObjects(group, true);
     }
 
     private static void HighlightObjects(MVGroup group, bool highlight)
@@ -47,52 +50,52 @@ internal class GroupEdit
 
                 SharedCubeFunctions.SetLayerRecursively(linkScript.transform, highlight);
             }
-            mvworldObjectClient.gameObject.layer = 14;
+
             SharedCubeFunctions.SetLayerRecursively(mvworldObjectClient.transform, highlight);
         }
     }
 
-    private static void ExitAllGroups()
+    [HarmonyPatch(typeof(SelectionController), "ExitGroup")]
+    [HarmonyPatch(typeof(SelectionController), "ExitGroupToRoot")]
+    private static void ExitGroupPatches(SelectionController __instance)
     {
-        EditorStateMachine esm = RuntimeReferences.EditorStateMachine;
+        if (!isEditingGroup) return;
 
-        while (GroupStack.TryPop(out MVGroup? group))
+        foreach (MVGroup group in __instance.parentGroups) 
         {
-            HighlightObjects(group, false);
-            group.OnExitObject(esm);
+            if (group.id != MVGameControllerBase.WOCM.rootGroupId)
+            {
+                HighlightObjects(group, false);
+            }
         }
     }
 
-    [HarmonyPatch(typeof(MVGroup), "OnEnterObject")]
-    [HarmonyPostfix]
-    private static void OnEnterObject(MVGroup __instance)
-    {
-        HighlightObjects(__instance, true);
-        GroupStack.Push(__instance);
-    }
-
-    [HarmonyPatch(typeof(DesktopEditModeController), "EnterPlayMode")]
+    [HarmonyPatch(typeof(ContextMenuController), "ShowContextMenu")]
     [HarmonyPrefix]
-    private static void EnterPlayMode()
+    private static void ShowContextMenu(ref int woID)
     {
-        ExitAllGroups();
-    }
+        if (!MVGameControllerBase.WOCM.IsType(woID, WorldObjectType.Group)) return;
 
-    [HarmonyPatch(typeof(Links), "AddLink")]
-    [HarmonyPostfix]
-    private static void AddLink(ref Link link)
-    {
-        if (!IsEditingGroup) return;
+        if (MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+        {
+            VoxelHit vhit = new();
 
-        LinkObjectScript linkScript = MVGameControllerBase.Game.worldNetwork.links.linkObjects[link.id];
-        SharedCubeFunctions.SetLayerRecursively(linkScript.transform, true);
+            if (ObjectPicker.Pick(ref vhit) && vhit.woId != -1)
+            {
+                MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(vhit.woId);
+                if (wo.HasInteractionFlag(InteractionFlags.Selectable))
+                {
+                    woID = vhit.woId; // show context menu of the object under the mouse cursor instead of the group one
+                }
+            }
+        }
     }
 
     [HarmonyPatch(typeof(ESTranslate), "Exit")]
     [HarmonyPrefix]
     private static bool Exit(EditorStateMachine e, ESTranslate __instance)
     {
-        if (!IsEditingGroup) return true;
+        if (!isEditingGroup) return true;
 
         MVGameControllerBase.GameEventManager.AvatarCommandsBuildMode.LaserCommands.ChangeState(LaserPointerState.Idle);
         MVGameControllerBase.GameEventManager.AvatarCommandsBuildMode.LaserCommands.SetLaserActiveState(false);
@@ -115,24 +118,60 @@ internal class GroupEdit
         return false;
     }
 
-    [HarmonyPatch(typeof(ContextMenuController), "ShowContextMenu")]
+    [HarmonyPatch(typeof(ESInsert), "Enter")]
     [HarmonyPrefix]
-    private static void ShowContextMenu(ref int woID)
+    private static void Enter(EditorStateMachine e)
     {
-        if (!MVGameControllerBase.WOCM.IsType(woID, WorldObjectType.Group)) return;
+        if (!isEditingGroup) return;
 
-        if (MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+        SharedCubeFunctions.SetLayerRecursively(e.SingleSelectedWO.transform, true);
+    }
+
+    [HarmonyPatch(typeof(EditorWorldObjectCreation), "OnAddItemFromInventory")]
+    [HarmonyPrefix]
+    private static unsafe bool OnAddItemFromInventory(InventoryItem item, EditorWorldObjectCreation __instance)
+    {
+        if (!isEditingGroup) return true;
+
+        KoGaMaPackageClient koGaMaPackageFromItem = EditorWorldObjectCreation.GetKoGaMaPackageFromItem(item);
+        if (!__instance.ValidateAddItemFromInventory(koGaMaPackageFromItem))
         {
-            VoxelHit vhit = new();
-
-            if (ObjectPicker.Pick(ref vhit) && vhit.woId != -1)
-            {
-                MVWorldObjectClient wo = MVGameControllerBase.WOCM.GetWorldObjectClient(vhit.woId);
-                if (wo.HasInteractionFlag(InteractionFlags.Selectable))
-                {
-                    woID = vhit.woId; // show context menu of the object under the mouse cursor instead of the group one
-                }
-            }
+            koGaMaPackageFromItem.Destroy();
+            return false;
         }
+
+        int num = -1;
+        if (MVGameControllerBase.WOCM.GetUnmodifiedWorldObject(koGaMaPackageFromItem, ref num))
+        {
+            Debug.Log("Found wo for cloning");
+            MVWorldObjectClient worldObjectClient = MVGameControllerBase.WOCM.GetWorldObjectClient(num);
+            __instance.Clone(worldObjectClient, false, false, true);
+        }
+        else
+        {
+            Debug.Log("Creating new wo");
+
+            IntPtr obj = IL2CPP.il2cpp_object_new(Il2CppClassPointerStore<EditorEvent>.NativeClassPtr);
+            byte* bytePointer = (byte*)obj.ToPointer();
+            bytePointer[8] = (byte)EditorEvent.ESWaitForSelect;
+
+            __instance.esm.Event = new Il2CppSystem.Object(obj);
+
+            Quaternion identity = Quaternion.identity;
+            MVGameControllerBase.OperationRequests.AddItemToWorld(item.itemID, __instance.esm.ParentGroupID, Vector3.up * 10f, identity, false, true, false);
+        }
+        koGaMaPackageFromItem.Destroy();
+
+        return false;
+    }
+
+    [HarmonyPatch(typeof(Links), "AddLink")]
+    [HarmonyPostfix]
+    private static void AddLink(ref Link link)
+    {
+        if (!MVGameControllerBase.IsInitialized || !isEditingGroup) return;
+
+        LinkObjectScript linkScript = MVGameControllerBase.Game.worldNetwork.links.linkObjects[link.id];
+        SharedCubeFunctions.SetLayerRecursively(linkScript.transform, true);
     }
 }
