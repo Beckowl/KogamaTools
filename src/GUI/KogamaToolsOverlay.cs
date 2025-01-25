@@ -24,7 +24,7 @@ internal class KogamaToolsOverlay : Overlay
     private const ImGuiWindowFlags compatibilityFlags = ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize;
 
     private readonly string _windowName;
-
+    private bool windowHidden = false;
     public KogamaToolsOverlay(string windowName) : base(windowName)
     {
         _windowName = windowName;
@@ -34,7 +34,7 @@ internal class KogamaToolsOverlay : Overlay
     {
         IL2CPP.il2cpp_thread_attach(IL2CPP.il2cpp_domain_get());
 
-        HotkeySubscriber.Subscribe(UnityEngine.KeyCode.F1, ToggleOverlay);
+        HotkeySubscriber.Subscribe(UnityEngine.KeyCode.F1, () => HideOverlay = !HideOverlay);
         handle = FindWindow(null, _windowName);
 
         VSync = true;
@@ -45,7 +45,23 @@ internal class KogamaToolsOverlay : Overlay
 
     protected override void Render()
     {
-        if (HideOverlay || !IsGameFocused()) return;
+        if (HideOverlay || !IsGameFocused())
+        {
+            if (CompatibilityMode && !windowHidden)
+            {
+                ShowWindow(handle, 0);
+                windowHidden = true;
+            }
+            return;
+        }
+        else
+        {
+            if (CompatibilityMode && windowHidden)
+            {
+                ShowWindow(handle, 4);
+                windowHidden = false;
+            }
+        }
 
         ImGui.Begin(_windowName, CompatibilityMode ? compatibilityFlags : ImGuiWindowFlags.None);
         ImGui.SetWindowSize(new Vector2(defaultWidth, defaultHeight), ImGuiCond.FirstUseEver);
@@ -76,19 +92,10 @@ internal class KogamaToolsOverlay : Overlay
         ImGui.End();
     }
 
-    private void ToggleOverlay()
-    {
-        HideOverlay = !HideOverlay;
-        if (CompatibilityMode)
-        {
-            ShowWindow(handle, HideOverlay ? 0 : 4); // Hide & ShowNoActivate
-        }
-    }
-
     private bool IsGameFocused()
     {
         IntPtr foregroundWindow = GetForegroundWindow();
-        return foregroundWindow == FindWindow(null, "KoGaMa") || foregroundWindow == handle;
+        return foregroundWindow == FindWindow(null, "KoGaMa") || foregroundWindow == handle || foregroundWindow == IntPtr.Zero;
     }
 
     [DllImport("user32.dll", ExactSpelling = true)]
