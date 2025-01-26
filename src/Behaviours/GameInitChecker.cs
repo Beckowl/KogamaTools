@@ -18,12 +18,15 @@ internal class GameInitChecker : MonoBehaviour
             {
                 OnGameInitialized.Invoke();
                 InvokeInitMethods();
-                IsInitialized = true;
-                Destroy(this);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error during initialization: {ex.Message}");
+                KogamaTools.mls.LogError($"Error during initialization: {ex.ToString()}");
+            }
+            finally
+            {
+                IsInitialized = true;
+                Destroy(this);
             }
         }
     }

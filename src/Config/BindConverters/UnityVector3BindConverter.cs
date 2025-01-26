@@ -17,15 +17,14 @@ public class UnityVector3BindConverter : IBindConverter
 
     public object Deserialize(string text)
     {
-        text = text.Trim('(', ')');
+        text = text.Trim('(', ')').Trim();
 
         string[] components = text.Split(',');
 
-        float x = float.Parse(components[0]);
-        float y = float.Parse(components[1]);
-        float z = float.Parse(components[2]);
+        float x = float.Parse(components[0].Trim(), CultureInfo.InvariantCulture);
+        float y = float.Parse(components[1].Trim(), CultureInfo.InvariantCulture);
+        float z = float.Parse(components[2].Trim(), CultureInfo.InvariantCulture);
 
         return new Vector3(x, y, z);
-
     }
 }
