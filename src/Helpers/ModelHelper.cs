@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Assets.Scripts.WorldObjectTypes.EditablePickupItem;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using KogamaTools.Config;
 using MV.WorldObject;
 using UnityEngine;
 using WorldObjectTypes.MVDoor;
@@ -11,6 +12,10 @@ namespace KogamaTools.Helpers;
 internal static class ModelHelper
 {
     internal static readonly string ModelsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models");
+
+    [Bind] private static int buildInterval = 350;
+    [Bind] private static int chunkSize = 500;
+
     private static readonly byte[] defaultMaterials = { 21, 21, 21, 21, 21, 21 };
     private static readonly string signature = "KTMODEL";
 
@@ -225,9 +230,9 @@ internal static class ModelHelper
             AddCubeToModel(cubePos, cube, target);
             PlacedCubes++;
 
-            if (PlacedCubes % 500 == 0)
+            if (PlacedCubes % chunkSize == 0)
             {
-                yield return new WaitForSecondsRealtime(1f / 60f * 315);
+                yield return new WaitForSecondsRealtime(1f / 60f * buildInterval);
             }
         }
     }
