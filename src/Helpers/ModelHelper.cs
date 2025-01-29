@@ -9,6 +9,8 @@ using WorldObjectTypes.VehicleEnergy;
 using static System.Environment;
 
 namespace KogamaTools.Helpers;
+
+[Section("Build")]
 internal static class ModelHelper
 {
     internal static readonly string ModelsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models");
