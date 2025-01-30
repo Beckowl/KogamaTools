@@ -26,8 +26,7 @@ internal class UndoRedoManager : MonoBehaviour
         {
             StartCoroutine(ActionCoroutine(Undo, KeyCode.Z).WrapToIl2Cpp());
         }
-
-        if (MVInputWrapper.DebugGetKeyDown(KeyCode.Y) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+        else if (MVInputWrapper.DebugGetKeyDown(KeyCode.Y) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
         {
             StartCoroutine(ActionCoroutine(Redo, KeyCode.Y).WrapToIl2Cpp());
         }
@@ -91,7 +90,21 @@ internal class UndoRedoManager : MonoBehaviour
     private IEnumerator ActionCoroutine(Action action, KeyCode key)
     {
         action();
-        yield return new WaitForSeconds(repeatDelay);
+
+        float delay = 0f;
+
+        while (delay < repeatDelay)
+        {
+            if (MVInputWrapper.DebugGetKey(key) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+            {
+                delay += Time.unscaledDeltaTime;
+                yield return null;
+            }
+            else
+            {
+                yield break;
+            }
+        }
 
         while (MVInputWrapper.DebugGetKey(key) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
         {
@@ -115,7 +128,7 @@ internal class UndoRedoManager : MonoBehaviour
         {
             return (keyboardSpeed + 2) / 1000.0f;
         }
-        return 1/31f;
+        return 1 / 31f;
     }
 
     [DllImport("user32.dll")]
