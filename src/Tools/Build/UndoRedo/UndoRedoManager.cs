@@ -1,26 +1,36 @@
-﻿using KogamaTools.Behaviours;
+﻿using System.Collections;
+using System.Runtime.InteropServices;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using UnityEngine;
 
 namespace KogamaTools.Tools.Build.UndoRedo;
-internal static class UndoRedoManager
+internal class UndoRedoManager : MonoBehaviour
 {
+    private static readonly float repeatRate = GetRepeatRate();
+    private static readonly float repeatDelay = GetRepeatDelay();
+
     private static Stack<IUndoRedoAction> undoStack = new();
     private static Stack<IUndoRedoAction> redoStack = new();
 
-    [InvokeOnInit]
-    internal static void RegisterHotkeys()
+    private void Awake()
     {
-        HotkeySubscriber.Subscribe(KeyCode.Z, () =>
+        if (MVGameControllerBase.GameMode != MV.Common.MVGameMode.Edit)
         {
-            if (MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
-                Undo();
-        });
+            Destroy(this);
+        }
+    }
 
-        HotkeySubscriber.Subscribe(KeyCode.Y, () =>
+    private void Update()
+    {
+        if (MVInputWrapper.DebugGetKeyDown(KeyCode.Z) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
         {
-            if (MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
-                Redo();
-        });
+            StartCoroutine(ActionCoroutine(Undo, KeyCode.Z).WrapToIl2Cpp());
+        }
+
+        if (MVInputWrapper.DebugGetKeyDown(KeyCode.Y) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+        {
+            StartCoroutine(ActionCoroutine(Redo, KeyCode.Y).WrapToIl2Cpp());
+        }
     }
 
     internal static void PushAction(IUndoRedoAction action)
@@ -39,9 +49,6 @@ internal static class UndoRedoManager
         if (undoStack.Count > 0)
         {
             IUndoRedoAction action = undoStack.Pop();
-#if DEBUG
-            KogamaTools.mls.LogInfo($"undoing {action.GetType()}.");
-#endif
 
             action.Undo();
             FocusOnTarget(action.Target);
@@ -55,9 +62,6 @@ internal static class UndoRedoManager
         if (redoStack.Count > 0)
         {
             IUndoRedoAction action = redoStack.Pop();
-#if DEBUG
-            KogamaTools.mls.LogInfo($"redoing {action.GetType()}.");
-#endif
 
             action.Redo();
             FocusOnTarget(action.Target);
@@ -83,4 +87,37 @@ internal static class UndoRedoManager
             MVGameControllerBase.MainCameraManager.CurrentCamera.FocusOnObject(target);
         }
     }
+
+    private IEnumerator ActionCoroutine(Action action, KeyCode key)
+    {
+        action();
+        yield return new WaitForSeconds(repeatDelay);
+
+        while (MVInputWrapper.DebugGetKey(key) && MVInputWrapper.DebugGetKey(KeyCode.LeftControl))
+        {
+            action();
+            yield return new WaitForSeconds(repeatRate);
+        }
+    }
+
+    private static float GetRepeatDelay()
+    {
+        if (SystemParametersInfo(0x0016, 0, out uint keyboardDelay, 0))
+        {
+            return (keyboardDelay + 1) * 0.25f;
+        }
+        return 0.5f;
+    }
+
+    private static float GetRepeatRate()
+    {
+        if (SystemParametersInfo(0x000A, 0, out uint keyboardSpeed, 0))
+        {
+            return (keyboardSpeed + 2) / 1000.0f;
+        }
+        return 1/31f;
+    }
+
+    [DllImport("user32.dll")]
+    private static extern bool SystemParametersInfo(uint uiAction, uint uiParam, out uint pvParam, uint fWinIni);
 }

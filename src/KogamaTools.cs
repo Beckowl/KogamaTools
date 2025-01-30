@@ -7,6 +7,7 @@ using KogamaTools.Behaviours;
 using KogamaTools.Config;
 using KogamaTools.GUI;
 using KogamaTools.Tools.Build;
+using KogamaTools.Tools.Build.UndoRedo;
 using KogamaTools.Tools.Misc;
 using KogamaTools.Tools.PVP;
 using UnityEngine;
@@ -49,6 +50,7 @@ public class KogamaTools : BasePlugin
             AddComponent<LinkFix>();
             AddComponent<CopyPasteModel>();
             AddComponent<ObjectGrouper>();
+            AddComponent<UndoRedoManager>();
 
             Application.quitting += (Action)(() => { Overlay.Close(); });
             Task.Run(Overlay.Start().Wait);
