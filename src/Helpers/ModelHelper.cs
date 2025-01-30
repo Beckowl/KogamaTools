@@ -14,6 +14,7 @@ namespace KogamaTools.Helpers;
 internal static class ModelHelper
 {
     internal static readonly string ModelsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), KogamaTools.ModName, "Models");
+    internal static bool BuildInProgress = false;
 
     [Bind] private static int buildInterval = 350;
     [Bind] private static int chunkSize = 500;
@@ -216,6 +217,8 @@ internal static class ModelHelper
 
     internal static IEnumerator BuildModel(MVCubeModelBase target, ModelData data)
     {
+        BuildInProgress = true;
+
         NotificationHelper.NotifyUser("The model build process has started. You can delete the target model at any time to abort it.");
         int PlacedCubes = 0;
         foreach (KeyValuePair<IntVector, Cube> kvp in data.Cubes)
@@ -237,6 +240,8 @@ internal static class ModelHelper
                 yield return new WaitForSecondsRealtime(1f / 60f * buildInterval);
             }
         }
+
+        BuildInProgress = false;
     }
 
     internal static void RequestCubeModel(float scale)

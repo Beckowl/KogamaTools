@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using KogamaTools.Helpers;
 using MV.WorldObject;
 
 namespace KogamaTools.Tools.Build.UndoRedo.Actions;
@@ -35,8 +36,10 @@ internal class AddCubeAction : IUndoRedoAction
     [HarmonyPrefix]
     private static bool AddCube(MVCubeModelBase __instance, IntVector pos, Cube cube)
     {
+        if (ModelHelper.BuildInProgress) return true;
+
         __instance.MakeUnique();
-        if (__instance.prototypeCubeModel.AddCube(pos, (Cube)cube))
+        if (__instance.prototypeCubeModel.AddCube(pos, cube))
         {
             __instance.changedEventArgsQueue.Enqueue(new CubeModelChangedEventArgs(CubeAction.Added, pos, __instance));
             UndoRedoManager.PushAction(new AddCubeAction(__instance, pos, cube));
